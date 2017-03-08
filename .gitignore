@@ -6,3 +6,7 @@
 
 # Unignore all dirs
 !*/
+
+# Ignore a.out from gcc
+a.out
+*/a.out

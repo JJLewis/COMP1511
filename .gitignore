@@ -10,4 +10,10 @@
 # Ignore a.out from gcc
 a.out
 */a.out
+
+
+# Ignore VIM swap files
 */*.swp
+
+#Ignore files starting with .
+.*

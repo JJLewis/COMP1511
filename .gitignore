@@ -10,3 +10,4 @@
 # Ignore a.out from gcc
 a.out
 */a.out
+*/*.swp

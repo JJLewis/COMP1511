@@ -3,7 +3,7 @@
 // Reads an integer and prints a square of asterisks that size
 
 #include <stdio.h>
-#include <math.h>
+//#include <math.h>
 
 int get_input(char *prompt, int *x) {
 	printf("%s", prompt);
@@ -14,7 +14,7 @@ int get_input(char *prompt, int *x) {
 	return 1;
 }
 
-#define SQ (int)pow((double)size, 2)
+#define SQ size*size//(int)pow((double)size, 2)
 #define DIVABLE (counter+1) % size == 0
 
 int main () {

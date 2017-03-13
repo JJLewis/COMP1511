@@ -6,7 +6,6 @@
 #include <stdio.h>
 
 #define PROMPT "Enter integer: "
-#define DEBUGGING 0
 
 #define X inputs[0]
 #define Y inputs[1]

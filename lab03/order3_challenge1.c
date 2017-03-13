@@ -5,7 +5,6 @@
 #include <stdio.h>
 
 #define PROMPT "Enter integer: "
-#define DEBUGGING 0
 
 int main () {
 	

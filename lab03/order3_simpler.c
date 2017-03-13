@@ -1,5 +1,5 @@
 // Jordan Lewis (jordan.lewis@student.unsw.edu.au)
-// March 12 2017
+// March 13 2017
 // Accepts 3 integers and prints it out in order
 
 #include <stdio.h>

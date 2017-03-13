@@ -15,5 +15,8 @@ a.out
 # Ignore VIM swap files
 */*.swp
 
-#Ignore files starting with .
+# Ignore files starting with .
 .*
+
+# Ignore CLion files
+cmake-build-debug/

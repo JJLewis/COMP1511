@@ -16,6 +16,8 @@ void prog(int x, int y, int z) {
 	if (DEBUGGING) { 
 		printf("The integers in order are: %d %d %d\n", arr[0], arr[1], arr[2]);
 	}
+
+	// Correct problems with duplicate and triple entries
 	arr[(arr[0] != 0) * 3] = arr[1];
 	arr[((arr[1] != 0) * 3) + (arr[1] == 0)] = arr[0];
 	arr[((arr[2] != 0) * 3) + (arr[2] == 0)*2] = arr[1];
@@ -39,6 +41,8 @@ int main () {
 		
 		prog(x,y,z);
 	} else {
+
+		// Code to test my correction for duplicate and triple entries
 		int test[4][3] = {
 			{1,1,2},
 			{1,2,1},

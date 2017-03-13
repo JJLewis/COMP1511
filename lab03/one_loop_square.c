@@ -1,5 +1,5 @@
 // Jordan Lewis (jordan.lewis@student.unsw.edu.au)
-// March 12 2017
+// March 13 2017
 // Reads an integer and prints a square of asterisks that size
 
 #include <stdio.h>

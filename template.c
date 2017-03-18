@@ -1,10 +1,10 @@
 // Jordan Lewis (jordan.lewis@student.unsw.edu.au)
-// March 12 2017
+// March XX 2017
 //
 
 #include <stdio.h>
 
-int get_input(char *prompt, int *x) {
+int get_input(const char *prompt, int *x) {
 	printf("%s", prompt);
 	if (scanf("%d", x) == 0) {
 		printf("Value entered was not an integer.\n");
@@ -14,6 +14,12 @@ int get_input(char *prompt, int *x) {
 }
 
 int main () {
+	int input;
+	if (!get_input(": ", &input)) {
+	       return 1;
+	}
+
+		
 
 	return 0;
 }

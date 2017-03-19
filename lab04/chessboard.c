@@ -18,7 +18,7 @@ int get_input(const char *prompt, int *x) {
 
 int main () {
 	int input;
-	if (!get_input(": ", &input)) {
+	if (!get_input("Enter size: ", &input)) {
 	       return 1;
 	}
 
@@ -28,7 +28,22 @@ int main () {
 		while (hor < input) {
 			if (ODD_ROW) {
 				if (ODD_COL) {
-										
+					printf("-");
+				} else {
+					printf("*");
+				}
+			} else {
+				if (ODD_COL) {
+					printf("*");				
+				} else {
+					printf("-");
+				}
+			}
+			hor++;
+		}
+		vert++;
+		printf("\n");
+	}
 
 	return 0;
 }

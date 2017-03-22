@@ -24,6 +24,7 @@ int should_print_star (int x, int y, int size, int debug) {
 	int length = 1;
 
 	while (counter <= lim) {
+
 		if (posx == x && posy == y) {
 			return 1;
 		}
@@ -36,20 +37,20 @@ int should_print_star (int x, int y, int size, int debug) {
 		length++;
 
 		if (length == adjsize) {
+
 			direction++;
 			if (direction == 4) { direction = 0; }
-			length = 1;
+
 			numTurns += 1;
-			
-			if (numTurns % 2 == 0) {
-				if (debug) {
-					printf("(nT %d adjs %d)\n", numTurns, adjsize);
-				}
+
+			length = 1;
+
+			if (numTurns != 1 && (numTurns-1) % 2 == 0) {
 				adjsize -= 2;
 				if (adjsize < 3) {
 					break;
 				}
-			}	
+			}
 
 		}
 
@@ -80,7 +81,7 @@ void run_print_loop(int input, int debug) {
 }
 
 int main () {
-	int input = 7;
+	int input = 9;
 	/*
 	if (!get_input(": ", &input)) {
 	       return 1;
@@ -88,7 +89,7 @@ int main () {
 	*/
 	
 	run_print_loop(input, 0);
-	//run_print_loop(input, 1);
+	run_print_loop(input, 1);
 
 	return 0;
 }

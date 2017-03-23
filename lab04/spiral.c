@@ -86,7 +86,7 @@ int main () {
 	       return 1;
 	}
 	
-	run_print_loop(input;
+	run_print_loop(input);
 
 	return 0;
 }

@@ -3,7 +3,6 @@
 // Reads an integer n from standard input. and prints an nxn pattern of asterisks and dashes in the shape of a spiral.
 
 #include <stdio.h>
-#include <math.h>
 
 int get_input(const char *prompt, int *x) {
 	printf("%s", prompt);
@@ -14,7 +13,7 @@ int get_input(const char *prompt, int *x) {
 	return 1;
 }
 
-int should_print_star (int x, int y, int size, int sum) {
+int should_print_star (int x, int y, int size, int debug) {
 	int counter = 0;
 	const int lim = size * size;
 	int adjsize = size;
@@ -23,30 +22,11 @@ int should_print_star (int x, int y, int size, int sum) {
 	int posy = 0;
 	int numTurns = 0;	
 	int length = 1;
-	int overallLength = 1;
 
 	while (counter <= lim) {
 
 		if (posx == x && posy == y) {
-			if (sum == -1) {
-				return 1;
-			} else {
-				int remainder = sum % 10;
-				int returnv = remainder - overallLength;
-				int finalReturn = 10 + returnv;
-
-				if (finalReturn < 0) {
-					int diff = (finalReturn / -10) + 1;
-					finalReturn += 10 * diff;
-				}
-
-				if (finalReturn >= 10) {
-					int diff = (finalReturn / 10);
-					finalReturn -= 10 * diff;
-				}
-
-				return finalReturn;
-			}		
+			return 1;
 		}
 
 		if (direction == 0) {posx += 1;}
@@ -55,7 +35,6 @@ int should_print_star (int x, int y, int size, int sum) {
 		if (direction == 3) {posy -= 1;}
 
 		length++;
-		overallLength++;
 
 		if (length == adjsize) {
 
@@ -80,49 +59,38 @@ int should_print_star (int x, int y, int size, int sum) {
 
 		counter++;		
 	}
-	return -1;
+	return 0;
 }
 
-int print_loop(int input, int sum) {
+void run_print_loop(int input, int debug) {
 	int vert = 0;
-	int returnSum = 0;
 	while (vert < input) {
 		int hor = 0;
 		while (hor < input) {
-			int returned = should_print_star(hor, vert, input, sum);
-			if (returned != -1) {		
-				if (sum != -1) {
-					printf("%d", returned);
+			if (should_print_star(hor, vert, input, debug)) {		
+				if (!debug) {
+					printf("*");
 				}
-				returnSum++;
 			} else {
-				if (sum != -1) {
+				if (!debug) {
 					printf("-");
 				}
 			}
 			hor++;
 		}
-		if (sum != -1) {
-			printf("\n");
-		}
+		printf("\n");
 		vert++;
 	}
-	return returnSum;
-}
-
-void run_print_loop(int input) {
-	int sum = print_loop(input, -1);
-	print_loop(input, sum);
 }
 
 int main () {
 	int input;
-	
 	if (!get_input("Enter size: ", &input)) {
 	       return 1;
 	}
 	
-	run_print_loop(input);
+	run_print_loop(input, 0);
+	//run_print_loop(input, 1);
 
 	return 0;
 }

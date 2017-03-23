@@ -13,7 +13,7 @@ int get_input(const char *prompt, int *x) {
 	return 1;
 }
 
-int should_print_star (int x, int y, int size, int debug) {
+int should_print_star (int x, int y, int size) {
 	int counter = 0;
 	const int lim = size * size;
 	int adjsize = size;
@@ -62,19 +62,15 @@ int should_print_star (int x, int y, int size, int debug) {
 	return 0;
 }
 
-void run_print_loop(int input, int debug) {
+void run_print_loop(int input) {
 	int vert = 0;
 	while (vert < input) {
 		int hor = 0;
 		while (hor < input) {
-			if (should_print_star(hor, vert, input, debug)) {		
-				if (!debug) {
+			if (should_print_star(hor, vert, input)) {
 					printf("*");
-				}
 			} else {
-				if (!debug) {
 					printf("-");
-				}
 			}
 			hor++;
 		}
@@ -85,12 +81,12 @@ void run_print_loop(int input, int debug) {
 
 int main () {
 	int input;
+
 	if (!get_input("Enter size: ", &input)) {
 	       return 1;
 	}
 	
-	run_print_loop(input, 0);
-	//run_print_loop(input, 1);
+	run_print_loop(input;
 
 	return 0;
 }

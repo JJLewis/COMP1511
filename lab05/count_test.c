@@ -16,6 +16,7 @@ int main(void) {
 		return 1;
 	}   
 	printf("%d farnarkles\n", count_farnarkles(hidden_sequence, guess));
+	printf("%d arkles\n", count_arkles(hidden_sequence, guess));
 
 	return 0;
 }

@@ -14,6 +14,7 @@ int count_arkles(int seq1[N_TILES], int seq2[N_TILES]) {
 		while (j < N_TILES) {
 			if (seq1[i] == seq2[j] && i != j) {
 				matches++;
+				break;
 			}
 			j++;
 		}

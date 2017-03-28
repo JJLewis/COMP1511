@@ -1,5 +1,5 @@
 // Jordan Lewis (jordan.lewis@student.unsw.edu.au)
-// Mar 25 2017
+// Mar 28 2017
 //
 
 #include <stdio.h>
@@ -36,7 +36,9 @@ int read_tiles(int tiles[N_TILES]) {
 void print_tiles(int tiles[N_TILES]) {
 	int count = 0;
 	while (count < N_TILES) {
-		printf(" %d", tiles[count]);
+		if (count != 0) { printf(" "); }
+		printf("%d", tiles[count]);	
 		count++;
+		if (count == N_TILES) { printf("\n"); }
 	}
 }

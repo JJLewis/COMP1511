@@ -9,7 +9,7 @@ int main(void) {
 	int tiles[N_TILES]; 
 	printf("Enter sequence: ");
 	if (read_tiles(tiles) == 1) {
-		printf("Sequence read was:");
+		printf("Sequence read was: ");
 		print_tiles(tiles);
 		printf("\n");
 	} else {

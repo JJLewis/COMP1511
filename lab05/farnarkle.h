@@ -12,7 +12,7 @@ int count_farnarkles(int seq1[N_TILES], int seq2[N_TILES]);
 int count_arkles(int seq1[N_TILES], int seq2[N_TILES]);
 
 int int_exists(int num, int arr[N_TILES]);
-int array_with_equal_elements(int num, int arr[N_TILES]);
+void array_with_equal_elements(int num, int arr[N_TILES]);
 
 void create_random_tiles(int tiles[N_TILES]);
 

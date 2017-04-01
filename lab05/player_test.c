@@ -20,7 +20,8 @@ int main(void) {
 		
 		numFarnarkles = count_farnarkles(hidden, aGuess);
 		farnarkleHistory[turn - 1] = numFarnarkles;
-		arkleHistory[turn - 1] = count_arkles(hidden, aGuess);
+		int numArkles = count_arkles(hidden, aGuess);
+		arkleHistory[turn - 1] = numArkles;//count_arkles(hidden, aGuess);
 	
 		int counter = 0;
 		while (counter < N_TILES) {
@@ -34,6 +35,8 @@ int main(void) {
 		printf("----------\n");
 		print_tiles(hidden);
 		print_tiles(aGuess);
+		printf("F: %d, A: %d\n", numFarnarkles, numArkles);
+		printf("----------\n");
 	}
 
 	return 0;

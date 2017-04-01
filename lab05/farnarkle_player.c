@@ -112,6 +112,10 @@ void findNotLockedIndexes(	int turn,
 	}
 }
 
+void printInt(int a) {
+	printf("%d\n", a);
+}
+
 // an automated farnarkle_player
 // given all previous guesses and their farnarkles and arkle counts
 // make a new guess
@@ -145,7 +149,7 @@ void farnarkle_player(	int turn,
 		findNotLockedIndexes(turn, previous_guesses, farnarkles, arkles, notLocked);
 		const int fNLocked = notLocked[adjustedIndexForBlanks(0, notLocked)];
 		// The first not locked index is the one being incremented
-
+	
 		// making sure that there is still more than one spot that needs filling	
 		if (lenWithoutBlanks(notLocked) > 1) { 
 			// If an arkle is found test it against others
@@ -212,11 +216,12 @@ void farnarkle_player(	int turn,
 				// if there is, actually dw
 				//if (
 				// Otherwise, keep incrementing as there are no more to shift to
-				guess[fNLocked] += guess[fNLocked];
+				guess[fNLocked] = guess[fNLocked] + 1;
+				//print_tiles(guess);
 			}
 		}
 	}
-}
+}	
 
 
 

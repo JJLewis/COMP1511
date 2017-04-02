@@ -124,7 +124,7 @@ int lastNonZeroIndex(int guess[N_TILES]) {
         }
         counter++;
     }
-    return -1;
+    return -2;
 }
 
 int firstZeroIndex(int guess[N_TILES]) {
@@ -135,7 +135,7 @@ int firstZeroIndex(int guess[N_TILES]) {
         }
         counter++;
     }
-    return -1;
+    return -3;
 }
 
 
@@ -145,19 +145,19 @@ void brute_force(int turn, int previous_guesses[MAX_TURNS][N_TILES], int farnark
     if (turn == 1) {
         array_with_equal_elements(0, guess);
         guess[0] = 1;
+    } else {
+		guess = kLastGuess;
+		int index = -1;
+		if (farnarkles[turn - 2] == farnarkles[turn - 1]) {
+			// if there hasn't been a change, increment the last non-zero number
+			index = lastNonZeroIndex(kLastGuess);
+		} else {
+			// if there has been a change
+			// increment the first zero number
+			index = firstZeroIndex(kLastGuess);
+		}
+		guess[index] = guess[index] + 1;
     }
-
-    guess = kLastGuess;
-    int index = -1;
-    if (kLastFarnarkle == kCurrentFarnarkle) {
-		// if there hasn't been a change, increment the last non-zero number
-        index = lastNonZeroIndex(kLastGuess);
-	} else {
-		// if there has been a change
-        // increment the first zero number
-        index = firstZeroIndex(kLastGuess);
-	}
-    guess[index] = guess[index] + 1;
 }
 
 // an automated farnarkle_player

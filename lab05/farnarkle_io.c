@@ -5,21 +5,38 @@
 #include <stdio.h>
 #include "farnarkle.h"
 
+int getInt() {
+    int n, c;
+    c = getchar();
+    n = 0;
+    while (c >= '0' && c <= '9') {
+        n = 10 * n + (c - '0');
+        c = getchar();
+    }
+    return n;
+}
+
 // read N_TILES tiles into array tiles
 // return 1 if successful, 0 otherwise
 int read_tiles(int tiles[N_TILES]) {
 	int counter = 0;
-	while (counter < N_TILES) {
-		int input;
-		if(scanf("%d", &input) == 0) {
-			return 0;
-		} else {
-			if (input > 0 && input <= MAX_TILE) {
-				tiles[counter] = input;
-			}
-		}
-		counter++;
-	}
+    int input = getInt();
+	while (input != 0 && counter < N_TILES) {
+        if (input > 0 && input <= MAX_TILE) {
+            tiles[counter] = input;
+        } else {
+            return 0;
+        }
+        if (counter + 1 != N_TILES) {
+            input = getInt();
+        }
+        counter++;
+    }
+
+    if (counter < N_TILES) {
+        return 0;
+    }
+
 	return 1;
 }
 

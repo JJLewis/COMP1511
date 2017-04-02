@@ -116,12 +116,48 @@ void printInt(int a) {
 	printf("%d\n", a);
 }
 
-void brute_force( int turn, int previous_guesses[MAX_TURNS][N_TILES], int farnarkles[MAX_TURNS], int guess[N_TILES]) {
-	if (kLastFarnarkle == kCurrentFarnarkle) {
-		// if there hasn't been a change
+int lastNonZeroIndex(int guess[N_TILES]) {
+    int counter = 0;
+    while (counter < N_TILES) {
+        if (guess[counter] == 0) {
+            return counter - 1;
+        }
+        counter++;
+    }
+    return -1;
+}
+
+int firstZeroIndex(int guess[N_TILES]) {
+    int counter = 0;
+    while (counter < N_TILES) {
+        if (guess[counter] == 0) {
+            return counter;
+        }
+        counter++;
+    }
+    return -1;
+}
+
+
+
+void brute_force(int turn, int previous_guesses[MAX_TURNS][N_TILES], int farnarkles[MAX_TURNS], int guess[N_TILES]) {
+	// Initial guess of [1,0,0,...,0,0]
+    if (turn == 1) {
+        array_with_equal_elements(0, guess);
+        guess[0] = 1;
+    }
+
+    guess = kLastGuess;
+    int index = -1;
+    if (kLastFarnarkle == kCurrentFarnarkle) {
+		// if there hasn't been a change, increment the last non-zero number
+        index = lastNonZeroIndex(kLastGuess);
 	} else {
 		// if there has been a change
+        // increment the first zero number
+        index = firstZeroIndex(kLastGuess);
 	}
+    guess[index] = guess[index] + 1;
 }
 
 // an automated farnarkle_player

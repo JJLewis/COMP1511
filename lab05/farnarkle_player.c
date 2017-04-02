@@ -116,6 +116,14 @@ void printInt(int a) {
 	printf("%d\n", a);
 }
 
+void brute_force( int turn, int previous_guesses[MAX_TURNS][N_TILES], int farnarkles[MAX_TURNS], int guess[N_TILES]) {
+	if (kLastFarnarkle == kCurrentFarnarkle) {
+		// if there hasn't been a change
+	} else {
+		// if there has been a change
+	}
+}
+
 // an automated farnarkle_player
 // given all previous guesses and their farnarkles and arkle counts
 // make a new guess
@@ -129,13 +137,14 @@ void printInt(int a) {
 // output:
 // guess - the next guess
 //
-void farnarkle_player(	int turn, 
-			int previous_guesses[MAX_TURNS][N_TILES], 
-			int farnarkles[MAX_TURNS], 
-			int arkles[MAX_TURNS], 
-			int guess[N_TILES]) {
+void farnarkle_player(	int turn,
+						int previous_guesses[MAX_TURNS][N_TILES],
+						int farnarkles[MAX_TURNS],
+						int arkles[MAX_TURNS],
+						int guess[N_TILES]) {
 	
-	
+	brute_force(turn, previous_guesses, farnarkles, guess);
+	return;
 
 
 	//int guess[N_TILES] = {};

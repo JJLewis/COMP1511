@@ -1,5 +1,5 @@
 // Jordan Lewis (jordan.lewis@student.unsw.edu.au)
-// 7 April 2017
+// 9 April 2017
 //
 
 #include <stdio.h>
@@ -22,11 +22,6 @@ int isLower(int c) {
 
 int isAlphabet(int c) {
 	return isUpper(c) || isLower(c);	
-}
-
-int isOutLower(int c, int nc) {
-	int limit = isUpper(c) ? A:a;	
-	return nc < limit;
 }
 
 int indexOf(int c, char key[27]) {

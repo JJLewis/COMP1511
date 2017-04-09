@@ -56,22 +56,26 @@ int fixChar(const int ch, const int nc) {
 	return -1;
 }
 
+int caesar(int c, int shift) {
+	shift %= 26;
+	if (isAlphabet(c)) {	
+		int nc = c + shift;
+		if (isOut(c, nc)) {
+			nc = fixChar(c, nc);
+		}
+		return nc;	
+	}
+	return c;
+}
+
 int main (int argc, char *argv[]) {
 
-	const int shift = atoi(argv[1]) % 26;
+	const int shift = atoi(argv[1]);
 
 	int ch = getchar();
 
 	while (ch != EOF) {
-		if (isAlphabet(ch)) {	
-			int nc = ch + shift;
-			if (isOut(ch, nc)) {
-				nc = fixChar(ch, nc);
-			}
-			putchar(nc);
-		} else {
-			putchar(ch);
-		}
+		putchar(caesar(ch, shift));
 		ch = getchar();
 	}	
 

@@ -22,6 +22,6 @@ a.out
 cmake-build-debug/
 
 #Ignore Assignement 1 PBM files
-assignment1/pbms/
+assignment1/pbms/*.pbm
 #Unignore scripts in pbms for downloading the pbms
-!assignment1/pbms/*.sh
+#!assignment1/pbms/*.sh

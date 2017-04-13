@@ -20,5 +20,5 @@ double get_horizontal_balance(int height, int width, int pixels[height][width]) 
 		}
 		v++;
 	}
-	return (column_sum / n_black_pixels + 0.5) / width;
+	return ((double)column_sum / n_black_pixels + 0.5) / width;
 }

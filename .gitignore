@@ -21,5 +21,8 @@ a.out
 # Ignore CLion files
 cmake-build-debug/
 
-#Ignore Assignement 1 PBM files
+# Ignore Assignement 1 PBM files
 assignment1/pbms/*/*.pbm
+
+# Ignore Compiled Python
+*.pyc

@@ -15,10 +15,10 @@ x = np.array([
 ])
 
 y = np.array([
-    [0],
-    [1],
-    [1],
-    [0]
+    [0,0],
+    [1,0],
+    [1,1],
+    [0,1]
 ])
 
 print x
@@ -29,7 +29,7 @@ np.random.seed(1)
 
 # synapses
 syn0 = 2 * np.random.random((3,4)) - 1
-syn1 = 2 * np.random.random((4,1)) - 1
+syn1 = 2 * np.random.random((4,2)) - 1
 
 print syn0
 print syn1
@@ -63,10 +63,7 @@ print syn1
 
 print 'output after changed input'
 x = np.array([
-    [0,0,1],
-    [0,1,1],
-    [1,0,1],
-    [1,1,1]
+    [0,1,1]
 ])
 
 # layers

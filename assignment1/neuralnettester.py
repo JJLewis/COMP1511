@@ -36,4 +36,4 @@ class NetTester():
 
 
 if __name__ == '__main__':
-    NetTester(40, 2, 5)
+    NetTester(100, 2, 99)

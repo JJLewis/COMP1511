@@ -16,8 +16,9 @@ class NeuralNet():
         l0 = input
         l1 = self.nonlin(np.dot(l0, self.syn0))
         l2 = self.nonlin(np.dot(l1, self.syn1))
+        l3 = self.nonlin(np.dot(l2, self.syn2))
 
-        return l2.tolist()
+        return l3.tolist()
 
     # sigmoid function
     def nonlin(self, x, deriv=False):
@@ -54,15 +55,14 @@ class NeuralNet():
         for t in xrange(numtimes):
             # layers
             l0 = training
-            #print "a"
             l1 = self.nonlin(np.dot(l0, self.syn0))
-            #print "b"
             l2 = self.nonlin(np.dot(l1, self.syn1))
-            #print "c"
+            l3 = self.nonlin(np.dot(l2, self.syn2))
 
             # backpropagation
-            l2_error = expected - l2
-            error = 'Error: ' + str(np.mean(np.abs(l2_error)))
+            l3_error = expected - l3
+
+            error = 'Error: ' + str(np.mean(np.abs(l3_error)))
             if t >= 10:
                if (t % (numtimes / 10)) == 0:
                   print error
@@ -70,14 +70,14 @@ class NeuralNet():
                 print error
 
             # calculate deltas
-            #print "d"
+            l3_delta = l3_error * self.nonlin(l3, deriv=True)
+            l2_error = l3_delta.dot(self.syn2.T)
             l2_delta = l2_error * self.nonlin(l2, deriv=True)
             l1_error = l2_delta.dot(self.syn1.T)
-            #print "e"
             l1_delta = l1_error * self.nonlin(l1, deriv=True)
-            #print "f"
 
             # update synapses
+            self.syn2 += l2.T.dot(l3_delta)
             self.syn1 += l1.T.dot(l2_delta)
             self.syn0 += l0.T.dot(l1_delta)
 
@@ -89,4 +89,5 @@ class NeuralNet():
         #nodesInL1 = numInput
 
         self.syn0 = 2 * np.random.random((numInput, nodesInL1)) - 1
-        self.syn1 = 2 * np.random.random((nodesInL1, numOutputNodes)) - 1
+        self.syn1 = 2 * np.random.random((nodesInL1, int(math.ceil(nodesInL1/2)))) - 1
+        self.syn2 = 2 * np.random.random((int(math.ceil(nodesInL1/2)), numOutputNodes)) - 1

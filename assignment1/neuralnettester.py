@@ -14,14 +14,14 @@ class NetTester():
             index = guesses.index(maxG)
             print "Guessing: " + str(index) + " with probability of " + str(maxG)
 
-    def __init__(self, numTrainingCycles, uptoandincnum, uptofile):
+    def __init__(self, numLayers, numTrainingCycles, uptoandincnum, uptofile):
         self.fstruct = 'pbms/digit/*N_*F.pbm'
 
         afile = openpbm.fileNameFrom(self.fstruct, 0, 0)
 
         dimensions = openpbm.get_dimensions(afile)
 
-        self.net = NeuralNet(dimensions[0], dimensions[1], 10)
+        self.net = NeuralNet(numLayers, dimensions[0] * dimensions[1], 10)
 
         print "Loading training data..."
         (training, expected) = self.net.loadTrainingData(self.fstruct, uptoandincnum + 1, uptofile)
@@ -36,4 +36,4 @@ class NetTester():
 
 
 if __name__ == '__main__':
-    NetTester(100, 2, 99)
+    NetTester(6, 10, 4, 30)

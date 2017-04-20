@@ -54,20 +54,28 @@ class NeuralNet():
         for t in xrange(numtimes):
             # layers
             l0 = training
-            #self.pMatrixDim(l0, "l0", self.syn0, 'syn0')
+            #print "a"
             l1 = self.nonlin(np.dot(l0, self.syn0))
+            #print "b"
             l2 = self.nonlin(np.dot(l1, self.syn1))
+            #print "c"
 
             # backpropagation
             l2_error = expected - l2
-            if t > 10:
+            error = 'Error: ' + str(np.mean(np.abs(l2_error)))
+            if t >= 10:
                if (t % (numtimes / 10)) == 0:
-                  print 'Error: ' + str(np.mean(np.abs(l2_error)))
+                  print error
+            else:
+                print error
 
             # calculate deltas
+            #print "d"
             l2_delta = l2_error * self.nonlin(l2, deriv=True)
             l1_error = l2_delta.dot(self.syn1.T)
+            #print "e"
             l1_delta = l1_error * self.nonlin(l1, deriv=True)
+            #print "f"
 
             # update synapses
             self.syn1 += l1.T.dot(l2_delta)
@@ -78,6 +86,7 @@ class NeuralNet():
 
         numInput = inputW * inputH
         nodesInL1 = int(math.ceil(((2/3) * numInput) + numOutputNodes))
+        #nodesInL1 = numInput
 
         self.syn0 = 2 * np.random.random((numInput, nodesInL1)) - 1
         self.syn1 = 2 * np.random.random((nodesInL1, numOutputNodes)) - 1

@@ -16,18 +16,24 @@ class NetTester():
 
     def __init__(self, numTrainingCycles, uptoandincnum, uptofile):
         self.fstruct = 'pbms/digit/*N_*F.pbm'
+
         afile = openpbm.fileNameFrom(self.fstruct, 0, 0)
+
         dimensions = openpbm.get_dimensions(afile)
+
         self.net = NeuralNet(dimensions[0], dimensions[1], 10)
+
         print "Loading training data..."
         (training, expected) = self.net.loadTrainingData(self.fstruct, uptoandincnum + 1, uptofile)
         print "Loaded training data."
+
         print "Starting training..."
         self.net.train(numTrainingCycles, training, expected)
         print "Done training."
+
         print "You may now test the neural net."
         self.userTest()
 
 
 if __name__ == '__main__':
-    NetTester(100, 9, 99)
+    NetTester(40, 2, 5)

@@ -87,7 +87,8 @@ class NeuralNet():
         numInput = inputW * inputH
         nodesInL1 = int(math.ceil(((2/3) * numInput) + numOutputNodes))
         #nodesInL1 = numInput
-
+        nodesInL2 = int(math.ceil(nodesInL1/2))
+        #nodesInL2 = numInput
         self.syn0 = 2 * np.random.random((numInput, nodesInL1)) - 1
-        self.syn1 = 2 * np.random.random((nodesInL1, int(math.ceil(nodesInL1/2)))) - 1
-        self.syn2 = 2 * np.random.random((int(math.ceil(nodesInL1/2)), numOutputNodes)) - 1
+        self.syn1 = 2 * np.random.random((nodesInL1, nodesInL2)) - 1
+        self.syn2 = 2 * np.random.random((nodesInL2, numOutputNodes)) - 1

@@ -108,7 +108,7 @@ def countHoles(pixels):
         wasPrevRowBlank = False
         bounding = getbounding.getBoundingBox(pixels)
         extracted = extractNumber.extract(pixels, bounding)
-        printarr(extracted)
+        #printarr(extracted)
         for v in xrange(len(extracted)):
             hasFound1 = False
             for h in xrange(len(extracted[0])):
@@ -137,6 +137,8 @@ def numberOfHoles(pixels):
     flipped = horFlipArr(vertFlipArr(flipped))
     aKindaFloodFill(flipped, 5, 2, 6)
 
+
+
     replaceAll(flipped, 2, 3)
     replaceAll(flipped, 1, 3)
     replaceAll(flipped, 3, 0)
@@ -152,15 +154,15 @@ if __name__ == '__main__':
     import extractNumber
 
     fstruct = 'pbms/digit/*N_*F.pbm'
-    for n in xrange(1):
+    for n in xrange(10):
         sum = 0
         print "For number: " + str(n)
-        for f in xrange(1):
-            file = openpbm.fileNameFrom(fstruct, 8, f)
+        for f in xrange(100):
+            file = openpbm.fileNameFrom(fstruct, n, f)
             pixels = openpbm.read_pbm(file)
             extracted = extractNumber.extract(pixels, getbounding.getBoundingBox(pixels))
             numh = numberOfHoles(extracted)
             #print numh
             sum += numh
 
-        print sum / 1.0
+        print sum / 100.0

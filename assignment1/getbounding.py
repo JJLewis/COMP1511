@@ -20,8 +20,8 @@ def getBoundingBox(pixels):
                     leastH = h
                 if h > highestH:
                     highestH = h
-                if lastRowWithPixel - v > 1:
-                    lastTop = lastRowWithPixel
+                #if lastRowWithPixel - v > 1:
+                #    lastTop = lastRowWithPixel
                 lastRowWithPixel = v
             h += 1
         v -= 1

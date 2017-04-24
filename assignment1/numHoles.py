@@ -61,7 +61,7 @@ def findFirst(pixels, num, after):
     return (-1,-1)
 
 def aKindaFloodFill(pixels, orig, wall, enc):
-    (frow, fcol) = findFirst(pixels, orig, (0,0))
+    (frow, fcol) = findFirst(pixels, orig, (-1, -1))
     while frow != -1:
         first = (frow, fcol)
         setTo = -1
@@ -81,12 +81,31 @@ def aKindaFloodFill(pixels, orig, wall, enc):
 
         (frow, fcol) = findFirst(pixels, orig, first)
 
+def vertFlipArr(arr):
+    newArr = []
+    for i in xrange(len(arr)):
+        newArr.append(arr[len(arr) - i - 1])
+    return newArr
+
+def horFlipArr(arr):
+    newArr = []
+    for i in xrange(len(arr)):
+        row = []
+        for h in xrange(len(arr[0])):
+            row.append(arr[i][len(arr[0]) - h - 1])
+        newArr.append(row)
+    return newArr
+
 def numberOfHoles(pixels):
     aKindaFloodFill(pixels, 0, 2, 3)
     printarr(pixels)
-    prev = pixels
-    aKindaFloodFill(pixels, 3, 2, 3)
-    printarr(pixels)
+    flipped = horFlipArr(vertFlipArr(pixels))
+    printarr(flipped)
+    aKindaFloodFill(flipped, 3, 2, 4)
+    printarr(flipped)
+    replaceAll(flipped, 4, 0)
+    replaceAll(flipped, 2, 1)
+    printarr(flipped)
 
 if __name__ == '__main__':
     import openpbm

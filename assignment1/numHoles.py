@@ -121,8 +121,7 @@ def countHoles(pixels):
                 wasPrevRowBlank = True
         return numHoles
 
-def numberOfHoles(pixels):
-
+def isolateHoles(pixels):
     encNum = 3
     didChange = True
     # isolate the number of holes
@@ -148,10 +147,11 @@ def numberOfHoles(pixels):
     replaceAll(flipped, 1, 3)
     replaceAll(flipped, 3, 0)
     replaceAll(flipped, encNum, 1)
-    #printarr(flipped)
 
-    # now count the number of holes
-    return countHoles(flipped)
+    return flipped
+
+def numberOfHoles(pixels):
+    return countHoles(isolateHoles(pixels))
 
 if __name__ == '__main__':
     import openpbm

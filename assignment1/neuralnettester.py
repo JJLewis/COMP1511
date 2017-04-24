@@ -1,12 +1,13 @@
 from netclass import NeuralNet
 import openpbm
+import getattributeArray
 
 class NetTester():
 
     def getGuess(self, n, f):
         pixels = openpbm.read_pbm(openpbm.fileNameFrom(self.fstruct, n, f))
-        flat = self.net.flattenPixels(pixels)
-        guesses = self.net.makeGuess(flat)
+        inputData = getattributeArray.getAttrArr(pixels)
+        guesses = self.net.makeGuess(inputData)
         maxG = max(guesses)
         index = guesses.index(maxG)
         return (index, maxG)
@@ -32,11 +33,7 @@ class NetTester():
     def __init__(self, numTrainingCycles, uptoandincnum, uptofile):
         self.fstruct = 'pbms/digit/*N_*F.pbm'
 
-        afile = openpbm.fileNameFrom(self.fstruct, 0, 0)
-
-        dimensions = openpbm.get_dimensions(afile)
-
-        self.net = NeuralNet(dimensions[0], dimensions[1], 10)
+        self.net = NeuralNet(9, 10)
 
         print "Loading training data..."
         (training, expected) = self.net.loadTrainingData(self.fstruct, uptoandincnum + 1, uptofile)
@@ -51,4 +48,4 @@ class NetTester():
         self.testAll(uptoandincnum)
 
 if __name__ == '__main__':
-    NetTester(10000, 3, 10)
+    NetTester(1000, 9, 30)

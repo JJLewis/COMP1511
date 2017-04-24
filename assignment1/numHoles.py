@@ -62,6 +62,7 @@ def findFirst(pixels, num, after):
 
 def aKindaFloodFill(pixels, orig, wall, enc):
     (frow, fcol) = findFirst(pixels, orig, (-1, -1))
+    didChange = False
     while frow != -1:
         first = (frow, fcol)
         setTo = -1
@@ -80,6 +81,7 @@ def aKindaFloodFill(pixels, orig, wall, enc):
                 pixels[frow][fcol + 1] = setTo
 
         (frow, fcol) = findFirst(pixels, orig, first)
+    return didChange
 
 def vertFlipArr(arr):
     newArr = []
@@ -96,16 +98,53 @@ def horFlipArr(arr):
         newArr.append(row)
     return newArr
 
+def countHoles(pixels):
+        if findFirst(pixels, 1, (-1,-1))[0] == -1:
+            return 0
+
+        import getbounding
+        import extractNumber
+        numHoles = 1
+        wasPrevRowBlank = False
+        bounding = getbounding.getBoundingBox(pixels)
+        extracted = extractNumber.extract(pixels, bounding)
+        printarr(extracted)
+        for v in xrange(len(extracted)):
+            hasFound1 = False
+            for h in xrange(len(extracted[0])):
+                if extracted[v][h] == 1:
+                    hasFound1 = True
+                    break
+            if not hasFound1 and not wasPrevRowBlank:
+                numHoles += 1
+                wasPrevRowBlank = True
+        return numHoles
+
 def numberOfHoles(pixels):
+
+    # isolate the number of holes
     aKindaFloodFill(pixels, 0, 2, 3)
-    printarr(pixels)
+    #printarr(pixels)
     flipped = horFlipArr(vertFlipArr(pixels))
-    printarr(flipped)
+    #printarr(flipped)
     aKindaFloodFill(flipped, 3, 2, 4)
-    printarr(flipped)
-    replaceAll(flipped, 4, 0)
-    replaceAll(flipped, 2, 1)
-    printarr(flipped)
+    #printarr(flipped)
+
+    flipped = horFlipArr(flipped)
+    aKindaFloodFill(flipped, 4, 2, 5)
+    #printarr(flipped)
+
+    flipped = horFlipArr(vertFlipArr(flipped))
+    aKindaFloodFill(flipped, 5, 2, 6)
+
+    replaceAll(flipped, 2, 3)
+    replaceAll(flipped, 1, 3)
+    replaceAll(flipped, 3, 0)
+    replaceAll(flipped, 6, 1)
+    #printarr(flipped)
+
+    # now count the number of holes
+    return countHoles(flipped)
 
 if __name__ == '__main__':
     import openpbm
@@ -117,12 +156,11 @@ if __name__ == '__main__':
         sum = 0
         print "For number: " + str(n)
         for f in xrange(1):
-            file = openpbm.fileNameFrom(fstruct, n, f)
+            file = openpbm.fileNameFrom(fstruct, 8, f)
             pixels = openpbm.read_pbm(file)
             extracted = extractNumber.extract(pixels, getbounding.getBoundingBox(pixels))
-            #printarr(extracted)
             numh = numberOfHoles(extracted)
-            print numh
+            #print numh
             sum += numh
 
-        print sum / 100.0
+        print sum / 1.0

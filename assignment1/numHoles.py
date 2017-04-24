@@ -69,6 +69,7 @@ def aKindaFloodFill(pixels, orig, wall, enc):
 
         if isNextTo(pixels, first, -1) or isNextTo(pixels, first, wall):
             setTo = wall
+            didChange = True
         elif isNextTo(pixels, first, 1) or isNextTo(pixels, first, enc):
             setTo = enc
 
@@ -122,27 +123,31 @@ def countHoles(pixels):
 
 def numberOfHoles(pixels):
 
+    encNum = 3
+    didChange = True
     # isolate the number of holes
     aKindaFloodFill(pixels, 0, 2, 3)
-    #printarr(pixels)
+
     flipped = horFlipArr(vertFlipArr(pixels))
-    #printarr(flipped)
-    aKindaFloodFill(flipped, 3, 2, 4)
-    #printarr(flipped)
+    aKindaFloodFill(flipped, encNum, 2, encNum + 1)
+    encNum += 1
 
     flipped = horFlipArr(flipped)
-    aKindaFloodFill(flipped, 4, 2, 5)
-    #printarr(flipped)
+    aKindaFloodFill(flipped, encNum, 2, encNum + 1)
+    encNum += 1
 
     flipped = horFlipArr(vertFlipArr(flipped))
-    aKindaFloodFill(flipped, 5, 2, 6)
+    aKindaFloodFill(flipped, encNum, 2, encNum + 1)
+    encNum += 1
 
-
+    while didChange:
+        didChange = aKindaFloodFill(flipped, encNum, 2, encNum + 1)
+        encNum += 1
 
     replaceAll(flipped, 2, 3)
     replaceAll(flipped, 1, 3)
     replaceAll(flipped, 3, 0)
-    replaceAll(flipped, 6, 1)
+    replaceAll(flipped, encNum, 1)
     #printarr(flipped)
 
     # now count the number of holes

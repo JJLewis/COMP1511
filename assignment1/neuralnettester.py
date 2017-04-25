@@ -33,7 +33,7 @@ class NetTester():
     def __init__(self, numTrainingCycles, uptoandincnum, uptofile):
         self.fstruct = 'pbms/digit/*N_*F.pbm'
 
-        self.net = NeuralNet(9, 10)
+        self.net = NeuralNet(8, 10)
 
         print "Loading training data..."
         (training, expected) = self.net.loadTrainingData(self.fstruct, uptoandincnum + 1, uptofile)

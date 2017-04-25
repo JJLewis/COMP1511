@@ -6,8 +6,8 @@ def getAttrArr(pixels):
     import numHoles
 
     extracted = extractNumber.extract(pixels, getbounding.getBoundingBox(pixels))
-    height = len(extracted) / 100.0
-    width = len(extracted[0]) / 100.0
+    height = len(extracted)
+    width = len(extracted[0])
     area = width * height
     hBalance = balance.horizontalBalance(extracted)
     vBalance = balance.verticalBalance(extracted)
@@ -17,7 +17,8 @@ def getAttrArr(pixels):
     blackDensity = othermetrics.getDensity(extracted)
     holeDensity = othermetrics.getHoleFraction(extracted)
 
-    inputData = [height, width, hBalance, vBalance, blackDensity, holeDensity, h1, h2, area]
+    inputData = [height, width, hBalance, vBalance, blackDensity, holeDensity, holeCount, area]
+    #inputData = [height, width, hBalance, vBalance, blackDensity, holeDensity, h1, h2, area]
     #inputData = [hBalance, vBalance]
 
     return inputData

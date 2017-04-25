@@ -22,6 +22,6 @@ if __name__ == "__main__":
     for i in xrange(10):
         print "Start Loading: " + str(i)
         data = getData(i)
-        outfile = str(i) + '.csv'
+        outfile = 'digit-feature-data/' + str(i) + '.csv'
         writeToFile(outfile, data)
         print "Done Writing: " + str(i)

@@ -21,7 +21,7 @@ class NetTester():
                     numErrors += 1
                     print str(n) + " failed. NN guessed: " + str(index) + " with probability of " + str(probability)
         print "Done Testing All"
-        print "Made " + str(numErrors) + " mistakes. Accuracy of " + str(1 - (numErrors/(uptoandinc * 100.0)))
+        print "Made " + str(numErrors) + " mistakes. Accuracy of " + str(1 - (numErrors/((uptoandinc+1) * 100.0)))
 
     def userTest(self):
         while True:
@@ -48,4 +48,4 @@ class NetTester():
         self.testAll(uptoandincnum)
 
 if __name__ == '__main__':
-    NetTester(1000, 9, 30)
+    NetTester(1000, 2, 20)

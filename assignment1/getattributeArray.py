@@ -6,8 +6,8 @@ def getAttrArr(pixels):
     import numHoles
 
     extracted = extractNumber.extract(pixels, getbounding.getBoundingBox(pixels))
-    height = len(extracted)
-    width = len(extracted[0])
+    height = len(extracted) / 100.0
+    width = len(extracted[0]) / 100.0
     area = width * height
     hBalance = balance.horizontalBalance(extracted)
     vBalance = balance.verticalBalance(extracted)

@@ -12,16 +12,16 @@ class NetTester():
         index = guesses.index(maxG)
         return (index, maxG)
 
-    def testAll(self, uptoandinc):
+    def testAll(self, toTrain):
         numErrors = 0
-        for n in xrange(uptoandinc + 1):
+        for n in toTrain:
             for f in xrange(100):
                 (index, probability) = self.getGuess(n, f)
                 if index != n:
                     numErrors += 1
                     print str(n) + " failed. NN guessed: " + str(index) + " with probability of " + str(probability)
         print "Done Testing All"
-        print "Made " + str(numErrors) + " mistakes. Accuracy of " + str(1 - (numErrors/((uptoandinc+1) * 100.0)))
+        print "Made " + str(numErrors) + " mistakes. Accuracy of " + str(1 - (numErrors/(len(toTrain) * 100.0)))
 
     def userTest(self):
         while True:
@@ -30,7 +30,7 @@ class NetTester():
             (index, prob) = self.getGuess(n, f)
             print "Guessing: " + str(index) + " with probability of " + str(prob)
 
-    def __init__(self, numTrainingCycles, uptoandincnum, uptofile):
+    def __init__(self, numTrainingCycles, toTrain, uptofile):
         self.fstruct = 'pbms/digit/*N_*F.pbm'
 
         pixels = openpbm.read_pbm(openpbm.fileNameFrom(self.fstruct, 0, 0))
@@ -39,7 +39,7 @@ class NetTester():
         self.net = NeuralNet(numFeatures, 10)
 
         print "Loading training data..."
-        (training, expected) = self.net.loadTrainingData(self.fstruct, uptoandincnum + 1, uptofile)
+        (training, expected) = self.net.loadTrainingData(self.fstruct, toTrain, uptofile)
         print "Loaded training data."
 
         print "Starting training..."
@@ -48,7 +48,9 @@ class NetTester():
 
         print "You may now test the neural net."
         #self.userTest()
-        self.testAll(uptoandincnum)
+        self.testAll(toTrain)
 
 if __name__ == '__main__':
-    NetTester(20000, 9, 2)
+    toTest = [1,2,3,5,7]
+    #toTest = [0,4,6,8,9]
+    NetTester(20000, toTest, 50)

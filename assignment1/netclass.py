@@ -37,12 +37,12 @@ class NeuralNet():
         arr[n] = 1
         return arr
 
-    def loadTrainingData(self, fstruct, numnum, maxPerNum):
+    def loadTrainingData(self, fstruct, toTrain, maxPerNum):
         import getattributeArray
 
         training = []
         expected = []
-        for n in xrange(numnum):
+        for n in toTrain:
             print "Loading: " + str(n)
             tempExpected = self.expectedOutputFor(n)
             for f in xrange(maxPerNum + 1):

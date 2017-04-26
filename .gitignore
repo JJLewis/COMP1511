@@ -26,3 +26,6 @@ assignment1/pbms/*/*.pbm
 
 # Ignore Compiled Python
 *.pyc
+
+# Ignore Microsoft Working Files
+~$*

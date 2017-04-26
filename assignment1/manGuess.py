@@ -70,29 +70,48 @@ def hasHoles(features):
     holeDensity = features[5]
     holeCount = features[6]
     area = features[7]
+    hHoleBalance = features[8]
+    vHoleBalance = features[9]
 
-    vals = [vBalance, hBalance, blackDensity, holeDensity]
+    vals = [vBalance, hBalance, blackDensity, holeDensity, hHoleBalance, vHoleBalance]
     #           vB             hB          bD          hD
-    avg0s = [0.50224126, 0.49946983, 0.51078787, 0.25400239]
-    avg4s = [0.51961881, 0.54726439, 0.44558401, 0.06440427]
-    avg6s = [0.51598543, 0.46690274, 0.51049573, 0.11210898]
-    avg9s = [0.48285105, 0.52934610, 0.50199315, 0.12144133]
+    avg0s = [0.50224126, 0.49946983, 0.51078787, 0.25400239, 0.500646788, 0.500470992]
+    avg4s = [0.51961881, 0.54726439, 0.44558401, 0.06440427, 0.545390918, 0.497673672]
+    avg6s = [0.51598543, 0.46690274, 0.51049573, 0.11210898, 0.520124085, 0.66581604]
+    avg9s = [0.48285105, 0.52934610, 0.50199315, 0.12144133, 0.485020415, 0.332551043]
     allAvgs = [avg0s, avg4s, avg6s, avg9s]
 
-    max0s = [0.54402028, 0.53911205, 0.69516509, 0.47796353]
-    max4s = [0.58678802, 0.63155040, 0.59935897, 0.16258741]
-    max6s = [0.60045118, 0.51220430, 0.65046296, 0.21785714]
-    max9s = [0.54267401, 0.59926090, 0.68684896, 0.23958333]
+    max0s = [0.54402028, 0.53911205, 0.69516509, 0.47796353, 0.557639752, 0.528851315]
+    max4s = [0.58678802, 0.63155040, 0.59935897, 0.16258741, 0.671568627, 0.584854995]
+    max6s = [0.60045118, 0.51220430, 0.65046296, 0.21785714, 0.667913832, 0.716302953]
+    max9s = [0.54267401, 0.59926090, 0.68684896, 0.23958333, 0.604333868, 0.375364431]
     allMaxes = [max0s, max4s, max6s, max9s]
 
-    min0s = [0.455238095, 0.428082192, 0.30862069, 0.117391304]
-    min4s = [0.449059561, 0.44899676, 0.259800664, 0.02182285]
-    min6s = [0.46015561, 0.401942067, 0.308943089, 0.052083333]
-    min9s = [0.425593363, 0.469117435, 0.327489481, 0.051445578]
+    min0s = [0.455238095, 0.428082192, 0.30862069, 0.117391304, 0.445364425, 0.462624113]
+    min4s = [0.449059561, 0.44899676, 0.259800664, 0.02182285, 0.437693419, 0.359429066]
+    min6s = [0.46015561, 0.401942067, 0.308943089, 0.052083333, 0.392874693, 0.620032116]
+    min9s = [0.425593363, 0.469117435, 0.327489481, 0.051445578, 0.336236934, 0.293334824]
     allMins = [min0s, min4s, min6s, min9s]
+
+
 
     ans = [0,4,6,9]
 
+    # Filter Smallest Maxes
+    if vHoleBalance > 0.37537:
+        index = indexOf(ans, 9)
+        if index != -1:
+            del allAvgs[index]
+            del allMaxes[index]
+            del allMins[index]
+            del ans[index]
+    if hHoleBalance > 0.55764:
+        index = indexOf(ans, 0)
+        if index != -1:
+            del allAvgs[index]
+            del allMaxes[index]
+            del allMins[index]
+            del ans[index]
     if vBalance > 0.5427:
         index = indexOf(ans, 9)
         if index != -1:
@@ -122,6 +141,20 @@ def hasHoles(features):
             del allMins[index]
             del ans[index]
 
+    if vHoleBalance < 0.62004:
+        index = indexOf(ans, 6)
+        if index != -1:
+            del allAvgs[index]
+            del allMaxes[index]
+            del allMins[index]
+            del ans[index]
+    if hHoleBalance < 0.44537:
+        index = indexOf(ans, 0)
+        if index != -1:
+            del allAvgs[index]
+            del allMaxes[index]
+            del allMins[index]
+            del ans[index]
     if hBalance < 0.4692:
         index = indexOf(ans, 9)
         if index != -1:
@@ -154,8 +187,14 @@ def hasHoles(features):
     if holeCount == 2:
         return 8
     else:
-        #return rangeMethod(allMaxes, allMins, vals, ans)
-        return deviationMethod(allAvgs, vals, ans)
+        if len(ans) == 0:
+            return -1
+        if vHoleBalance > 0.620032:
+            return 6
+        if vHoleBalance < 0.375365:
+            return 9
+        return rangeMethod(allMaxes, allMins, vals, ans)
+        #return deviationMethod(allAvgs, vals, ans)
 
 def rangeMethod(allMaxs, allMins, vals, ans):
     allDiffs = []
@@ -191,4 +230,9 @@ def crack(pixels):
 
 
 if __name__ == '__main__':
-    autoTest(0)
+    sumWrong = 0
+    toTest = [0,4,6,9]
+    numOfGuesses = (len(toTest) * 100.0)
+    for i in toTest:
+        sumWrong += autoTest(i)
+    print "Accuracy of: " + str(((len(toTest) * 100.0) - sumWrong) / len(toTest)) + "%"

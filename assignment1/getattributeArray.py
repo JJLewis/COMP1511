@@ -26,4 +26,4 @@ def getAttrArr(pixels):
     #nn
     #inputData = [hBalance, vBalance, blackDensity, holeDensity, holeCount, hHoleBalance, vHoleBalance]
 
-    return inputDataM
+    return inputData

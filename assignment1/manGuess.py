@@ -25,15 +25,6 @@ def autoTest(number):
     print "For " + str(number) + ", got " + str(numWrong) + " wrong."
     return numWrong
 
-def noHoles(features):
-    height = features[0]
-    width = features[1]
-    hBalance = features[2]
-    vBalance = features[3]
-    blackDensity = features[4]
-    holeDensity = features[5]
-    area = features[7]
-
 def subtractArrs(arr1, arr2):
     diff = []
     for i in xrange(len(arr1)):
@@ -61,6 +52,20 @@ def indexOf(arr, element):
             break
     return index
 
+def noHoles(features):
+    height = features[0]
+    width = features[1]
+    hBalance = features[2]
+    vBalance = features[3]
+    blackDensity = features[4]
+    holeDensity = features[5]
+    holeCount = features[6]
+    area = features[7]
+    hHoleBalance = features[8]
+    vHoleBalance = features[9]
+
+    vals = [vBalance, hBalance, blackDensity, holeDensity, hHoleBalance, vHoleBalance]
+
 def hasHoles(features):
     height = features[0]
     width = features[1]
@@ -74,7 +79,7 @@ def hasHoles(features):
     vHoleBalance = features[9]
 
     vals = [vBalance, hBalance, blackDensity, holeDensity, hHoleBalance, vHoleBalance]
-    #           vB             hB          bD          hD
+    #           vB             hB          bD          hD       hHoleB       vHoleB
     avg0s = [0.50224126, 0.49946983, 0.51078787, 0.25400239, 0.500646788, 0.500470992]
     avg4s = [0.51961881, 0.54726439, 0.44558401, 0.06440427, 0.545390918, 0.497673672]
     avg6s = [0.51598543, 0.46690274, 0.51049573, 0.11210898, 0.520124085, 0.66581604]

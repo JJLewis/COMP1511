@@ -20,10 +20,10 @@ def getAttrArr(pixels):
     holeDensity = othermetrics.getHoleFraction(extracted)
 
     #               0       1       2       3           4               5           6       7
-    #inputData = [height, width, hBalance, vBalance, blackDensity, holeDensity, holeCount, area, hHoleBalance, vHoleBalance]
+    inputData = [height, width, hBalance, vBalance, blackDensity, holeDensity, holeCount, area, hHoleBalance, vHoleBalance]
     #inputData = [height, width, hBalance, vBalance, blackDensity, holeDensity, h1, h2, area]
 
     #nn
-    inputData = [hBalance, vBalance, blackDensity, holeDensity, holeCount, hHoleBalance, vHoleBalance]
+    #inputData = [hBalance, vBalance, blackDensity, holeDensity, holeCount, hHoleBalance, vHoleBalance]
 
-    return inputData
+    return inputDataM

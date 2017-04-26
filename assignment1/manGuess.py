@@ -58,13 +58,102 @@ def noHoles(features):
     hBalance = features[2]
     vBalance = features[3]
     blackDensity = features[4]
-    holeDensity = features[5]
-    holeCount = features[6]
     area = features[7]
-    hHoleBalance = features[8]
-    vHoleBalance = features[9]
 
-    vals = [vBalance, hBalance, blackDensity, holeDensity, hHoleBalance, vHoleBalance]
+    vals = [vBalance, hBalance, blackDensity, vBalance-hBalance]
+    #           vB             hB          bD           vB-hB
+    avg1s = [0.513545995, 0.525280464, 0.371528497, -0.011734469]
+    avg2s = [0.50816045, 0.544074217, 0.379821942, -0.035913766]
+    avg3s = [0.503079739, 0.572549886, 0.418143286, -0.069470147]
+    avg5s = [0.506133777, 0.513417449, 0.418263036, -0.007283672]
+    avg7s = [0.403378435, 0.530864138, 0.333130337, -0.127485704]
+    allAvgs = [avg1s, avg2s, avg3s, avg5s, avg7s]
+
+    max1s = [0.497575446, 0.698155444, 0.589670014, 0.114104116]
+    max2s = [0.595729921, 0.627140656, 0.561155914, 0.112858112]
+    max3s = [0.852272727, 0.683075463, 0.588235294, 0.008996669]
+    max5s = [0.5642533, 0.617132867, 0.572450805, 0.080998947]
+    max7s = [0.480858086, 0.699111111, 0.503267974, 0.008538673]
+    allMaxes = [max1s, max2s, max3s, max5s, max7s]
+
+    min1s = [0.442459505, 0.4232532, 0.171948052, -0.255695939]
+    min2s = [0.440241902, 0.42096118, 0.264520202, -0.160065942]
+    min3s = [0.433945922, 0.512787524, 0.216878403, -0.163414825]
+    min5s = [0.435660316, 0.4346537, 0.264423077, -0.094255409]
+    min7s = [0.305428249, 0.419571295, 0.203488372, -0.366472222]
+    allMins = [min1s, min2s, min3s, min5s, min7s]
+
+
+    ans = [1,2,3,5,7]
+
+    if vBalance-hBalance < -0.0943:
+        index = indexOf(ans, 5)
+        if index != -1:
+            del allAvgs[index]
+            del allMaxes[index]
+            del allMins[index]
+            del ans[index]
+
+    if vBalance-hBalance > -0.0085:
+        index = indexOf(ans, 7)
+        if index != -1:
+            del allAvgs[index]
+            del allMaxes[index]
+            del allMins[index]
+            del ans[index]
+
+
+    if vBalance > 0.4809:
+        index = indexOf(ans, 7)
+        if index != -1:
+            del allAvgs[index]
+            del allMaxes[index]
+            del allMins[index]
+            del ans[index]
+    if hBalance > 0.5135:
+        index = indexOf(ans, 5)
+        if index != -1:
+            del allAvgs[index]
+            del allMaxes[index]
+            del allMins[index]
+            del ans[index]
+    if blackDensity > 0.50327:
+        index = indexOf(ans, 7)
+        if index != -1:
+            del allAvgs[index]
+            del allMaxes[index]
+            del allMins[index]
+            del ans[index]
+
+    if hBalance < 0.51279:
+        index = indexOf(ans, 3)
+        if index != -1:
+            del allAvgs[index]
+            del allMaxes[index]
+            del allMins[index]
+            del ans[index]
+        index = indexOf(ans, 2)
+        if index != -1:
+            del allAvgs[index]
+            del allMaxes[index]
+            del allMins[index]
+            del ans[index]
+    if blackDensity < 0.265:
+        index = indexOf(ans, 2)
+        if index != -1:
+            del allAvgs[index]
+            del allMaxes[index]
+            del allMins[index]
+            del ans[index]
+        index = indexOf(ans, 5)
+        if index != -1:
+            del allAvgs[index]
+            del allMaxes[index]
+            del allMins[index]
+            del ans[index]
+
+    #return rangeMethod(allMaxes, allMins, vals, ans)
+    return deviationMethod(allAvgs, vals, ans)
 
 def hasHoles(features):
     height = features[0]
@@ -236,7 +325,10 @@ def crack(pixels):
 
 if __name__ == '__main__':
     sumWrong = 0
-    toTest = [0,4,6,9]
+    toTest = [1,2,3,5,7]
+    #toTest = [1]
+    #toTest = [0,4,6,8,9]
+    #toTest = [0,1,2,3,4,5,6,7,8,9]
     numOfGuesses = (len(toTest) * 100.0)
     for i in toTest:
         sumWrong += autoTest(i)

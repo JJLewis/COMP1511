@@ -1,5 +1,30 @@
 import getattributeArray
 
+def getGuess(n, f):
+    import openpbm
+
+    fstruct = 'pbms/digit/*N_*F.pbm'
+
+    file = openpbm.fileNameFrom(fstruct, n, f)
+    pixels = openpbm.read_pbm(file)
+    return crack(pixels)
+
+def userTest():
+    while True:
+        n = input("Number: ")
+        f = input("File Numer: ")
+        print "Guessing: " + str(getGuess(n, f))
+
+def autoTest(number):
+    numWrong = 0
+    for f in xrange(100):
+        guess = getGuess(number, f)
+        if guess != number:
+            print "Got " + str(number) + " file " + str(f) + " wrong, guessed " + str(guess)
+            numWrong += 1
+    print "For " + str(number) + ", got " + str(numWrong) + " wrong."
+    return numWrong
+
 def noHoles(features):
     height = features[0]
     width = features[1]
@@ -66,20 +91,73 @@ def hasHoles(features):
     min9s = [0.425593363, 0.469117435, 0.327489481, 0.051445578]
     allMins = [min0s, min4s, min6s, min9s]
 
-    '''
-    if holeDensity > 0.162:
-        del allAvgs[1]
-        del ans[1]
-    '''
+    ans = [0,4,6,9]
+
+    if vBalance > 0.5427:
+        index = indexOf(ans, 9)
+        if index != -1:
+            del allAvgs[index]
+            del allMaxes[index]
+            del allMins[index]
+            del ans[index]
+    if hBalance > 0.5123:
+        index = indexOf(ans, 6)
+        if index != -1:
+            del allAvgs[index]
+            del allMaxes[index]
+            del allMins[index]
+            del ans[index]
+    if holeDensity > 0.1626:
+        index = indexOf(ans, 4)
+        if index != -1:
+            del allAvgs[index]
+            del allMaxes[index]
+            del allMins[index]
+            del ans[index]
+    if blackDensity > 0.5994:
+        index = indexOf(ans, 4)
+        if index != -1:
+            del allAvgs[index]
+            del allMaxes[index]
+            del allMins[index]
+            del ans[index]
+
+    if hBalance < 0.4692:
+        index = indexOf(ans, 9)
+        if index != -1:
+            del allAvgs[index]
+            del allMaxes[index]
+            del allMins[index]
+            del ans[index]
+    if vBalance < 0.4602:
+        index = indexOf(ans, 6)
+        if index != -1:
+            del allAvgs[index]
+            del allMaxes[index]
+            del allMins[index]
+            del ans[index]
+    if blackDensity < 0.3275:
+        index = indexOf(ans, 9)
+        if index != -1:
+            del allAvgs[index]
+            del allMaxes[index]
+            del allMins[index]
+            del ans[index]
+    if holeDensity < 0.1174:
+        index = indexOf(ans, 0)
+        if index != -1:
+            del allAvgs[index]
+            del allMaxes[index]
+            del allMins[index]
+            del ans[index]
+
     if holeCount == 2:
         return 8
     else:
-        return rangeMethod(allMaxes, allMins, vals)
-        #return deviationMethod(allAvgs, vals)
+        #return rangeMethod(allMaxes, allMins, vals, ans)
+        return deviationMethod(allAvgs, vals, ans)
 
-def rangeMethod(allMaxs, allMins, vals):
-    ans = [0,4,6,9]
-
+def rangeMethod(allMaxs, allMins, vals, ans):
     allDiffs = []
     for n in xrange(len(allMaxs)):
         diff = []
@@ -95,9 +173,7 @@ def rangeMethod(allMaxs, allMins, vals):
     index = indexOf(allDiffs, minElement(allDiffs))
     return ans[index]
 
-def deviationMethod(allAvgs, vals):
-    ans = [0,4,6,9]
-
+def deviationMethod(allAvgs, vals, ans):
     deviations = []
     for i in xrange(len(allAvgs)):
         diff = subtractArrs(allAvgs[i], vals)
@@ -113,30 +189,6 @@ def crack(pixels):
     else:
         return hasHoles(features)
 
-def getGuess(n, f):
-    import openpbm
-
-    fstruct = 'pbms/digit/*N_*F.pbm'
-
-    file = openpbm.fileNameFrom(fstruct, n, f)
-    pixels = openpbm.read_pbm(file)
-    return crack(pixels)
-
-def userTest():
-    while True:
-        n = input("Number: ")
-        f = input("File Numer: ")
-        print "Guessing: " + str(getGuess(n, f))
-
-def autoTest(number):
-    numWrong = 0
-    for f in xrange(100):
-        guess = getGuess(number, f)
-        if guess != number:
-            print "Got " + str(number) + " file " + str(f) + " wrong, guessed " + str(guess)
-            numWrong += 1
-    print "For " + str(number) + ", got " + str(numWrong) + " wrong."
-
 
 if __name__ == '__main__':
-    autoTest(8)
+    autoTest(0)

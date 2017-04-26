@@ -20,6 +20,8 @@ def getAttrArr(pixels):
     #               0       1       2       3           4               5           6       7
     inputData = [height, width, hBalance, vBalance, blackDensity, holeDensity, holeCount, area]
     #inputData = [height, width, hBalance, vBalance, blackDensity, holeDensity, h1, h2, area]
+
+    #nn
     #inputData = [hBalance, vBalance, blackDensity, holeDensity, holeCount]
 
     return inputData

@@ -51,4 +51,4 @@ class NetTester():
         self.testAll(uptoandincnum)
 
 if __name__ == '__main__':
-    NetTester(20000, 9, 3)
+    NetTester(20000, 9, 2)

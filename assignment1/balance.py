@@ -36,6 +36,20 @@ def verticalBalance(pixels):
 
     return (float(row_sum) / float(n_black_pixels) + 0.5) / float(height)
 
+def verticalHoleBalance(pixels):
+    import numHoles
+    isolated = numHoles.isolateHoles(pixels)
+    if numHoles.countHoles(isolated) == 0:
+        return 0.5
+    return verticalBalance(isolated)
+
+def horizontalHoleBalance(pixels):
+    import numHoles
+    isolated = numHoles.isolateHoles(pixels)
+    if numHoles.countHoles(isolated) == 0:
+        return 0.5
+    return horizontalBalance(isolated)
+
 if __name__ == '__main__':
     import openpbm
     import getbounding
@@ -45,10 +59,12 @@ if __name__ == '__main__':
     for n in xrange(1):
         print "For number: " + str(n)
         for f in xrange(1):
-            file = openpbm.fileNameFrom(fstruct, 9, f)
+            file = openpbm.fileNameFrom(fstruct, 6, f)
             pixels = openpbm.read_pbm(file)
             extracted = extractNumber.extract(pixels, getbounding.getBoundingBox(pixels))
 
             h = horizontalBalance(extracted)
             v = verticalBalance(extracted)
-            print "Horizontal: " + str(h) + " Vertical: " + str(v)
+            hv = verticalHoleBalance(extracted)
+            hh = horizontalHoleBalance(extracted)
+            print "Horizontal: " + str(h) + " Vertical: " + str(v) + " V Hole: " + str(hv) + " H Hole: " + str(hh)

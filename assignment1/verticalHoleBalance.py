@@ -1,2 +1,0 @@
-def verticalHoleBalance(pixels):
-    pass

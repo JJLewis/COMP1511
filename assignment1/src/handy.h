@@ -8,3 +8,4 @@
 #endif //SRC_HANDY_H
 
 void copyArray(int source[height][width], int destination[height][width], int height, int width);
+void assignRow(int source[height][width], int destination[height][width], int height, int width, int sIndex, int dIndex);

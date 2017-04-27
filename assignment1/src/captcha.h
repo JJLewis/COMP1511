@@ -34,3 +34,7 @@ double verticalHoleBalance(int pixels[height][width], int height, int width);
 // hole_count.c
 void isolateHoles(int pixels[height][width], int output[height][width], int height, int width);
 int numberOfHoles(int pixels[height][width], int height, int width);
+
+// other_metrics.c
+double getDensity(int pixels[height][width], int height, int width);
+double getHoleFraction(int pixels[height][width], int height, int width);

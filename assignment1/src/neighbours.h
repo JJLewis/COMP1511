@@ -9,9 +9,9 @@
 
 #define EDGE -1
 
-int isXonRight  (int pixels[height][width], int height, int width, coord_t location, int x);
-int isXonLeft   (int pixels[height][width], int height, int width, coord_t location, int x);
-int isXonTop    (int pixels[height][width], int height, int width, coord_t location, int x);
-int isXonBottom (int pixels[height][width], int height, int width, coord_t location, int x);
+int isXonRight  (int height, int width, int pixels[height][width], coord_t location, int x);
+int isXonLeft   (int height, int width, int pixels[height][width], coord_t location, int x);
+int isXonTop    (int height, int width, int pixels[height][width], coord_t location, int x);
+int isXonBottom (int height, int width, int pixels[height][width], coord_t location, int x);
 
-int isNextTo    (int pixels[height][width], int height, int width, coord_t location, int x);
+int isNextTo    (int height, int width, int pixels[height][width], coord_t location, int x);

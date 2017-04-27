@@ -6,7 +6,7 @@
 #include "neighbours.h"
 #include "handy.h"
 
-void replaceAll(int pixels[height][width], int height, int width, int num, int withNum) {
+void replaceAll(int height, int width, int pixels[height][width], int num, int withNum) {
     for (int v = 0; v < height; v++) {
         for (int h = 0; h < width; h++) {
             if (pixels[v][h] == num) {
@@ -16,7 +16,7 @@ void replaceAll(int pixels[height][width], int height, int width, int num, int w
     }
 }
 
-coord_t findFirst(int pixels[height][width], int height, int width, int num, coord_t after) {
+coord_t findFirst(int height, int width, int pixels[height][width], int num, coord_t after) {
     coord_t location;
     location.x = -1;
     location.y = -1;
@@ -36,12 +36,12 @@ coord_t findFirst(int pixels[height][width], int height, int width, int num, coo
     return location;
 }
 
-int aKindaFloodFill(int pixels[height][width], int height, int width, int orig, int wall, int enc) {
+int aKindaFloodFill(int height, int width, int pixels[height][width], int orig, int wall, int enc) {
     coord_t start;
     start.x = -1;
     start.y = -1;
     coord_t first = findFirst(pixels, height, width, orig, start);
-    didChange = FALSE;
+    int didChange = FALSE;
 
     // Repeat until the original number is no longer found
     while (first.x != -1) {
@@ -79,13 +79,13 @@ int aKindaFloodFill(int pixels[height][width], int height, int width, int orig, 
     return didChange;
 }
 
-void vertFlip(int source[height][width], int output[height][width], int height, int width) {
+void vertFlip(int height, int width, int source[height][width], int output[height][width]) {
     for (int i = 0; i < height; i++) {
         assignRow(source, output, height, width, height - i - 1, i);
     }
 }
 
-void horFlip(int source[height][width], int output[height][width], int height, int width) {
+void horFlip(int height, int width, int source[height][width], int output[height][width]) {
     for (int v = 0; v < height; v++) {
         for (int h = 0; h < width; h++) {
             output[v][h] = source[v][width - h - 1];
@@ -93,7 +93,7 @@ void horFlip(int source[height][width], int output[height][width], int height, i
     }
 }
 
-int countHoles(int pixels[height][width], int height, int width) {
+int countHoles(int height, int width, int pixels[height][width]) {
     coord_t start;
     start.x = -1;
     start.y = -1;
@@ -126,7 +126,7 @@ int countHoles(int pixels[height][width], int height, int width) {
     return numHoles;
 }
 
-void isolateHoles(int pixels[height][width], int output[height][width], int height, int width) {
+void isolateHoles(int height, int width, int pixels[height][width], int output[height][width]) {
     int encNum = 3;
     int didChange = TRUE;
 
@@ -135,34 +135,34 @@ void isolateHoles(int pixels[height][width], int output[height][width], int heig
 
     int flipped1[height][width], flipped2[height][width];
 
-    vertFlip(pixels, flipped1, height, width);
-    horFlip(flipped1, flipped2, height, width);
-    aKindaFloodFill(flipped2, height, width, encNum, 2, encNum + 1);
+    vertFlip(height, width, pixels, flipped1);
+    horFlip(height, width, flipped1, flipped2);
+    aKindaFloodFill(height, width, flipped2, encNum, 2, encNum + 1);
     encNum++;
 
-    horFlip(flipped2, flipped1, height, width);
-    aKindaFloodFill(flipped1, height, width, encNum, 2, encNum + 1);
+    horFlip(height, width, flipped2, flipped1);
+    aKindaFloodFill(height, width, flipped1, encNum, 2, encNum + 1);
     encNum++;
 
-    horFlip(flipped1, flipped2, height, width);
-    aKindaFloodFill(flipped2, height, width, encNum, 2, encNum + 1);
+    horFlip(height, width, flipped1, flipped2);
+    aKindaFloodFill(height, width, flipped2, encNum, 2, encNum + 1);
     encNum++;
 
     while (didChange) {
-        didChange = aKindaFloodFill(flipped2, height, width, encNum, 2, encNum + 1);
+        didChange = aKindaFloodFill(height, width, flipped2, encNum, 2, encNum + 1);
         encNum++;
     }
 
-    replaceAll(flipped2, 2, 3);
-    replaceAll(flipped2, 1, 3);
-    replaceAll(flipped2, 3, 0);
-    replaceAll(flipped2, encNum, 1);
+    replaceAll(height, width, flipped2, 2, 3);
+    replaceAll(height, width, flipped2, 1, 3);
+    replaceAll(height, width, flipped2, 3, 0);
+    replaceAll(height, width, flipped2, encNum, 1);
 
-    copyArray(flipped2, output, height, width);
+    copyArray(height, width, flipped2, output);
 }
 
-int numberOfHoles(int pixels[height][width], int height, int width) {
+int numberOfHoles(int height, int width, int pixels[height][width]) {
     int isolated[height][width];
-    isolateHoles(pixels, isolated, height, width);
-    return countHoles(isolated, height, width);
+    isolateHoles(height, width, pixels, isolated);
+    return countHoles(height, width, isolated);
 }

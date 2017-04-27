@@ -6,7 +6,7 @@
 #include "captcha.h"
 
 double get_horizontal_balance(int height, int width, int pixels[height][width]) {
-	int column_sum = 0;	
+	int column_sum = 0;
 	int n_black_pixels = 0;
 	int v = 0;
 	while (v < height) {
@@ -41,19 +41,19 @@ double get_vertical_balance(int height, int width, int pixels[height][width]) {
 	return ((double)row_sum / n_black_pixels + 0.5) / height;
 }
 
-double horizontalHoleBalance(int pixels[height][width], int height, int width) {
+double horizontalHoleBalance(int height, int width, int pixels[height][width]) {
 	int isolated[height][width];
-	isolateHoles(pixels, isolated, height, width);
-	if (numberOfHoles(isolated, height, width) == 0) {
+	isolateHoles(height, widthpixels, isolated);
+	if (numberOfHoles(height, width, isolated) == 0) {
 		return 0.5;
 	}
 	return get_horizontal_balance(height, width, isolated);
 }
 
-double verticalHoleBalance(int pixels[height][width], int height, int width) {
+double verticalHoleBalance(int height, int width, int pixels[height][width]) {
 	int isolated[height][width];
-	isolateHoles(pixels, isolated, height, width);
-	if (numberOfHoles(isolated, height, width) == 0) {
+	isolateHoles(height, width, pixels, isolated);
+	if (numberOfHoles(height, width, isolated) == 0) {
 		return 0.5;
 	}
 	return get_vertical_balance(height, width, isolated);

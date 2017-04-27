@@ -7,5 +7,5 @@
 
 #endif //SRC_HANDY_H
 
-void copyArray(int source[height][width], int destination[height][width], int height, int width);
-void assignRow(int source[height][width], int destination[height][width], int height, int width, int sIndex, int dIndex);
+void copyArray(int height, int width, int source[height][width], int destination[height][width]);
+void assignRow(int height, int width, int source[height][width], int destination[height][width], int sIndex, int dIndex);

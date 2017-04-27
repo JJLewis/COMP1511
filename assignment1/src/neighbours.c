@@ -5,7 +5,7 @@
 #include "captcha.h"
 #include "neighbours.h"
 
-int isXonRight(int pixels[height][width], int height, int width, coord_t location, int x) {
+int isXonRight(int height, int width, int pixels[height][width], coord_t location, int x) {
     if (x == EDGE) {
         return location.x + 1 == width;
     }
@@ -16,7 +16,7 @@ int isXonRight(int pixels[height][width], int height, int width, coord_t locatio
     }
 }
 
-int isXonLeft(int pixels[height][width], int height, int width, coord_t location, int x) {
+int isXonLeft(int height, int width, int pixels[height][width], coord_t location, int x) {
     if (x == EDGE) {
         return location.x == 0;
     }
@@ -27,7 +27,7 @@ int isXonLeft(int pixels[height][width], int height, int width, coord_t location
     }
 }
 
-int isXonTop(int pixels[height][width], int height, int width, coord_t location, int x) {
+int isXonTop(int height, int width, int pixels[height][width], coord_t location, int x) {
     if (x == EDGE) {
         return location.x + 1 == height;
     }
@@ -38,7 +38,7 @@ int isXonTop(int pixels[height][width], int height, int width, coord_t location,
     }
 }
 
-int isXonBottom(int pixels[height][width], int height, int width, coord_t location, int x) {
+int isXonBottom(int height, int width, int pixels[height][width], coord_t location, int x) {
     if (x == EDGE) {
         return location.x - 1 == height;
     }
@@ -49,8 +49,8 @@ int isXonBottom(int pixels[height][width], int height, int width, coord_t locati
     }
 }
 
-int isNextTo(int pixels[height][width], int height, int width, coord_t location, int x) {
-    int isAboveBelow = isXonTop(pixels, height, width, location, x) || isXonBottom(pixels, height, width, location, x);
-    int isBeside = isXonLeft(pixels, height, width, location, x) || isXonRight(pixels, height, width, location, x);
+int isNextTo(int height, int width, int pixels[height][width], coord_t location, int x) {
+    int isAboveBelow = isXonTop(height, width, pixels, location, x) || isXonBottom(height, width, pixels, location, x);
+    int isBeside = isXonLeft(height, width, pixels, location, x) || isXonRight(height, width, pixels, location, x);
     return isAboveBelow || isBeside;
 }

@@ -4,7 +4,7 @@
 
 #include "captcha.h"
 
-int sumBlackPixels(int pixels[height][width], int height, int width) {
+int sumBlackPixels(int height, int width, int pixels[height][width]) {
     int sum = 0;
     for (int v = 0; v < height; v++) {
         for (int h = 0; h < width; h++) {
@@ -16,11 +16,11 @@ int sumBlackPixels(int pixels[height][width], int height, int width) {
     return sum;
 }
 
-double getDensity(int pixels[height][width], int height, int width) {
+double getDensity(int height, int width, int pixels[height][width]) {
     return (double)sumBlackPixels(pixels, height, width) / (double)(height * width);
 }
 
-double getHoleFraction(int pixels[height][width], int height, int width) {
+double getHoleFraction(int height, int width, int pixels[height][width]) {
     int isolated[height][width];
     isolateHoles(pixels, isolated, height, width);
     sum = sumBlackPixels(isolated, height, width);

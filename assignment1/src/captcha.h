@@ -28,13 +28,13 @@ void copy_pixels(int height, int width, int pixels[height][width],
 // balances.h
 double get_horizontal_balance(int height, int width, int pixels[height][width]);
 double get_vertical_balance(int height, int width, int pixels[height][width]);
-double horizontalHoleBalance(int pixels[height][width], int height, int width);
-double verticalHoleBalance(int pixels[height][width], int height, int width);
+double horizontalHoleBalance(int height, int width, int pixels[height][width]);
+double verticalHoleBalance(int height, int width, int pixels[height][width]);
 
 // hole_count.c
-void isolateHoles(int pixels[height][width], int output[height][width], int height, int width);
-int numberOfHoles(int pixels[height][width], int height, int width);
+void isolateHoles(int height, int width, int pixels[height][width], int output[height][width]);
+int numberOfHoles(int height, int width, int pixels[height][width]);
 
 // other_metrics.c
-double getDensity(int pixels[height][width], int height, int width);
-double getHoleFraction(int pixels[height][width], int height, int width);
+double getDensity(int height, int width, int pixels[height][width]);
+double getHoleFraction(int height, int width, int pixels[height][width]);

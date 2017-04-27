@@ -26,3 +26,7 @@ void copy_pixels(int height, int width, int pixels[height][width],
 				                  int copy[copy_height][copy_width]);
 
 double get_horizontal_balance(int height, int width, int pixels[height][width]);
+
+// hole_count.c
+void isolateHoles(int pixels[height][width], int output[height][width], int height, int width);
+int numberOfHoles(int pixels[height][width], int height, int width);

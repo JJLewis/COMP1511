@@ -38,6 +38,25 @@ def quadrants(pixels):
 
     return numQuads
 
+def sealLeftWall(pixels):
+    sealed = pixels
+    for x in xrange(len(sealed)):
+        sealed[x][0] = 1
+    return sealed
+
+def halves(pixels, side):
+    height = len(pixels)
+    width = len(pixels[0])
+
+    half = extractArraySection(pixels, 0, width/2.0, height, width)
+    if side == 0:
+        half = extractArraySection(pixels, 0, 0, height, width/2.0)
+    half = sealLeftWall(half)
+
+    import getattributeArray
+    features = getattributeArray.getAttrArr(half)
+    return [features[6], features[8], features[9], features[2], features[3]]
+
 if __name__ == '__main__':
     import openpbm
     import getbounding
@@ -46,11 +65,12 @@ if __name__ == '__main__':
     fstruct = 'pbms/digit/*N_*F.pbm'
     for n in [1,2,3,5,7]:
         print "For number: " + str(n)
-        num4s = 0
+        allForNum = []
         for f in xrange(100):
             file = openpbm.fileNameFrom(fstruct, n, f)
             pixels = openpbm.read_pbm(file)
             extracted = extractNumber.extract(pixels, getbounding.getBoundingBox(pixels))
-            if quadrants(extracted) == 4:
-                num4s += 1
-        print str(n) + " total num 4s: " + str(num4s)
+            features = halves(extracted, 0)
+            allForNum.append(features)
+        import getNumberData
+        getNumberData.writeToFile('digit-feature-data/hr_' + str(n) + '.csv', allForNum)

@@ -35,9 +35,9 @@ void get_bounding_box(
 				if (h > highestH) {
 					highestH = h;
 				}
-				if (lastRowWithPixel - v > 1) {
-					lastTop = lastRowWithPixel;
-				}
+				//if (lastRowWithPixel - v > 1) {
+				//	lastTop = lastRowWithPixel;
+				//}
 				lastRowWithPixel = v;
 			}
 			h++;

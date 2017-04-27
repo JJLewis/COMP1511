@@ -22,3 +22,39 @@ double get_horizontal_balance(int height, int width, int pixels[height][width]) 
 	}
 	return ((double)column_sum / n_black_pixels + 0.5) / width;
 }
+
+double get_vertical_balance(int height, int width, int pixels[height][width]) {
+	int row_sum = 0;
+	int n_black_pixels = 0;
+	int v = 0;
+	while (v < height) {
+		int h = 0;
+		while (h < width) {
+			if (pixels[v][h] == 1) {
+				n_black_pixels++;
+				row_sum += v;
+			}
+			h++;
+		}
+		v++;
+	}
+	return ((double)row_sum / n_black_pixels + 0.5) / height;
+}
+
+double horizontalHoleBalance(int pixels[height][width], int height, int width) {
+	int isolated[height][width];
+	isolateHoles(pixels, isolated, height, width);
+	if (numberOfHoles(isolated, height, width) == 0) {
+		return 0.5;
+	}
+	return get_horizontal_balance(height, width, isolated);
+}
+
+double verticalHoleBalance(int pixels[height][width], int height, int width) {
+	int isolated[height][width];
+	isolateHoles(pixels, isolated, height, width);
+	if (numberOfHoles(isolated, height, width) == 0) {
+		return 0.5;
+	}
+	return get_vertical_balance(height, width, isolated);
+}

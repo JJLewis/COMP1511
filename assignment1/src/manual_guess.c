@@ -31,8 +31,8 @@ int deviationMethod(int numOutcomes,
         subtractArrays(numFeatures, allAvgs[i], vals, diffs);
         deviations[i] = sumArray(numFeatures, diffs);
     }
-    double smallestElement = minElement(numOutcomes, deviations);
-    int index = indexOf(numOutcomes, deviations, smallestElement);
+    double smallestElement = minElementD(numOutcomes, deviations);
+    int index = indexOfD(numOutcomes, deviations, smallestElement);
 
     return ans[index];
 }
@@ -46,20 +46,24 @@ int rangeMethod(int numOutcomes,
 
     double allDiffs[numOutcomes];
     for (int n = 0; n < numOutcomes; n++) {
-        double diff[numFeatures];
-        for (int f = 0; f < numFeatures; f++) {
-            double max = allMaxes[n][f];
-            double min = allMins[n][f];
-            double mid = (max + min) / 2.0;
-            double factor = 1.0 / (max - mid);
+        if (ans[n] != -1) {
+            double diff[numFeatures];
+            for (int f = 0; f < numFeatures; f++) {
+                double max = allMaxes[n][f];
+                double min = allMins[n][f];
+                double mid = (max + min) / 2.0;
+                double factor = 1.0 / (max - mid);
 
-            double val = vals[f];
-            diff[f] = (val - mid) * factor;
+                double val = vals[f];
+                diff[f] = (val - mid) * factor;
+            }
+            allDiffs[n] = sumArray(numFeatures, diff);
+        } else {
+            allDiffs[n] = 100;
         }
-        allDiffs[n] = sumArray(numFeatures, diff);
     }
-    double smallestElement = minElement(numOutcomes, allDiffs);
-    int index = indexOf(numOutcomes, allDiffs, smallestElement);
+    double smallestElement = minElementD(numOutcomes, allDiffs);
+    int index = indexOfD(numOutcomes, allDiffs, smallestElement);
 
     return ans[index];
 }
@@ -101,7 +105,66 @@ int hasHoles(double features[NUM_FEATURES]) {
     double min9s[N_HAS_HOLE_FEATS] = {0.425593363, 0.469117435, 0.327489481, 0.051445578, 0.336236934, 0.293334824};
     double allMins[4] = {min0s, min4s, min6s, min9s};
 
-    int ans[4] = {0,4,6,9};
-    
+    int ans[4] = {0, 4, 6, 9};
 
+    // Filter Smallest Maxes
+    if (vHoleBalance > 0.37537) {
+        ans[indexOfI(4, ans, 9)] = -1;
+    }
+    if (hHoleBalance > 0.55764) {
+        ans[indexOfI(4, ans, 0)] = -1;
+    }
+    if (vBalance > 0.5427) {
+        ans[indexOfI(4, ans, 9)] = -1;
+    }
+    if (hBalance > 0.5123) {
+        ans[indexOfI(4, ans, 6)] = -1;
+    }
+    if (holeDensity > 0.1626) {
+        ans[indexOfI(4, ans, 4)] = -1;
+    }
+    if (blackDensity > 0.5994) {
+        ans[indexOfI(4, ans, 4)] = -1;
+    }
+
+    if (vHoleBalance < 0.62004) {
+        ans[indexOfI(4, ans, 6)] = -1;
+    }
+    if (hHoleBalance < 0.44537) {
+        ans[indexOfI(4, ans, 0)] = -1;
+    }
+    if (hBalance < 0.4692) {
+        ans[indexOfI(4, ans, 9)] = -1;
+    }
+    if (vBalance < 0.4602) {
+        ans[indexOfI(4, ans, 6)] = -1;
+    }
+    if (blackDensity < 0.3275) {
+        ans[indexOfI(4, ans, 9)] = -1;
+    }
+    if (holeDensity < 0.1174) {
+        ans[indexOfI(4, ans, 0)] = -1;
+    }
+
+    if (indexOfI(4, ans) == -1) {
+        return -1;
+    }
+    if (vHoleBalance > 0.620032) {
+        return 6;
+    }
+    if (vHoleBalance < 0.375365) {
+        return 9;
+    }
+    return rangeMethod(4, N_HAS_HOLE_FEATS, allMaxes, allMins, vals, ans);
+}
+
+int crack(int height, int width, int pixels[height][width]) {
+    double features[NUM_FEATURES];
+    get_image_features(height, width, pixels, features);
+    double numHoles = features[6];
+    if (numHoles == 0) {
+        return -2;
+    } else {
+        return hasHoles(features);
+    }
 }

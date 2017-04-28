@@ -5,6 +5,9 @@
 #include "captcha.h"
 #include "handy.h"
 
+#include <stdio.h>
+#include "debugger.h"
+
 void subtractArrays(int size, double arr1[size], double arr2[size], double output[size]) {
     for (int i = 0; i < size; i++) {
         output[i] = arr1[i] - arr2[i];
@@ -80,6 +83,8 @@ int hasHoles(double features[NUM_FEATURES]) {
     double area = features[7];
     double hHoleBalance = features[8];
     double vHoleBalance = features[9];
+
+    printarrD(NUM_FEATURES, features);
 
     if (holeCount == 2) {
         return 8;

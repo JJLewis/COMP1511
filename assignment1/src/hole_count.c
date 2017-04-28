@@ -10,7 +10,7 @@ void replaceAll(int height, int width, int pixels[height][width], int num, int w
     for (int v = 0; v < height; v++) {
         for (int h = 0; h < width; h++) {
             if (pixels[v][h] == num) {
-                pixels[v][h] == withNum;
+                pixels[v][h] = withNum;
             }
         }
     }
@@ -40,7 +40,7 @@ int aKindaFloodFill(int height, int width, int pixels[height][width], int orig, 
     coord_t start;
     start.x = -1;
     start.y = -1;
-    coord_t first = findFirst(pixels, height, width, orig, start);
+    coord_t first = findFirst(height, width, pixels, orig, start);
     int didChange = FALSE;
 
     // Repeat until the original number is no longer found
@@ -48,10 +48,10 @@ int aKindaFloodFill(int height, int width, int pixels[height][width], int orig, 
         int setTo = -1;
 
         // Decide whether the pixel should be an outside space, or an enclosed space
-        if (isNextTo(pixels, height, width, first, EDGE) || isNextTo(pixels, height, width, first, wall)) {
+        if (isNextTo(height, width, pixels, first, EDGE) || isNextTo(height, width, pixels, first, wall)) {
             setTo = wall;
             didChange = TRUE;
-        } else if (isNextTo(pixels, height, width, first, 1) || isNextTo(pixels, height, width, first, enc)) {
+        } else if (isNextTo(height, width, pixels, first, 1) || isNextTo(height, width, pixels, first, enc)) {
             setTo = enc;
         }
 
@@ -60,20 +60,20 @@ int aKindaFloodFill(int height, int width, int pixels[height][width], int orig, 
 
         // Set the pixel above the target to the new value if possible
         if (first.y + 1 < height) {
-            if (isXonTop(pixels, height, width, first, orig)) {
+            if (isXonTop(height, width, pixels, first, orig)) {
                 pixels[first.y + 1][first.x] = setTo;
             }
         }
 
         // Set the pixel to the right of the target to the new value if possible
         if (first.x + 1 < width) {
-            if (isXonRight(pixels, height, width, first, orig)) {
+            if (isXonRight(height, width, pixels, first, orig)) {
                 pixels[first.y][first.x + 1] = setTo;
             }
         }
 
         // Find the next pixel to test, check, and change
-        first = findFirst(pixels, height, width, orig, first);
+        first = findFirst(height, width, pixels, orig, first);
     }
 
     return didChange;
@@ -81,7 +81,7 @@ int aKindaFloodFill(int height, int width, int pixels[height][width], int orig, 
 
 void vertFlip(int height, int width, int source[height][width], int output[height][width]) {
     for (int i = 0; i < height; i++) {
-        copyRow(source, output, height, width, height - i - 1, i);
+        copyRow(height, width, source, output, height - i - 1, i);
     }
 }
 
@@ -97,7 +97,7 @@ int countHoles(int height, int width, int pixels[height][width]) {
     coord_t start;
     start.x = -1;
     start.y = -1;
-    if (findFirst(pixels, height, width, 1, start).x == -1) {
+    if (findFirst(height, width, pixels, 1, start).x == -1) {
         return FALSE;
     }
 
@@ -131,7 +131,7 @@ void isolateHoles(int height, int width, int pixels[height][width], int output[h
     int didChange = TRUE;
 
     // isolate the number of holes
-    aKindaFloodFill(pixels, height, width, 0, 2, 3);
+    aKindaFloodFill(height, width, pixels, 0, 2, 3);
 
     int flipped1[height][width], flipped2[height][width];
 

@@ -4,7 +4,7 @@
 
 #include "handy.h"
 
-void copyArray(int source[height][width], int destination[height][width], int height, int width) {
+void copyArray(int height, int width, int source[height][width], int destination[height][width]) {
     for (int v = 0; v < height; v++) {
         for (int h = 0; h < width; h++) {
             destination[v][h] = source[v][h];
@@ -12,10 +12,10 @@ void copyArray(int source[height][width], int destination[height][width], int he
     }
 }
 
-void copyRow(int source[height][width],
-               int destination[height][width],
-               int height, int width,
-               int sIndex, int dIndex) {
+void copyRow(   int height, int width,
+                int source[height][width],
+                int destination[height][width],
+                int sIndex, int dIndex) {
     for (int i = 0; i < width; i++) {
         destination[dIndex][i] = source[sIndex][i];
     }
@@ -23,7 +23,7 @@ void copyRow(int source[height][width],
 
 void assignRow(int height, int width, double destination[height][width], double row[width], int atIndex) {
     for (int i = 0; i < width; i++) {
-        destination[atIndex][i] = width[i];
+        destination[atIndex][i] = row[i];
     }
 }
 

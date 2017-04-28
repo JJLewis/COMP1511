@@ -23,7 +23,7 @@ int isXonLeft(int height, int width, int pixels[height][width], coord_t location
     if (location.x == 0) {
         return FALSE;
     } else {
-        pixels[location.y][location.x - 1] == x;
+        return pixels[location.y][location.x - 1] == x;
     }
 }
 

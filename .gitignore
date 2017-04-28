@@ -24,6 +24,9 @@ cmake-build-debug/
 # Compiled C files
 *.o
 
+# Ignore Final Compiled C Program
+crack
+
 # Ignore Assignement 1 PBM files
 assignment1/pbms/*/*.pbm
 

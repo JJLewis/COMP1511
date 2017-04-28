@@ -20,3 +20,22 @@ void assignRow(int source[height][width],
         destination[dIndex][i] = source[sIndex][i];
     }
 }
+
+double minElement(int size, double array[size]) {
+    double smallest = array[0];
+    for (int i = 0; i < size; i++) {
+        if (array[i] < smallest) {
+            smallest = array[i];
+        }
+    }
+    return smallest;
+}
+
+int indexOf(int size, double array[size], int element) {
+    for (int i = 0; i < size; i++) {
+        if (array[i] == element) {
+            return i;
+        }
+    }
+    return -1;
+}

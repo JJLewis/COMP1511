@@ -9,3 +9,6 @@
 
 void copyArray(int height, int width, int source[height][width], int destination[height][width]);
 void assignRow(int height, int width, int source[height][width], int destination[height][width], int sIndex, int dIndex);
+
+double minElement(int size, double array[size]);
+int indexOf(int size, double array[size], int element);

@@ -91,19 +91,32 @@ int hasHoles(double features[NUM_FEATURES]) {
     double avg4s[N_HAS_HOLE_FEATS] = {0.51961881, 0.54726439, 0.44558401, 0.06440427, 0.545390918, 0.497673672};
     double avg6s[N_HAS_HOLE_FEATS] = {0.51598543, 0.46690274, 0.51049573, 0.11210898, 0.520124085, 0.66581604};
     double avg9s[N_HAS_HOLE_FEATS] = {0.48285105, 0.52934610, 0.50199315, 0.12144133, 0.485020415, 0.332551043};
-    double allAvgs[4] = {avg0s, avg4s, avg6s, avg9s};
+    double allAvgs[4][N_HAS_HOLE_FEATS];// = {avg0s, avg4s, avg6s, avg9s};
+    assignRow(4, N_HAS_HOLE_FEATS, allAvgs, avg0s, 0);
+    assignRow(4, N_HAS_HOLE_FEATS, allAvgs, avg4s, 1);
+    assignRow(4, N_HAS_HOLE_FEATS, allAvgs, avg6s, 2);
+    assignRow(4, N_HAS_HOLE_FEATS, allAvgs, avg9s, 3);
+
 
     double max0s[N_HAS_HOLE_FEATS] = {0.54402028, 0.53911205, 0.69516509, 0.47796353, 0.557639752, 0.528851315};
     double max4s[N_HAS_HOLE_FEATS] = {0.58678802, 0.63155040, 0.59935897, 0.16258741, 0.671568627, 0.584854995};
     double max6s[N_HAS_HOLE_FEATS] = {0.60045118, 0.51220430, 0.65046296, 0.21785714, 0.667913832, 0.716302953};
     double max9s[N_HAS_HOLE_FEATS] = {0.54267401, 0.59926090, 0.68684896, 0.23958333, 0.604333868, 0.375364431};
-    double allMaxes[4] = {max0s, max4s, max6s, max9s};
+    double allMaxes[4][N_HAS_HOLE_FEATS];// = {max0s, max4s, max6s, max9s};
+    assignRow(4, N_HAS_HOLE_FEATS, allMaxes, max0s, 0);
+    assignRow(4, N_HAS_HOLE_FEATS, allMaxes, max4s, 1);
+    assignRow(4, N_HAS_HOLE_FEATS, allMaxes, max6s, 2);
+    assignRow(4, N_HAS_HOLE_FEATS, allMaxes, max9s, 3);
 
     double min0s[N_HAS_HOLE_FEATS] = {0.455238095, 0.428082192, 0.30862069, 0.117391304, 0.445364425, 0.462624113};
     double min4s[N_HAS_HOLE_FEATS] = {0.449059561, 0.44899676, 0.259800664, 0.02182285, 0.437693419, 0.359429066};
     double min6s[N_HAS_HOLE_FEATS] = {0.46015561, 0.401942067, 0.308943089, 0.052083333, 0.392874693, 0.620032116};
     double min9s[N_HAS_HOLE_FEATS] = {0.425593363, 0.469117435, 0.327489481, 0.051445578, 0.336236934, 0.293334824};
-    double allMins[4] = {min0s, min4s, min6s, min9s};
+    double allMins[4][N_HAS_HOLE_FEATS];// = {min0s, min4s, min6s, min9s};
+    assignRow(4, N_HAS_HOLE_FEATS, allMins, min0s, 0);
+    assignRow(4, N_HAS_HOLE_FEATS, allMins, min4s, 1);
+    assignRow(4, N_HAS_HOLE_FEATS, allMins, min6s, 2);
+    assignRow(4, N_HAS_HOLE_FEATS, allMins, min9s, 3);
 
     int ans[4] = {0, 4, 6, 9};
 
@@ -146,7 +159,7 @@ int hasHoles(double features[NUM_FEATURES]) {
         ans[indexOfI(4, ans, 0)] = -1;
     }
 
-    if (indexOfI(4, ans) == -1) {
+    if (indexOfI(4, ans, -1) == -1) {
         return -1;
     }
     if (vHoleBalance > 0.620032) {

@@ -12,12 +12,18 @@ void copyArray(int source[height][width], int destination[height][width], int he
     }
 }
 
-void assignRow(int source[height][width],
+void copyRow(int source[height][width],
                int destination[height][width],
                int height, int width,
                int sIndex, int dIndex) {
     for (int i = 0; i < width; i++) {
         destination[dIndex][i] = source[sIndex][i];
+    }
+}
+
+void assignRow(int height, int width, double destination[height][width], double row[width], int atIndex) {
+    for (int i = 0; i < width; i++) {
+        destination[atIndex][i] = width[i];
     }
 }
 

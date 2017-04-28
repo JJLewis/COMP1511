@@ -81,7 +81,7 @@ int aKindaFloodFill(int height, int width, int pixels[height][width], int orig, 
 
 void vertFlip(int height, int width, int source[height][width], int output[height][width]) {
     for (int i = 0; i < height; i++) {
-        assignRow(source, output, height, width, height - i - 1, i);
+        copyRow(source, output, height, width, height - i - 1, i);
     }
 }
 

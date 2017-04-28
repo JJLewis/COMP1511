@@ -8,7 +8,9 @@
 #endif //SRC_HANDY_H
 
 void copyArray(int height, int width, int source[height][width], int destination[height][width]);
-void assignRow(int height, int width, int source[height][width], int destination[height][width], int sIndex, int dIndex);
+void copyRow(int height, int width, int source[height][width], int destination[height][width], int sIndex, int dIndex);
+
+void assignRow(int height, int width, double destination[height][width], double row[width], int atIndex);
 
 double minElementD(int size, double array[size]);
 

@@ -5,6 +5,8 @@
 #define TRUE 1
 #define FALSE 0
 
+#define NUM_FEATURES 10
+
 struct coord {
 	int x;
 	int y;
@@ -40,4 +42,4 @@ double get_density(int height, int width, int pixels[height][width]);
 double get_hole_fraction(int height, int width, int pixels[height][width]);
 
 // feature_array.c
-void get_image_features(int height, int width, int pixels[height][width], double features[10]);
+void get_image_features(int height, int width, int pixels[height][width], double features[NUM_FEATURES]);

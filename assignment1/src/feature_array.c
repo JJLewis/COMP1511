@@ -4,7 +4,7 @@
 
 #include "captcha.h"
 
-void get_image_features(int height, int width, int pixels[height][width], double features[10]) {
+void get_image_features(int height, int width, int pixels[height][width], double features[NUM_FEATURES]) {
 
     int startRow, startCol, boxHeight, boxWidth;
     get_bounding_box(height, width, pixels, &startRow, &startCol, &boxHeight, &boxWidth);

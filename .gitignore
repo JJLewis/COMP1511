@@ -21,6 +21,9 @@ a.out
 # Ignore CLion files
 cmake-build-debug/
 
+# Compiled C files
+*.o
+
 # Ignore Assignement 1 PBM files
 assignment1/pbms/*/*.pbm
 

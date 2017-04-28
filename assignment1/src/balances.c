@@ -41,7 +41,7 @@ double get_vertical_balance(int height, int width, int pixels[height][width]) {
 	return ((double)row_sum / n_black_pixels + 0.5) / height;
 }
 
-double horizontalHoleBalance(int height, int width, int pixels[height][width]) {
+double get_horizontal_hole_balance(int height, int width, int pixels[height][width]) {
 	int isolated[height][width];
 	isolateHoles(height, widthpixels, isolated);
 	if (numberOfHoles(height, width, isolated) == 0) {
@@ -50,7 +50,7 @@ double horizontalHoleBalance(int height, int width, int pixels[height][width]) {
 	return get_horizontal_balance(height, width, isolated);
 }
 
-double verticalHoleBalance(int height, int width, int pixels[height][width]) {
+double get_vertical_hole_balance(int height, int width, int pixels[height][width]) {
 	int isolated[height][width];
 	isolateHoles(height, width, pixels, isolated);
 	if (numberOfHoles(height, width, isolated) == 0) {

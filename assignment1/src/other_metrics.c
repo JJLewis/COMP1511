@@ -16,11 +16,11 @@ int sumBlackPixels(int height, int width, int pixels[height][width]) {
     return sum;
 }
 
-double getDensity(int height, int width, int pixels[height][width]) {
+double get_density(int height, int width, int pixels[height][width]) {
     return (double)sumBlackPixels(pixels, height, width) / (double)(height * width);
 }
 
-double getHoleFraction(int height, int width, int pixels[height][width]) {
+double get_hole_fraction(int height, int width, int pixels[height][width]) {
     int isolated[height][width];
     isolateHoles(pixels, isolated, height, width);
     sum = sumBlackPixels(isolated, height, width);

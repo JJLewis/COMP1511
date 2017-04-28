@@ -10,5 +10,9 @@
 void copyArray(int height, int width, int source[height][width], int destination[height][width]);
 void assignRow(int height, int width, int source[height][width], int destination[height][width], int sIndex, int dIndex);
 
-double minElement(int size, double array[size]);
-int indexOf(int size, double array[size], int element);
+double minElementD(int size, double array[size]);
+
+int maxElementI(int size, int array[size]);
+
+int indexOfI(int size, int array[size], int element);
+int indexOfD(int size, double array[size], int element);

@@ -21,7 +21,7 @@ void assignRow(int source[height][width],
     }
 }
 
-double minElement(int size, double array[size]) {
+double minElementD(int size, double array[size]) {
     double smallest = array[0];
     for (int i = 0; i < size; i++) {
         if (array[i] < smallest) {
@@ -31,7 +31,26 @@ double minElement(int size, double array[size]) {
     return smallest;
 }
 
-int indexOf(int size, double array[size], int element) {
+int maxElementI(int size, int array[size]) {
+    double largest = array[0];
+    for (int i = 0; i < size; i++) {
+        if (array[i] > largest) {
+            largest = array[i];
+        }
+    }
+    return largest;
+}
+
+int indexOfD(int size, double array[size], int element) {
+    for (int i = 0; i < size; i++) {
+        if (array[i] == element) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+int indexOfI(int size, int array[size], int element) {
     for (int i = 0; i < size; i++) {
         if (array[i] == element) {
             return i;

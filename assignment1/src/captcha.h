@@ -43,3 +43,5 @@ double get_hole_fraction(int height, int width, int pixels[height][width]);
 
 // feature_array.c
 void get_image_features(int height, int width, int pixels[height][width], double features[NUM_FEATURES]);
+
+int crack(int height, int width, int pixels[height][width]);

@@ -25,16 +25,8 @@ int main(int argc, char *argv[]) {
         int box_pixels[box_height][box_width];
         copy_pixels(height, width, pixels, start_row, start_column, box_height, box_width, box_pixels);
 
-        balance = get_horizontal_balance(box_height, box_width, box_pixels);
-	
-	if (balance < 0.5) {
-		printf("6");
-	} else {
-		printf("3");
-	}
-	printf("\n");
-
-        //printf("Horizontal balance %.3lf\n", balance);
+        int guess = crack(height, width, pixels);
+        printf("%d\n", guess);
     }
     return 0;
 }

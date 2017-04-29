@@ -17,4 +17,4 @@ double minElementD(int size, double array[size]);
 int maxElementI(int size, int array[size]);
 
 int indexOfI(int size, int array[size], int element);
-int indexOfD(int size, double array[size], int element);
+int indexOfD(int size, double array[size], double element);

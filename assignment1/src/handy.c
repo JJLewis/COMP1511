@@ -47,7 +47,7 @@ int maxElementI(int size, int array[size]) {
     return largest;
 }
 
-int indexOfD(int size, double array[size], int element) {
+int indexOfD(int size, double array[size], double element) {
     for (int i = 0; i < size; i++) {
         if (array[i] == element) {
             return i;

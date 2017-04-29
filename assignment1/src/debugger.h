@@ -7,6 +7,8 @@
 
 #endif //SRC_DEBUGGER_H
 
+void print(char s[]);
+
 void println();
 
 void printD(double x);

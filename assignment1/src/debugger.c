@@ -5,6 +5,10 @@
 #include <stdio.h>
 #include "debugger.h"
 
+void print(char s[]) {
+    printf("%s\n", s);
+}
+
 void println() {
     printf("------------------------------\n");
 }

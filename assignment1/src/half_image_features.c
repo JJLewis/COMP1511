@@ -3,6 +3,7 @@
 //
 
 #include "captcha.h"
+#include "debugger.h"
 
 void sealLeftWall(int height, int width, int pixels[height][width]) {
     for (int v = 0; v < height; v++) {
@@ -18,7 +19,7 @@ void get_halved_features(int height, int width, int pixels[height][width], doubl
     sealLeftWall(height, nWidth, half);
 
     double fullFeatures[NUM_FEATURES];
-    get_image_features(height, nWidth, half, features);
+    get_image_features(height, nWidth, half, fullFeatures);
 
     features[0] = fullFeatures[6];
     features[1] = fullFeatures[8];

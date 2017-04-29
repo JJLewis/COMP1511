@@ -6,6 +6,7 @@
 #include "captcha.h"
 #include <stdlib.h>
 #include <strings.h>
+#include "debugger.h"
 
 int getGuess(char filename[]) {
     int height, width;
@@ -23,7 +24,7 @@ int getGuess(char filename[]) {
         copy_pixels(height, width, pixels, start_row, start_column, box_height, box_width, box_pixels);
 
         int guess = crack(height, width, pixels);
-        printf("%d\n", guess);
+        printI(guess);
     }
     return 1;
 }

@@ -31,7 +31,6 @@ int rangeMethod(int numOutcomes,
 void eliminateOption(int numOptions, int options[numOptions], int toEliminate);
 
 
-int noHoles2(int height, int width, int pixels[height][width], double features[NUM_FEATURES]);
-int noHoles3(double features[NUM_FEATURES]);
+int noHoles(int height, int width, int pixels[height][width], double features[NUM_FEATURES]);
 
 int hasHoles(double features[NUM_FEATURES]);

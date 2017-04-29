@@ -9,7 +9,7 @@ int crack(int height, int width, int pixels[height][width]) {
     get_image_features(height, width, pixels, features);
     double numHoles = features[6];
     if (numHoles == 0) {
-        return noHoles2(height, width, pixels, features);
+        return noHoles(height, width, pixels, features);
     } else {
         return hasHoles(features);
     }

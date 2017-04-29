@@ -84,7 +84,7 @@ int hasHoles(double features[NUM_FEATURES]) {
     double hHoleBalance = features[8];
     double vHoleBalance = features[9];
 
-    printarrD(NUM_FEATURES, features);
+    //printarrD(NUM_FEATURES, features);
 
     if (holeCount == 2) {
         return 8;
@@ -127,42 +127,79 @@ int hasHoles(double features[NUM_FEATURES]) {
 
     // Filter Smallest Maxes
     if (vHoleBalance > 0.37537) {
-        ans[indexOfI(4, ans, 9)] = -1;
+        int index = indexOfI(4, ans, 9);
+        if (index != -1) {
+            ans[index] = -1;
+        }
     }
     if (hHoleBalance > 0.55764) {
-        ans[indexOfI(4, ans, 0)] = -1;
+        int index = indexOfI(4, ans, 0);
+        if (index != -1) {
+            ans[index] = -1;
+        }
     }
     if (vBalance > 0.5427) {
-        ans[indexOfI(4, ans, 9)] = -1;
+        int index = indexOfI(4, ans, 9);
+        if (index != -1) {
+            ans[index] = -1;
+        }
     }
     if (hBalance > 0.5123) {
-        ans[indexOfI(4, ans, 6)] = -1;
+        int index = indexOfI(4, ans, 6);
+        if (index != -1) {
+            ans[index] = -1;
+        }
     }
     if (holeDensity > 0.1626) {
-        ans[indexOfI(4, ans, 4)] = -1;
+        int index = indexOfI(4, ans, 4);
+        if (index != -1) {
+            ans[index] = -1;
+        }
     }
     if (blackDensity > 0.5994) {
-        ans[indexOfI(4, ans, 4)] = -1;
+        int index = indexOfI(4, ans, 4);
+        if (index != -1) {
+            ans[index] = -1;
+        }
     }
 
     if (vHoleBalance < 0.62004) {
-        ans[indexOfI(4, ans, 6)] = -1;
+        int index = indexOfI(4, ans, 6);
+        if (index != -1) {
+            ans[index] = -1;
+        }
     }
     if (hHoleBalance < 0.44537) {
-        ans[indexOfI(4, ans, 0)] = -1;
+        int index = indexOfI(4, ans, 0);
+        if (index != -1) {
+            ans[index] = -1;
+        }
     }
     if (hBalance < 0.4692) {
-        ans[indexOfI(4, ans, 9)] = -1;
+        int index = indexOfI(4, ans, 9);
+        if (index != -1) {
+            ans[index] = -1;
+        }
     }
     if (vBalance < 0.4602) {
-        ans[indexOfI(4, ans, 6)] = -1;
+        int index = indexOfI(4, ans, 6);
+        if (index != -1) {
+            ans[index] = -1;
+        }
     }
     if (blackDensity < 0.3275) {
-        ans[indexOfI(4, ans, 9)] = -1;
+        int index = indexOfI(4, ans, 9);
+        if (index != -1) {
+            ans[index] = -1;
+        }
     }
     if (holeDensity < 0.1174) {
-        ans[indexOfI(4, ans, 0)] = -1;
+        int index = indexOfI(4, ans, 0);
+        if (index != -1) {
+            ans[index] = -1;
+        }
     }
+
 
     if (indexOfI(4, ans, -1) == -1) {
         return -1;
@@ -173,6 +210,7 @@ int hasHoles(double features[NUM_FEATURES]) {
     if (vHoleBalance < 0.375365) {
         return 9;
     }
+
     return rangeMethod(4, N_HAS_HOLE_FEATS, allMaxes, allMins, vals, ans);
 }
 

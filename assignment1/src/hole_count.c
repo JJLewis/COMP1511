@@ -96,11 +96,11 @@ void horFlip(int height, int width, int source[height][width], int output[height
     }
 }
 
-int countHoles(int height, int width, int pixels[height][width]) {
+int countHoles(int height, int width, int isolated[height][width]) {
     coord_t start;
     start.x = -1;
     start.y = -1;
-    if (findFirst(height, width, pixels, 1, start).x == -1) {
+    if (findFirst(height, width, isolated, 1, start).x == -1) {
         return 0;
     }
 
@@ -108,10 +108,17 @@ int countHoles(int height, int width, int pixels[height][width]) {
     int wasPrevRowBlank = FALSE;
 
     int startRow, startCol, boxHeight, boxWidth;
-    get_bounding_box(height, width, pixels, &startRow, &startCol, &boxHeight, &boxWidth);
+    get_bounding_box(height, width, isolated, &startRow, &startCol, &boxHeight, &boxWidth);
 
     int extracted[boxHeight][boxWidth];
-    copy_pixels(boxHeight, boxWidth, pixels, startRow, startCol, boxHeight, boxWidth, extracted);
+    copy_pixels(height, width, isolated, startRow, startCol, boxHeight, boxWidth, extracted);
+
+    /*
+    printf("countHoles\n");
+    print_image(height, width, isolated);
+    println();
+    print_image(boxHeight, boxWidth, extracted);
+    */
 
     for (int v = 0; v < boxHeight; v++) {
         int hasFound1 = FALSE;
@@ -151,6 +158,16 @@ void isolateHoles(int height, int width, int pixels[height][width], int output[h
     aKindaFloodFill(height, width, flipped1, encNum, 2, encNum + 1);
     encNum++;
 
+    vertFlip(height, width, flipped1, flipped2);
+    horFlip(height, width, flipped2, flipped1);
+    aKindaFloodFill(height, width, flipped1, encNum, 2, encNum + 1);
+    encNum++;
+
+    horFlip(height, width, flipped1, flipped2);
+    aKindaFloodFill(height, width, flipped2, encNum, 2, encNum + 1);
+    encNum++;
+
+    vertFlip(height, width, flipped2, flipped1);
     horFlip(height, width, flipped1, flipped2);
     aKindaFloodFill(height, width, flipped2, encNum, 2, encNum + 1);
     encNum++;
@@ -168,14 +185,17 @@ void isolateHoles(int height, int width, int pixels[height][width], int output[h
 
 
     copyArray(height, width, flipped2, output);
+
+    //println();
+    //print_image(height, width, flipped2);
 }
 
 int numberOfHoles(int height, int width, int pixels[height][width]) {
     int isolated[height][width];
     isolateHoles(height, width, pixels, isolated);
-    printf("called\n");
-    print_image(height, width, pixels);
-    println();
-    print_image(height, width, isolated);
+    //printf("numberOfHoles\n");
+    //print_image(height, width, pixels);
+    //println();
+    //print_image(height, width, isolated);
     return countHoles(height, width, isolated);
 }

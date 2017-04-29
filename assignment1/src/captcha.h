@@ -47,7 +47,7 @@ double get_hole_fraction(int height, int width, int pixels[height][width]);
 void get_image_features(int height, int width, int pixels[height][width], double features[NUM_FEATURES]);
 
 // half_image_features.c
-void get_halved_features(int height, int width, int pixels[height][width], double features[H_NUM_FEATURES]);
+void get_halved_features(int height, int width, int pixels[height][width], double features[H_NUM_FEATURES], int side);
 
 // manual_guess.c
 int crack(int height, int width, int pixels[height][width]);

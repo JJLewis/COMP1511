@@ -23,12 +23,12 @@ int getGuess(char filename[]) {
         int box_pixels[box_height][box_width];
         copy_pixels(height, width, pixels, start_row, start_column, box_height, box_width, box_pixels);
 
-        print_image(box_height, box_width, box_pixels);
+        //print_image(box_height, box_width, box_pixels);
 
         int guess = crack(height, width, pixels);
-        printI(guess);
+        return guess;
     }
-    return 1;
+    return -1;
 }
 
 // Jared Steiner: I love you
@@ -46,16 +46,21 @@ void make_filename(int num, int ver, char filename[30]) {
     }
 }
 
-void guessFile(int n, int f) {
+int guessFile(int n, int f) {
     char filedir[30];
     make_filename(n, f, filedir);
-    getGuess(filedir);
+    return getGuess(filedir);
 }
 
 void guessAllForNum(int n) {
+    int numWrong = 0;
     for (int f = 0; f < 100; f++) {
-        guessFile(n, f);
+        if (guessFile(n, f) != n) {
+            numWrong++;
+        }
     }
+    print("Num Wrong: ");
+    printI(numWrong);
 }
 
 int main(int argc, char *argv[]) {
@@ -73,8 +78,8 @@ int main(int argc, char *argv[]) {
 
     int number = atoi(argv[1]);
 
-    //guessAllForNum(number);
-    guessFile(number, 50);
+    guessAllForNum(number);
+    //guessFile(number, atoi(argv[2]));
 
     return 0;
 }

@@ -11,12 +11,24 @@ void sealLeftWall(int height, int width, int pixels[height][width]) {
     }
 }
 
-void get_halved_features(int height, int width, int pixels[height][width], double features[H_NUM_FEATURES]) {
+void sealRightWall(int height, int width, int pixels[height][width]) {
+    for (int v = 0; v < height; v++) {
+        pixels[v][width - 1] = 1;
+    }
+}
+
+void get_halved_features(int height, int width, int pixels[height][width], double features[H_NUM_FEATURES], int side) {
     int nWidth = width/2;
 
     int half[height][nWidth];
-    copy_pixels(height, width, pixels, 0, nWidth, height, nWidth, half);
-    sealLeftWall(height, nWidth, half);
+
+    if (side == 0) {
+        copy_pixels(height, width, pixels, 0, 0, height, nWidth, half);
+        sealRightWall(height, nWidth, half);
+    } else {
+        copy_pixels(height, width, pixels, 0, nWidth, height, nWidth, half);
+        sealLeftWall(height, nWidth, half);
+    }
 
     double fullFeatures[NUM_FEATURES];
     get_image_features(height, nWidth, half, fullFeatures);

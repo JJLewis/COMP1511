@@ -44,14 +44,21 @@ def sealLeftWall(pixels):
         sealed[x][0] = 1
     return sealed
 
+def sealRightWall(pixels):
+    sealed = pixels
+    for x in xrange(len(sealed)):
+        sealed[x][len(sealed[0]) - 1] = 1
+    return sealed
+
 def halves(pixels, side):
     height = len(pixels)
     width = len(pixels[0])
 
     half = extractArraySection(pixels, 0, width/2.0, height, width)
+    half = sealLeftWall(half)
     if side == 0:
         half = extractArraySection(pixels, 0, 0, height, width/2.0)
-    half = sealLeftWall(half)
+        half = sealRightWall(half)
 
     import getattributeArray
     features = getattributeArray.getAttrArr(half)

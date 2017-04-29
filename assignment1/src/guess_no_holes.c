@@ -6,7 +6,7 @@
 
 #define N_OUTCOMES 3
 #define N_FEATURES 3
-
+/*
 int noHoles3(double features[NUM_FEATURES]) {
 
     double height = features[0];
@@ -49,8 +49,8 @@ int noHoles3(double features[NUM_FEATURES]) {
 
     // Eliminate with Lowest Maxes
     if (vBalance > 0.48086)      {
-        print("vB");
-        printD(hBalance);
+        //print("vB");
+        //printD(hBalance);
         eliminateOption(N_OUTCOMES, ans, 7); }
     if (blackDensity > 0.50327) { eliminateOption(N_OUTCOMES, ans, 7); }
 
@@ -77,7 +77,7 @@ int noHoles3(double features[NUM_FEATURES]) {
         return deviationGuess;
     }
 }
-
+*/
 int noHoles2(int height, int width, int pixels[height][width], double features[NUM_FEATURES]) {
 
     int startRow, startCol, boxHeight, boxWidth;
@@ -86,12 +86,12 @@ int noHoles2(int height, int width, int pixels[height][width], double features[N
     int extracted[boxHeight][boxWidth];
     copy_pixels(height, width, pixels, startRow, startCol, boxHeight, boxWidth, extracted);
 
-    double halvedFeatures[H_NUM_FEATURES];
-    get_halved_features(boxHeight, boxWidth, extracted, halvedFeatures);
+    double leftHalvedFeatures[H_NUM_FEATURES];
+    get_halved_features(boxHeight, boxWidth, extracted, leftHalvedFeatures, 1);
 
-    int numHoles = (int)halvedFeatures[0];
-    double hHoleBalance = halvedFeatures[1];
-    double vHoleBalance = halvedFeatures[2];
+    int numHoles = (int)leftHalvedFeatures[0];
+    double hHoleBalance = leftHalvedFeatures[1];
+    double vHoleBalance = leftHalvedFeatures[2];
 
     if (numHoles == 2) {
         return 3;
@@ -101,7 +101,18 @@ int noHoles2(int height, int width, int pixels[height][width], double features[N
             return 5;
         } else {
             // either 2, 7
-            return noHoles3(features);
+
+            double rightHalvedFeatures[H_NUM_FEATURES];
+            get_halved_features(boxHeight, boxWidth, extracted, rightHalvedFeatures, 0);
+            int rightHoleCount = (int)rightHalvedFeatures[0];
+
+            if (rightHoleCount == 0) {
+                return 7;
+            } else {
+                return 2;
+            }
+
+            //return noHoles3(features);
         }
     } else if (numHoles == 0) {
         return 1;

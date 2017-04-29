@@ -5,6 +5,10 @@
 #include <stdio.h>
 #include "debugger.h"
 
+void println() {
+    printf("------------------------------\n");
+}
+
 void printD(double x) {
     printf("%lf\n", x);
 }

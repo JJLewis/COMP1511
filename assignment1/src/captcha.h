@@ -34,6 +34,7 @@ double get_horizontal_hole_balance(int height, int width, int pixels[height][wid
 double get_vertical_hole_balance(int height, int width, int pixels[height][width]);
 
 // hole_count.c
+int countHoles(int height, int width, int pixels[height][width]);
 void isolateHoles(int height, int width, int pixels[height][width], int output[height][width]);
 int numberOfHoles(int height, int width, int pixels[height][width]);
 

@@ -29,9 +29,9 @@ int isXonLeft(int height, int width, int pixels[height][width], coord_t location
 
 int isXonTop(int height, int width, int pixels[height][width], coord_t location, int x) {
     if (x == EDGE) {
-        return location.x + 1 == height;
+        return location.y + 1 == height;
     }
-    if (location.x + 1 == height) {
+    if (location.y + 1 == height) {
         return FALSE;
     } else {
         return pixels[location.y + 1][location.x] == x;
@@ -40,9 +40,9 @@ int isXonTop(int height, int width, int pixels[height][width], coord_t location,
 
 int isXonBottom(int height, int width, int pixels[height][width], coord_t location, int x) {
     if (x == EDGE) {
-        return location.x - 1 == height;
+        return location.y - 1 == 0;
     }
-    if (location.x == 0) {
+    if (location.y == 0) {
         return FALSE;
     } else {
         return pixels[location.y - 1][location.x] == x;

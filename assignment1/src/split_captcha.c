@@ -5,24 +5,29 @@
 #include "captcha.h"
 #include <stdio.h>
 
-void get_first_number(int height, int width, int pixels[height][width],
-                   int *nHeight, int *nWidth, int firstNumber[height][width],
-                   int *rHeight, int *rWidth, int remainder[height][width]) {
-
+int findCut(int height, int width, int pixels[height][width]) {
     int cutAt = -1;
     for (int h = 0; h < width; h++) {
         int found1 = FALSE;
-        for (int v = 0; v < height; h++) {
+        for (int v = 0; v < height; v++) {
             if (pixels[v][h] == 1) {
                 found1 = TRUE;
                 break;
             }
         }
-        if (found1) {
+        if (!found1) {
             cutAt = h;
             break;
         }
     }
+    return cutAt;
+}
+
+void get_first_number(int height, int width, int pixels[height][width],
+                   int *nHeight, int *nWidth, int firstNumber[height][width],
+                   int *rHeight, int *rWidth, int remainder[height][width]) {
+
+    int cutAt = findCut(height, width, pixels);
 
     if (cutAt != -1) {
         int startRow, startCol, boxHeight, boxWidth;
@@ -36,7 +41,7 @@ void get_first_number(int height, int width, int pixels[height][width],
 
         int tempRemainder[height][width - cutAt];
         copy_pixels(height, width, pixels, 0, cutAt, height, width - cutAt, tempRemainder);
-        get_bounding_box(height, width - cutAt, pixels, &startRow, &startCol, &boxHeight, &boxWidth);
+        get_bounding_box(height, width - cutAt, tempRemainder, &startRow, &startCol, &boxHeight, &boxWidth);
         copy_pixels(height, width - cutAt, tempRemainder, startRow, startCol, boxHeight, boxWidth, remainder);
         *rHeight = boxHeight;
         *rWidth = boxWidth;
@@ -56,15 +61,25 @@ void crack_captcha(int height, int width, int pixels[height][width]) {
 
     get_first_number(height, width, pixels, &nH, &nW, num, &r1H, &r1W, remainder1);
     int guess1 = crack(nH, nW, num);
+    print_image(nH, nW, num);
+    print_image(r1H, r1W, remainder1);
+    println();
 
     get_first_number(r1H, r1W, remainder1, &nH, &nW, num, &r2H, &r2W, remainder2);
     int guess2 = crack(nH, nW, num);
+    print_image(nH, nW, num);
+    print_image(r2H, r2W, remainder2);
+    println();
 
     get_first_number(r2H, r2W, remainder2, &nH, &nW, num, &r1H, &r1W, remainder1);
     int guess3 = crack(nH, nW, num);
+    print_image(nH, nW, num);
+    print_image(r1H, r1W, remainder1);
+    println();
 
-    get_first_number(r1H, r1W, remainder1, &nH, &nW, num, &r2H, &r2W, remainder2);
-    int guess4 = crack(nH, nW, num);
+    int guess4 = crack(r1H, r1W, remainder1);
+    print_image(r1H, r1W, remainder1);
+    println();
 
     printf("%d%d%d%d\n", guess1, guess2, guess3, guess4);
 }

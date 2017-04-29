@@ -7,6 +7,8 @@
 
 #endif //SRC_DEBUGGER_H
 
+#define IS_DEBUGGING 0
+
 void print(char s[]);
 
 void println();

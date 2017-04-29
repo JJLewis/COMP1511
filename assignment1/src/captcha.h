@@ -2,6 +2,8 @@
 // Created by Jordan Lewis on 17/4/17.
 //
 
+#include "debugger.h"
+
 #define TRUE 1
 #define FALSE 0
 
@@ -51,3 +53,6 @@ void get_halved_features(int height, int width, int pixels[height][width], doubl
 
 // manual_guess.c
 int crack(int height, int width, int pixels[height][width]);
+
+// crack_digit.c
+int getGuess(char filename[]);

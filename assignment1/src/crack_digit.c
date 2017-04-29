@@ -5,8 +5,8 @@
 #include <stdio.h>
 #include "captcha.h"
 #include <stdlib.h>
-#include <strings.h>
 #include "debugger.h"
+#include "tester.h"
 
 int getGuess(char filename[]) {
     int height, width;
@@ -23,46 +23,10 @@ int getGuess(char filename[]) {
         int box_pixels[box_height][box_width];
         copy_pixels(height, width, pixels, start_row, start_column, box_height, box_width, box_pixels);
 
-        //print_image(box_height, box_width, box_pixels);
-
         int guess = crack(height, width, pixels);
         return guess;
     }
     return -1;
-}
-
-// Jared Steiner: I love you
-void make_filename(int num, int ver, char filename[30]) {
-
-    int pointer_point = 0;
-
-    pointer_point += sprintf(filename, "../pbms/digit/");
-    pointer_point += sprintf(filename + pointer_point,"%d", num);
-    pointer_point += sprintf(filename + pointer_point, "_");
-    if (ver < 10) {
-        sprintf(filename + pointer_point, "0%d.pbm", ver);
-    } else {
-        sprintf(filename + pointer_point, "%d.pbm", ver);
-    }
-}
-
-int guessFile(int n, int f) {
-    char filedir[30];
-    make_filename(n, f, filedir);
-    return getGuess(filedir);
-}
-
-void guessAllForNum(int n) {
-    int numWrong = 0;
-    for (int f = 0; f < 100; f++) {
-        int guess = guessFile(n, f);
-        if (guess != n) {
-            printI(guess);
-            numWrong++;
-        }
-    }
-    print("Num Wrong: ");
-    printI(numWrong);
 }
 
 int main(int argc, char *argv[]) {
@@ -72,16 +36,14 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    /*
-    for (int n = 0; n < 10; n++) {
-        guessAllForNum(n);
-    }
-    */
 
-    int number = atoi(argv[1]);
-
-    guessAllForNum(number);
+    // Testing Code
+    //int number = atoi(argv[1]);
     //guessFile(number, atoi(argv[2]));
+    //guessAllForNum(number);
+    //testAllNumbers();
+    int guess = getGuess(argv[1]);
+    printI(guess);
 
     return 0;
 }

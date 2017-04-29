@@ -56,3 +56,6 @@ int crack(int height, int width, int pixels[height][width]);
 
 // crack_digit.c
 int getGuess(char filename[]);
+
+// split_captcha.c
+void crack_captcha(int height, int width, int pixels[height][width]);

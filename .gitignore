@@ -26,6 +26,7 @@ cmake-build-debug/
 
 # Ignore Final Compiled C Program
 crack
+crack_captcha
 
 # Ignore Assignement 1 PBM files
 assignment1/pbms/*/*.pbm

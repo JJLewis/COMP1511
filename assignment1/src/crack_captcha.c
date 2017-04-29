@@ -6,7 +6,6 @@
 #include "captcha.h"
 #include <stdlib.h>
 #include "debugger.h"
-#include "tester.h"
 
 void getCaptchaGuess(char filename[]) {
     int height, width;
@@ -34,12 +33,6 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-
-    // Testing Code
-    //int number = atoi(argv[1]);
-    //guessFile(number, atoi(argv[2]));
-    //guessAllForNum(number);
-    //testAllNumbers();
     getCaptchaGuess(argv[1]);
 
     return 0;

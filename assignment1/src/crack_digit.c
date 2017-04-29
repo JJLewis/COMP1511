@@ -5,8 +5,8 @@
 #include <stdio.h>
 #include "captcha.h"
 #include <stdlib.h>
+#include <strings.h>
 #include "debugger.h"
-#include "tester.h"
 
 int getGuess(char filename[]) {
     int height, width;
@@ -27,6 +27,51 @@ int getGuess(char filename[]) {
         return guess;
     }
     return -1;
+}
+
+int guessFile(int n, int f) {
+    char filedir[30];
+    make_filename(n, f, filedir);
+    return getGuess(filedir);
+}
+
+// Jared Steiner: I love you
+void make_filename(int num, int ver, char filename[30]) {
+
+    int pointer_point = 0;
+
+    pointer_point += sprintf(filename, "../pbms/digit/");
+    pointer_point += sprintf(filename + pointer_point,"%d", num);
+    pointer_point += sprintf(filename + pointer_point, "_");
+    if (ver < 10) {
+        sprintf(filename + pointer_point, "0%d.pbm", ver);
+    } else {
+        sprintf(filename + pointer_point, "%d.pbm", ver);
+    }
+}
+
+int guessAllForNum(int n) {
+    int numWrong = 0;
+    for (int f = 0; f < 100; f++) {
+        int guess = guessFile(n, f);
+        if (guess != n) {
+            printI(guess);
+            numWrong++;
+        }
+    }
+    print("Num Wrong: ");
+    printI(numWrong);
+    return numWrong;
+}
+
+int testAllNumbers() {
+    int totalWrong = 0;
+    for (int n = 0; n < 10; n++) {
+        totalWrong += guessAllForNum(n);
+    }
+    print("Total Wrong: ");
+    printI(totalWrong);
+    return totalWrong;
 }
 
 int main(int argc, char *argv[]) {

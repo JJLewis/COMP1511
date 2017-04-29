@@ -30,9 +30,13 @@ int deviationMethod(int numOutcomes,
 
     double deviations[numOutcomes];
     for (int i = 0; i < numOutcomes; i++) {
-        double diffs[numFeatures];
-        subtractArrays(numFeatures, allAvgs[i], vals, diffs);
-        deviations[i] = sumArray(numFeatures, diffs);
+        if (ans[i] != -1) {
+            double diffs[numFeatures];
+            subtractArrays(numFeatures, allAvgs[i], vals, diffs);
+            deviations[i] = sumArray(numFeatures, diffs);
+        } else {
+            deviations[i] = 100;
+        }
     }
     double smallestElement = minElementD(numOutcomes, deviations);
     int index = indexOfD(numOutcomes, deviations, smallestElement);
@@ -71,15 +75,85 @@ int rangeMethod(int numOutcomes,
     return ans[index];
 }
 
+void eliminateOption(int numOptions, int options[numOptions], int toEliminate) {
+    int index = indexOfI(numOptions, options, toEliminate);
+    if (index != -1) {
+        options[index] = -1;
+    }
+}
+
+#define N_NO_HOLES_FEATS 3
 int noHoles3(double features[NUM_FEATURES]) {
-    
+
+    double height = features[0];
+    double width = features[1];
+    double hBalance = features[2];
+    double vBalance = features[3];
+    double blackDensity = features[4];
+    double area = features[7];
+
+    double vals[N_NO_HOLES_FEATS] = {vBalance, hBalance, blackDensity};
+    //           vB             hB          bD
+    double avg1s[N_NO_HOLES_FEATS] = {0.513545995, 0.525280464, 0.371528497};
+    double avg2s[N_NO_HOLES_FEATS] = {0.50816045, 0.544074217, 0.379821942};
+    //double avg3s[N_NO_HOLES_FEATS] = {0.503079739, 0.572549886, 0.418143286};
+    double avg7s[N_NO_HOLES_FEATS] = {0.403378435, 0.530864138, 0.333130337};
+    double allAvgs[3][N_NO_HOLES_FEATS];// = {avg1s, avg2s, avg7s};
+    assignRow(3, N_NO_HOLES_FEATS, allAvgs, avg1s, 0);
+    assignRow(3, N_NO_HOLES_FEATS, allAvgs, avg2s, 1);
+    assignRow(3, N_NO_HOLES_FEATS, allAvgs, avg7s, 2);
+
+    double max1s[N_NO_HOLES_FEATS] = {0.497575446, 0.698155444, 0.589670014};
+    double max2s[N_NO_HOLES_FEATS] = {0.595729921, 0.627140656, 0.561155914};
+    //double max3s[N_NO_HOLES_FEATS] = {0.852272727, 0.683075463, 0.588235294};
+    double max7s[N_NO_HOLES_FEATS] = {0.480858086, 0.699111111, 0.503267974};
+    double allMaxes[3][N_NO_HOLES_FEATS];// = {max1s, max2s, max7s};
+    assignRow(3, N_NO_HOLES_FEATS, allMaxes, max1s, 0);
+    assignRow(3, N_NO_HOLES_FEATS, allMaxes, max2s, 1);
+    assignRow(3, N_NO_HOLES_FEATS, allMaxes, max7s, 2);
+
+    double min1s[N_NO_HOLES_FEATS] = {0.442459505, 0.4232532, 0.171948052};
+    double min2s[N_NO_HOLES_FEATS] = {0.440241902, 0.42096118, 0.264520202};
+    //double min3s[N_NO_HOLES_FEATS] = {0.433945922, 0.512787524, 0.216878403};
+    double min7s[N_NO_HOLES_FEATS] = {0.305428249, 0.419571295, 0.203488372};
+    double allMins[3][N_NO_HOLES_FEATS];// = {min1s, min2s, min7s};
+    assignRow(3, N_NO_HOLES_FEATS, allMins, min1s, 0);
+    assignRow(3, N_NO_HOLES_FEATS, allMins, min2s, 1);
+    assignRow(3, N_NO_HOLES_FEATS, allMins, min7s, 2);
+
+    int ans[3] = {1,2,7};
+
+    if (vBalance > 0.4809)      { eliminateOption(3, ans, 7); }
+    if (blackDensity > 0.50327) { eliminateOption(3, ans, 7); }
+
+    if (hBalance < 0.51279)     { eliminateOption(3, ans, 3); }
+    if (blackDensity < 0.265)   { eliminateOption(3, ans, 2); }
+
+    if (indexOfI(3, ans, -1) == -1) {
+        return -1;
+    }
+
+    int rangeGuess = rangeMethod(3, N_NO_HOLES_FEATS, allMaxes, allMins, vals, ans);
+    int deviationGuess = deviationMethod(3, N_NO_HOLES_FEATS, allAvgs, vals, ans);
+    if (rangeGuess == 2 && deviationGuess != 2) {
+        return 2;
+    } else {
+        return deviationGuess;
+    }
 }
 
 int noHoles2(int height, int width, int pixels[height][width], double features[NUM_FEATURES]) {
-    double halvedFeatures[H_NUM_FEATURES];
-    get_halved_features(height, width, pixels, halvedFeatures);
 
-    double numHoles = halvedFeatures[0];
+    int startRow, startCol, boxHeight, boxWidth;
+    get_bounding_box(height, width, pixels, &startRow, &startCol, &boxHeight, &boxWidth);
+
+    int extracted[boxHeight][boxWidth];
+    copy_pixels(height, width, pixels, startRow, startCol, boxHeight, boxWidth, extracted);
+
+    double halvedFeatures[H_NUM_FEATURES];
+    get_halved_features(boxHeight, boxWidth, extracted, halvedFeatures);
+
+    int numHoles = (int)halvedFeatures[0];
     double hHoleBalance = halvedFeatures[1];
     double vHoleBalance = halvedFeatures[2];
 
@@ -91,10 +165,12 @@ int noHoles2(int height, int width, int pixels[height][width], double features[N
             return 5;
         } else {
             // either 2, 7
+            return noHoles3(features);
         }
     } else if (numHoles == 0) {
         return 1;
     }
+    return -1;
 }
 
 #define N_HAS_HOLE_FEATS 6
@@ -109,8 +185,6 @@ int hasHoles(double features[NUM_FEATURES]) {
     double area = features[7];
     double hHoleBalance = features[8];
     double vHoleBalance = features[9];
-
-    //printarrD(NUM_FEATURES, features);
 
     if (holeCount == 2) {
         return 8;
@@ -152,80 +226,20 @@ int hasHoles(double features[NUM_FEATURES]) {
     int ans[4] = {0, 4, 6, 9};
 
     // Filter Smallest Maxes
-    if (vHoleBalance > 0.37537) {
-        int index = indexOfI(4, ans, 9);
-        if (index != -1) {
-            ans[index] = -1;
-        }
-    }
-    if (hHoleBalance > 0.55764) {
-        int index = indexOfI(4, ans, 0);
-        if (index != -1) {
-            ans[index] = -1;
-        }
-    }
-    if (vBalance > 0.5427) {
-        int index = indexOfI(4, ans, 9);
-        if (index != -1) {
-            ans[index] = -1;
-        }
-    }
-    if (hBalance > 0.5123) {
-        int index = indexOfI(4, ans, 6);
-        if (index != -1) {
-            ans[index] = -1;
-        }
-    }
-    if (holeDensity > 0.1626) {
-        int index = indexOfI(4, ans, 4);
-        if (index != -1) {
-            ans[index] = -1;
-        }
-    }
-    if (blackDensity > 0.5994) {
-        int index = indexOfI(4, ans, 4);
-        if (index != -1) {
-            ans[index] = -1;
-        }
-    }
+    if (vHoleBalance > 0.37537)     { eliminateOption(4, ans, 9); }
+    if (hHoleBalance > 0.55764)     { eliminateOption(4, ans, 0); }
+    if (vBalance > 0.5427)          { eliminateOption(4, ans, 9); }
+    if (hBalance > 0.5123)          { eliminateOption(4, ans, 6); }
+    if (holeDensity > 0.1626)       { eliminateOption(4, ans, 4); }
+    if (blackDensity > 0.5994)      { eliminateOption(4, ans, 4); }
 
-    if (vHoleBalance < 0.62004) {
-        int index = indexOfI(4, ans, 6);
-        if (index != -1) {
-            ans[index] = -1;
-        }
-    }
-    if (hHoleBalance < 0.44537) {
-        int index = indexOfI(4, ans, 0);
-        if (index != -1) {
-            ans[index] = -1;
-        }
-    }
-    if (hBalance < 0.4692) {
-        int index = indexOfI(4, ans, 9);
-        if (index != -1) {
-            ans[index] = -1;
-        }
-    }
-    if (vBalance < 0.4602) {
-        int index = indexOfI(4, ans, 6);
-        if (index != -1) {
-            ans[index] = -1;
-        }
-    }
-    if (blackDensity < 0.3275) {
-        int index = indexOfI(4, ans, 9);
-        if (index != -1) {
-            ans[index] = -1;
-        }
-    }
-    if (holeDensity < 0.1174) {
-        int index = indexOfI(4, ans, 0);
-        if (index != -1) {
-            ans[index] = -1;
-        }
-    }
-
+    // Filter Largest Minimums
+    if (vHoleBalance < 0.62004)     { eliminateOption(4, ans, 6); }
+    if (hHoleBalance < 0.44537)     { eliminateOption(4, ans, 0); }
+    if (hBalance < 0.4692)          { eliminateOption(4, ans, 9); }
+    if (vBalance < 0.4602)          { eliminateOption(4, ans, 6); }
+    if (blackDensity < 0.3275)      { eliminateOption(4, ans, 9); }
+    if (holeDensity < 0.1174)       { eliminateOption(4, ans, 0); }
 
     if (indexOfI(4, ans, -1) == -1) {
         return -1;
@@ -245,7 +259,7 @@ int crack(int height, int width, int pixels[height][width]) {
     get_image_features(height, width, pixels, features);
     double numHoles = features[6];
     if (numHoles == 0) {
-        return -2;
+        return noHoles2(height, width, pixels, features);
     } else {
         return hasHoles(features);
     }

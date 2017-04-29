@@ -71,6 +71,32 @@ int rangeMethod(int numOutcomes,
     return ans[index];
 }
 
+int noHoles3(double features[NUM_FEATURES]) {
+    
+}
+
+int noHoles2(int height, int width, int pixels[height][width], double features[NUM_FEATURES]) {
+    double halvedFeatures[H_NUM_FEATURES];
+    get_halved_features(height, width, pixels, halvedFeatures);
+
+    double numHoles = halvedFeatures[0];
+    double hHoleBalance = halvedFeatures[1];
+    double vHoleBalance = halvedFeatures[2];
+
+    if (numHoles == 2) {
+        return 3;
+    } else if (numHoles == 1) {
+        // either 2, 5, 7
+        if (vHoleBalance > 0.5) {
+            return 5;
+        } else {
+            // either 2, 7
+        }
+    } else if (numHoles == 0) {
+        return 1;
+    }
+}
+
 #define N_HAS_HOLE_FEATS 6
 int hasHoles(double features[NUM_FEATURES]) {
     double height = features[0];

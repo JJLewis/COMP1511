@@ -10,7 +10,7 @@ void sealLeftWall(int height, int width, int pixels[height][width]) {
     }
 }
 
-void get_halved_features(int height, int width, int pixels[height][width], double features[5]) {
+void get_halved_features(int height, int width, int pixels[height][width], double features[H_NUM_FEATURES]) {
     int nWidth = width/2;
 
     int half[height][nWidth];

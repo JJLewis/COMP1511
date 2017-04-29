@@ -6,6 +6,7 @@
 #define FALSE 0
 
 #define NUM_FEATURES 10
+#define H_NUM_FEATURES 5
 
 struct coord {
 	int x;
@@ -45,4 +46,8 @@ double get_hole_fraction(int height, int width, int pixels[height][width]);
 // feature_array.c
 void get_image_features(int height, int width, int pixels[height][width], double features[NUM_FEATURES]);
 
+// half_image_features.c
+void get_halved_features(int height, int width, int pixels[height][width], double features[H_NUM_FEATURES]);
+
+// manual_guess.c
 int crack(int height, int width, int pixels[height][width]);

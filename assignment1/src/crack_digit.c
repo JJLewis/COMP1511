@@ -55,7 +55,9 @@ int guessFile(int n, int f) {
 void guessAllForNum(int n) {
     int numWrong = 0;
     for (int f = 0; f < 100; f++) {
-        if (guessFile(n, f) != n) {
+        int guess = guessFile(n, f);
+        if (guess != n) {
+            printI(guess);
             numWrong++;
         }
     }

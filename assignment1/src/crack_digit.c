@@ -29,12 +29,6 @@ int getGuess(char filename[]) {
     return -1;
 }
 
-int guessFile(int n, int f) {
-    char filedir[30];
-    make_filename(n, f, filedir);
-    return getGuess(filedir);
-}
-
 // Jared Steiner: I love you
 void make_filename(int num, int ver, char filename[30]) {
 
@@ -48,6 +42,12 @@ void make_filename(int num, int ver, char filename[30]) {
     } else {
         sprintf(filename + pointer_point, "%d.pbm", ver);
     }
+}
+
+int guessFile(int n, int f) {
+    char filedir[30];
+    make_filename(n, f, filedir);
+    return getGuess(filedir);
 }
 
 int guessAllForNum(int n) {

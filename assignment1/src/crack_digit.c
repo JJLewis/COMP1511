@@ -88,7 +88,7 @@ int main(int argc, char *argv[]) {
     //guessAllForNum(number);
     //testAllNumbers();
     int guess = getGuess(argv[1]);
-    printI(guess);
+    printf("%d\n", guess);
 
     return 0;
 }

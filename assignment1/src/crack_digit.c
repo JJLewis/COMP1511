@@ -23,6 +23,8 @@ int getGuess(char filename[]) {
         int box_pixels[box_height][box_width];
         copy_pixels(height, width, pixels, start_row, start_column, box_height, box_width, box_pixels);
 
+        print_image(box_height, box_width, box_pixels);
+
         int guess = crack(height, width, pixels);
         printI(guess);
     }
@@ -69,8 +71,10 @@ int main(int argc, char *argv[]) {
     }
     */
 
-    guessAllForNum(atoi(argv[1]));
-    //guessFile(4, 0);
+    int number = atoi(argv[1]);
+
+    //guessAllForNum(number);
+    guessFile(number, 50);
 
     return 0;
 }

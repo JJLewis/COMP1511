@@ -5,18 +5,33 @@
 #include "captcha.h"
 #include "debugger.h"
 
+/*
+ * Draws a vertical line of 1s down the left edge of the 2D array of pixels.
+ */
 void sealLeftWall(int height, int width, int pixels[height][width]) {
     for (int v = 0; v < height; v++) {
         pixels[v][0] = 1;
     }
 }
 
+/*
+ * Draws a vertical line of 1s down the right edge of the 2D array of pixels.
+ */
 void sealRightWall(int height, int width, int pixels[height][width]) {
     for (int v = 0; v < height; v++) {
         pixels[v][width - 1] = 1;
     }
 }
 
+/*
+ * Gets half image features by copying either the left or right half of the original pixel array
+ * and sealing the opposite wall. It then feeds the new "half image" into the get_image_features function.
+ * It then pulls out only the features that can be relevant and assigns them to features[H_NUM_FEATURES].
+ *
+ * input:
+ *          features[H_NUM_FEATURES]: Will have the half image features assigned to it.
+ *          side: 0 for right side, 1 for left side.
+ */
 void get_halved_features(int height, int width, int pixels[height][width], double features[H_NUM_FEATURES], int side) {
     int nWidth = width/2;
 

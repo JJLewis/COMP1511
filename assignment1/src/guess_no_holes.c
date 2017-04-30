@@ -7,6 +7,17 @@
 #define N_OUTCOMES 3
 #define N_FEATURES 3
 
+/*
+ * Given an array of features for a number that has holes, guess it, and return the guess.
+ * Works by first getting features for the left half of the image.
+ * Then further narrows down the results by getting the right half of the image.
+ * Both half features artificially creates holes by filling in the opposite wall.
+ *
+ * input:
+ *          features[NUM_FEATURES]: The feature data for an image
+ * output:
+ *          Returns the final guess based on the features given in the argument.
+ */
 int noHoles(int height, int width, int pixels[height][width], double features[NUM_FEATURES]) {
 
     int startRow, startCol, boxHeight, boxWidth;

@@ -5,6 +5,22 @@
 #include <stdio.h>
 #include "captcha.h"
 
+/*
+ * Creates a bounding box around a section of 1s in the pixel data.
+ *
+ * input:
+ * 			pixels[height][width]: Raw pixel data from the pbm file.
+ * 			start_row: 	Pointer to a value to be assigned at the end of this function
+ * 						as the starting row of the bounding box within pixels[height][width]
+ * 			start_col: 	Pointer to a value to be assigned at the end of this function
+ * 						as the starting column of the bounding box within pixels[height][width]
+ * 			box_height: Pointer to a value to be assigned at the end of this function
+ * 						as the height of the bounding box of the number in pixels[height][width]
+ * 			box_width: 	Pointer to a value to be assigned at the end of this function
+ * 						as the width of the bounding box of the number in pixels[height][width]
+ * output:
+ * 			The output of this function is the assignment of values to the pointers passed in.
+ */
 void get_bounding_box(
 			int height, 
 			int width, 
@@ -35,9 +51,6 @@ void get_bounding_box(
 				if (h > highestH) {
 					highestH = h;
 				}
-				//if (lastRowWithPixel - v > 1) {
-				//	lastTop = lastRowWithPixel;
-				//}
 				lastRowWithPixel = v;
 			}
 			h++;

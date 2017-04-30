@@ -7,6 +7,11 @@
 #include <stdlib.h>
 #include "debugger.h"
 
+/*
+ * Takes a filename (path to pbm file) and prints a guess for the Captcha.
+ *
+ * input: filename[]: A path to a pbm file.
+ */
 void getCaptchaGuess(char filename[]) {
     int height, width;
     int start_row, start_column, box_width, box_height;

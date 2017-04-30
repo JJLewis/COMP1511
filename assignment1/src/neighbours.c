@@ -5,6 +5,11 @@
 #include "captcha.h"
 #include "neighbours.h"
 
+/*
+ * Checks if a certain value is to the right of the supplied coordinate.
+ *
+ * output: Returns an integer/boolean reflecting whether or not the value does exist to the right.
+ */
 int isXonRight(int height, int width, int pixels[height][width], coord_t location, int x) {
     if (x == EDGE) {
         return location.x + 1 == width;
@@ -16,6 +21,11 @@ int isXonRight(int height, int width, int pixels[height][width], coord_t locatio
     }
 }
 
+/*
+ * Checks if a certain value is to the left of the supplied coordinate.
+ *
+ * output: Returns an integer/boolean reflecting whether or not the value does exist to the left.
+ */
 int isXonLeft(int height, int width, int pixels[height][width], coord_t location, int x) {
     if (x == EDGE) {
         return location.x == 0;
@@ -27,6 +37,11 @@ int isXonLeft(int height, int width, int pixels[height][width], coord_t location
     }
 }
 
+/*
+ * Checks if a certain value is to the top of the supplied coordinate.
+ *
+ * output: Returns an integer/boolean reflecting whether or not the value does exist to the top.
+ */
 int isXonTop(int height, int width, int pixels[height][width], coord_t location, int x) {
     if (x == EDGE) {
         return location.y + 1 == height;
@@ -38,6 +53,11 @@ int isXonTop(int height, int width, int pixels[height][width], coord_t location,
     }
 }
 
+/*
+ * Checks if a certain value is to the bottom of the supplied coordinate.
+ *
+ * output: Returns an integer/boolean reflecting whether or not the value does exist to the bottom.
+ */
 int isXonBottom(int height, int width, int pixels[height][width], coord_t location, int x) {
     if (x == EDGE) {
         return location.y - 1 == 0;
@@ -49,6 +69,11 @@ int isXonBottom(int height, int width, int pixels[height][width], coord_t locati
     }
 }
 
+/*
+ * Checks if a certain value is next to the supplied coordinate.
+ *
+ * output: Returns an integer/boolean reflecting whether or not the value does exist next to the supplied coordinate.
+ */
 int isNextTo(int height, int width, int pixels[height][width], coord_t location, int x) {
     int isAboveBelow = isXonTop(height, width, pixels, location, x) || isXonBottom(height, width, pixels, location, x);
     int isBeside = isXonLeft(height, width, pixels, location, x) || isXonRight(height, width, pixels, location, x);

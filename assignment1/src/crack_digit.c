@@ -8,12 +8,18 @@
 #include <strings.h>
 #include "debugger.h"
 
+/*
+ * Takes a filename (path to pbm file) and returns a guess between 0-9 as to the contents of the pbm, or -1 if it fails.
+ *
+ * input: filename[]: A path to a pbm file.
+ * output: A guess between 0-9 if the file is read. Returns -1 if anything fails.
+ */
 int getGuess(char filename[]) {
     int height, width;
     int start_row, start_column, box_width, box_height;
 
     if (get_pbm_dimensions(filename, &height, &width) != 1) {
-        return 0;
+        return -1;
     }
 
     int pixels[height][width];
@@ -30,6 +36,11 @@ int getGuess(char filename[]) {
 }
 
 // Jared Steiner: I love you
+/*
+ * Author: Jared Stainer
+ *
+ * Taken from EdStem COMP1511 forum to get a filename out of a number and version.
+ */
 void make_filename(int num, int ver, char filename[30]) {
 
     int pointer_point = 0;
@@ -44,12 +55,29 @@ void make_filename(int num, int ver, char filename[30]) {
     }
 }
 
+/*
+ * Lazy shortcut function for getting a guess out of just a number and its version.
+ *
+ * inputs:
+ *          n: The number to test.
+ *          f: The version of the number(n)(above) to test.
+ * output:
+ *          Look at the output for the function getGuess.
+ */
 int guessFile(int n, int f) {
     char filedir[30];
     make_filename(n, f, filedir);
     return getGuess(filedir);
 }
 
+/*
+ * Test every version of the number for a given number.
+ * Only prints out the numbers it got wrong, and what it guessed.
+ * Also prints out number of guesses it got wrong.
+ *
+ * input: n: The number to test.
+ * output: numWrong: Returns the number of wrong guesses for that number.
+ */
 int guessAllForNum(int n) {
     int numWrong = 0;
     for (int f = 0; f < 100; f++) {
@@ -64,6 +92,12 @@ int guessAllForNum(int n) {
     return numWrong;
 }
 
+/*
+ * Test every number from the provided data-set.
+ * Prints out the total number of wrong guesses.
+ *
+ * output: numWrong: Returns the number of wrong guesses overall.
+ */
 int testAllNumbers() {
     int totalWrong = 0;
     for (int n = 0; n < 10; n++) {

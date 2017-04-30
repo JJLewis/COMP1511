@@ -5,6 +5,16 @@
 #include <stdio.h>
 #include "captcha.h"
 
+/*
+ * Copies a section out of the pixels[height][width] into copy[copy_height][copy_width].
+ * This function is best used in conjunction with get_bounding_box and it's outputs.
+ *
+ * inputs:
+ * 			start_row, start_column, copy_height, copy_width: Define the section of pixels[height][width]
+ * 			to be copied into copy[copy_height][copy_width]
+ * output:
+ * 			copy[copy_height][copy_width] will have the section of pixels copied to it.
+ */
 void copy_pixels(
 		int height, 
 		int width, 

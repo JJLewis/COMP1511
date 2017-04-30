@@ -2,6 +2,25 @@
 // Created by Jordan Lewis on 17/4/17.
 //
 
+/*
+ * WARNING: The code that follows may make you cry:
+ *           A Safety Pig has been provided below for your benefit
+ *                              _
+ *      _._ _..._ .-',     _.._(`))
+ *     '-. `     '  /-._.-'    ',/
+ *       )         \            '.
+ *      / _    _    |             \
+ *     |  a    a    /              |
+ *      \   .-.                     ;
+ *       '-('' ).-'       ,'       ;
+ *          '-;           |      .'
+ *            \           \    /
+ *            | 7  .__  _.-\   \
+ *            | |  |  ``/  /`  /
+ *           /,_|  |   /,_/   /
+ *              /,_/      '`-'
+ */
+
 #include "debugger.h"
 
 #define TRUE 1
@@ -17,15 +36,18 @@ struct coord {
 
 typedef struct coord coord_t;
 
+// read_pbm.c
 int read_pbm(char filename[], int height, int width, int pixels[height][width]);
-
 int get_pbm_dimensions(char filename[], int *height, int *width);
 
+// print_image.c
 void print_image(int height, int width, int pixels[height][width]);
 
+// bounding_box.c
 void get_bounding_box(int height, int width, int pixels[height][width],
 		                  int *start_row, int *start_column, int *box_height, int *box_width);
 
+// copy_pixels.c
 void copy_pixels(int height, int width, int pixels[height][width],
 		                 int start_row, int start_column, int copy_height, int copy_width,
 				                  int copy[copy_height][copy_width]);

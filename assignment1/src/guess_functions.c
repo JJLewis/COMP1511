@@ -4,12 +4,19 @@
 
 #include "guess.h"
 
+/*
+ * Takes two 1D arrays and subtracts every element from arr2 from it's corresponding element in arr1.
+ * Returns the output as the array output[size]
+ */
 void subtractArrays(int size, double arr1[size], double arr2[size], double output[size]) {
     for (int i = 0; i < size; i++) {
         output[i] = arr1[i] - arr2[i];
     }
 }
 
+/*
+ * Sums every element in the array and returns the result.
+ */
 double sumArray(int size, double source[size]) {
     double sum = 0;
     for (int i = 0; i < size; i++) {
@@ -18,6 +25,17 @@ double sumArray(int size, double source[size]) {
     return sum;
 }
 
+/*
+ * Makes a guess based on how far each feature is from the average for that number.
+ * Makes this decision by selecting the number with the least overall distance from the averages.
+ *
+ * input:
+ *          allAvgs[numOutcomes][numFeatures]: 2D array where each row is an array of average values for each feature
+ *          vals[numFeatures]: Array containing the values for each feature in the array
+ *          ans[numOutcomes]: Array of all possible outcomes, will contain -1 for numbers/options that have been eliminated
+ *
+ * output: Returns a guess from the possible answers provided in ans[numOutcomes]
+ */
 int deviationMethod(int numOutcomes,
                     int numFeatures,
                     double allAvgs[numOutcomes][numFeatures],
@@ -40,6 +58,18 @@ int deviationMethod(int numOutcomes,
     return ans[index];
 }
 
+/*
+ * Makes a guess based on how far each feature is from the centre of the max and min for that number.
+ * Makes this decision by selecting the number with the least overall distance from the averages.
+ *
+ * input:
+ *          allMaxes[numOutcomes][numFeatures]: 2D array where each row is an array of max values for each feature
+ *          allMins[numOutcomes][numFeatures]: 2D array where each row is an array of min values for each feature
+ *          vals[numFeatures]: Array containing the values for each feature in the array
+ *          ans[numOutcomes]: Array of all possible outcomes, will contain -1 for numbers/options that have been eliminated
+ *
+ * output: Returns a guess from the possible answers provided in ans[numOutcomes]
+ */
 int rangeMethod(int numOutcomes,
                 int numFeatures,
                 double allMaxes[numOutcomes][numFeatures],
@@ -71,6 +101,14 @@ int rangeMethod(int numOutcomes,
     return ans[index];
 }
 
+/*
+ * Eliminate an option given the number of eliminate and the array to eliminate it from.
+ *
+ * input:
+ *          numOptions: The number of possible options
+ *          options[numOptions]: An array of options to have an option eliminated.
+ *          toEliminate: The option to be eliminated from options
+ */
 void eliminateOption(int numOptions, int options[numOptions], int toEliminate) {
     int index = indexOfI(numOptions, options, toEliminate);
     if (index != -1) {

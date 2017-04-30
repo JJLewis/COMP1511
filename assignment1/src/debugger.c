@@ -2,6 +2,10 @@
 // Created by Jordan Lewis on 29/4/17.
 //
 
+/*
+ *      This whole file is a just a bunch of handy print shortcuts I can use elsewhere and make shut-up when needed.
+ */
+
 #include <stdio.h>
 #include "debugger.h"
 

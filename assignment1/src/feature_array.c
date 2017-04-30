@@ -4,6 +4,15 @@
 
 #include "captcha.h"
 
+/*
+ * Rather than individually call many functions in the main guessing/decision making function, gather them all here.
+ *
+ * inputs:
+ *          pixels[height][width]: Can either be the raw pbm pixel data or already be cropped/bounded.
+ *          features[NUM_FEATURES]: Pointer to an array to have the image feature values assigned to.
+ * output:
+ *          features[NUM_FEATURES]: Is assigned values for each index corresponding to a different feature value.
+ */
 void get_image_features(int height, int width, int pixels[height][width], double features[NUM_FEATURES]) {
 
     int startRow, startCol, boxHeight, boxWidth;

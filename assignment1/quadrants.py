@@ -64,20 +64,47 @@ def halves(pixels, side):
     features = getattributeArray.getAttrArr(half)
     return [features[6], features[8], features[9], features[2], features[3]]
 
+def sealTopWall(pixels):
+    sealed = pixels
+    for x in xrange(len(sealed[0])):
+        sealed[0][x] = 1
+    return sealed
+
+def sealBottomWall(pixels):
+    sealed = pixels
+    for x in xrange(len(sealed[0])):
+        sealed[len(sealed) - 1][x] = 1
+    return sealed
+
+def vHalves(pixels, top):
+    height = len(pixels)
+    width = len(pixels[0])
+
+    half = extractArraySection(pixels, 0, 0, height/2.0, width)
+    #half = sealBottomWall(half)
+    if top == 0:
+        half = extractArraySection(pixels, height/2.0, 0, height, width)
+        #print height
+        #half = sealTopWall(half)
+
+    import getattributeArray
+    features = getattributeArray.getAttrArr(half)
+    return [features[6], features[8], features[9], features[2], features[3], features[4]]
+
 if __name__ == '__main__':
     import openpbm
     import getbounding
     import extractNumber
 
     fstruct = 'pbms/digit/*N_*F.pbm'
-    for n in [1,2,3,5,7]:
+    for n in [1,2,7]:
         print "For number: " + str(n)
         allForNum = []
         for f in xrange(100):
             file = openpbm.fileNameFrom(fstruct, n, f)
             pixels = openpbm.read_pbm(file)
             extracted = extractNumber.extract(pixels, getbounding.getBoundingBox(pixels))
-            features = halves(extracted, 0)
+            features = vHalves(extracted, 0)
             allForNum.append(features)
         import getNumberData
-        getNumberData.writeToFile('digit-feature-data/hr_' + str(n) + '.csv', allForNum)
+        getNumberData.writeToFile('digit-feature-data/hb_' + str(n) + '.csv', allForNum)

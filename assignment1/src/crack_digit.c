@@ -121,6 +121,7 @@ int main(int argc, char *argv[]) {
     //guessFile(number, atoi(argv[2]));
     //guessAllForNum(number);
     //testAllNumbers();
+
     int guess = getGuess(argv[1]);
     printf("%d\n", guess);
 

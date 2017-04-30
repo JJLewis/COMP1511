@@ -47,6 +47,34 @@ int noHoles(int height, int width, int pixels[height][width], double features[NU
         } else {
             // either 2, 7
             if (right_numHoles == 0) {
+                double fullVBalance = 1 - features[3];
+                double leftHBalance = leftHalvedFeatures[3];
+                double leftVBalance = leftHalvedFeatures[4];
+
+                if (fullVBalance > 0.4808) { // this lessens the error for 2 by 10
+                    // either 1,2
+                    double fullHBalance = features[2];
+                    if (fullHBalance > 0.62714) {
+                        return 1;
+                    }
+
+                    if (leftVBalance > 0.5606) {
+                        return 1;
+                    }
+
+                    if (leftHBalance < 0.2954) {
+                        return 1;
+                    }
+
+                    return 2;
+                }
+
+                /* No difference
+                if (leftHBalance < 0.325) {
+                    return 2;
+                }
+                */
+
                 return 7;
             } else {
                 return 2;

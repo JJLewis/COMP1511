@@ -55,6 +55,13 @@ for j in xrange(60000):
     # update synapses
     syn1 += l1.T.dot(l2_delta)
     syn0 += l0.T.dot(l1_delta)
+    if j == 0:
+        print syn1.shape
+        print l1.T.shape
+        print l2_delta.shape
+        print syn0.shape
+        print l0.T.shape
+        print l1_delta.shape
 
 print 'output after training'
 print l2

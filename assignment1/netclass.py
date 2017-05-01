@@ -4,21 +4,30 @@ import math
 
 class NeuralNet():
 
+    def printLine(self):
+        print "--------------------"
+
     def pMatrixDim(self, m1, n1, m2, n2):
+        self.printLine()
         print n1 + " width: " + str(len(m1[0]))
         print n1 + " height: " + str(len(m1))
 
         print n2 + " width: " + str(len(m2[0]))
         print n2 + " height: " + str(len(m2))
+        self.printLine()
 
     def makeGuess(self, input):
         # layers
+        '''
         l0 = input
         l1 = self.nonlin(np.dot(l0, self.syn0))
         l2 = self.nonlin(np.dot(l1, self.syn1))
         l3 = self.nonlin(np.dot(l2, self.syn2))
-
+        
         return l3.tolist()
+        '''
+        layers = self.genLayersFrom(input, self.syns)
+        return layers[len(layers) - 1].tolist()
 
     # sigmoid function
     def nonlin(self, x, deriv=False):
@@ -56,20 +65,23 @@ class NeuralNet():
             print "Loaded: " + str(n)
         return (np.array(training), np.array(expected))
 
-
     def train(self, numtimes, training, expected):
         for t in xrange(numtimes):
             # layers
+            '''
             l0 = training
             #self.pMatrixDim(l0, 'l0', self.syn0, 'syn0')
             l1 = self.nonlin(np.dot(l0, self.syn0))
             l2 = self.nonlin(np.dot(l1, self.syn1))
             l3 = self.nonlin(np.dot(l2, self.syn2))
+            '''
+            layers = self.genLayersFrom(training, self.syns)
+            #self.printDimensionOf(layers)
 
             # backpropagation
-            l3_error = expected - l3
+            last_error = expected - layers[len(layers) - 1]
 
-            error = 'Error: ' + str(np.mean(np.abs(l3_error)))
+            error = 'Error: ' + str(np.mean(np.abs(last_error)))
             if t >= 10:
                if (t % (numtimes / 10)) == 0:
                   print error
@@ -77,16 +89,22 @@ class NeuralNet():
                 print error
 
             # calculate deltas
+            '''
             l3_delta = l3_error * self.nonlin(l3, deriv=True)
             l2_error = l3_delta.dot(self.syn2.T)
             l2_delta = l2_error * self.nonlin(l2, deriv=True)
             l1_error = l2_delta.dot(self.syn1.T)
             l1_delta = l1_error * self.nonlin(l1, deriv=True)
+            '''
+            deltasAndErrors = self.genDeltasAndErrors(last_error, layers, self.syns)
 
             # update synapses
+            '''
             self.syn2 += l2.T.dot(l3_delta)
             self.syn1 += l1.T.dot(l2_delta)
             self.syn0 += l0.T.dot(l1_delta)
+            '''
+            self.syns = self.updateSynapses(layers, self.syns, deltasAndErrors)
 
     def __init__(self, numInput, numOutputNodes):
         np.random.seed(1)

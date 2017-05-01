@@ -46,17 +46,23 @@ class NeuralNet():
         arr[n] = 1
         return arr
 
-    def loadTrainingData(self, fstruct, numnum, maxPerNum):
+    def loadTrainingData(self, fstruct, toTrain, maxPerNum):
+        import getattributeArray
+
         training = []
         expected = []
-        for n in xrange(numnum):
+        for n in toTrain:
+            print "Loading: " + str(n)
             tempExpected = self.expectedOutputFor(n)
             for f in xrange(maxPerNum + 1):
                 file = openpbm.fileNameFrom(fstruct, n, f)
                 pixels = openpbm.read_pbm(file)
-                flat = self.flattenPixels(pixels)
-                training.append(flat)
+
+                inputData = getattributeArray.getAttrArr(pixels)
+
+                training.append(inputData)
                 expected.append(tempExpected)
+            print "Loaded: " + str(n)
         return (np.array(training), np.array(expected))
 
     def train(self, numtimes, training, expected):
@@ -64,6 +70,7 @@ class NeuralNet():
             # layers
             '''
             l0 = training
+            #self.pMatrixDim(l0, 'l0', self.syn0, 'syn0')
             l1 = self.nonlin(np.dot(l0, self.syn0))
             l2 = self.nonlin(np.dot(l1, self.syn1))
             l3 = self.nonlin(np.dot(l2, self.syn2))
@@ -99,76 +106,12 @@ class NeuralNet():
             '''
             self.syns = self.updateSynapses(layers, self.syns, deltasAndErrors)
 
-    def printDimensionOf(self, obj):
-        for i in xrange(len(obj)):
-            a = obj[i]
-            print str(len(a[0])) + " x " + str(len(a))
-
-    def updateSynapses(self, layers, syns, deltasAndErrors):
-        newSyns = syns
-        for i in xrange(len(deltasAndErrors)):
-            newSyns[i] += layers[i].T.dot(deltasAndErrors[i][1])
-        return newSyns
-
-    def invertArray(self, arr):
-        num = len(arr)
-        new = []
-        for i in xrange(num):
-            new.append(arr[num - i - 1])
-        return new
-
-
-    def genDeltasAndErrors(self, initialError, layers, syns):
-        top = len(layers) - 1
-        counter = top - 1
-
-        deltasAndErrors = [[initialError, initialError * self.nonlin(layers[top], deriv=True)]]
-        while counter > 0:
-            prevDelta = deltasAndErrors[top - counter - 1][1]
-            nextError = prevDelta.dot(syns[counter].T)
-            nextDelta = nextError * self.nonlin(layers[counter], deriv=True)
-            deltasAndErrors.append([nextError, nextDelta])
-            counter -= 1
-        return self.invertArray(deltasAndErrors)
-
-    def genLayersFrom(self, training, syns):
-        layers = []
-        for i in xrange(len(syns) + 1):
-            layers.append(training if i == 0 else self.nonlin(np.dot(layers[i-1], syns[i-1])))
-        return layers
-
-    def genSyn(self, inputs, outputs):
-        return 2 * np.random.random((inputs, outputs)) - 1
-
-    def numSynForLayer(self, numInput, num):
-        return int(math.ceil(numInput * ((3.0 / 4.0) ** num)))
-
-    def initSyns(self, numInput, numOutput, numLayers):
-        syns = []
-        for i in xrange(numLayers):
-            thisOut = self.numSynForLayer(numInput, i + 1)
-            syn = []
-            if i == 0:
-                syn = self.genSyn(numInput, thisOut)
-            else:
-                prevOut = self.numSynForLayer(numInput, i)
-                numOut = thisOut
-                if i + 1 == numLayers:
-                    numOut = numOutput
-                syn = self.genSyn(prevOut, numOut)
-            syns.append(syn)
-        return syns
-
-    def __init__(self, numLayers, numInput, numOutputNodes):
+    def __init__(self, numInput, numOutputNodes):
         np.random.seed(1)
 
-        '''
-        nodesInL1 = int(math.ceil(((2/3) * numInput) + numOutputNodes))
-        #nodesInL1 = numInput
+        nodesInL1 = 2*numInput#int(math.ceil(((2/3.0) * numInput) + numOutputNodes))
+        nodesInL2 = numInput
 
         self.syn0 = 2 * np.random.random((numInput, nodesInL1)) - 1
-        self.syn1 = 2 * np.random.random((nodesInL1, int(math.ceil(nodesInL1/2)))) - 1
-        self.syn2 = 2 * np.random.random((int(math.ceil(nodesInL1/2)), numOutputNodes)) - 1
-        '''
-
-        self.syns = self.initSyns(numInput, numOutputNodes, numLayers)
+        self.syn1 = 2 * np.random.random((nodesInL1, nodesInL2)) - 1
+        self.syn2 = 2 * np.random.random((nodesInL2, numOutputNodes)) - 1

@@ -21,8 +21,18 @@ a.out
 # Ignore CLion files
 cmake-build-debug/
 
+# Compiled C files
+*.o
+
+# Ignore Final Compiled C Program
+crack
+crack_captcha
+
 # Ignore Assignement 1 PBM files
 assignment1/pbms/*/*.pbm
 
 # Ignore Compiled Python
 *.pyc
+
+# Ignore Microsoft Working Files
+~$*

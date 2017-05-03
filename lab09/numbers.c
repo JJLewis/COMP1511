@@ -5,10 +5,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define BUFSIZE 4096
-#define TRUE 1
-#define FALSE 0
-
 int main (int argc, char* argv[]) {
 	
 	int start = atoi(argv[1]);

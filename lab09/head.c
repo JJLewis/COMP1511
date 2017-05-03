@@ -32,9 +32,12 @@ int main (int argc, char* argv[]) {
 	if (argc == 2) {
 		inStream = fopen(argv[1], "r");
 		printLines(10, inStream);
-	} else {
+	} else if (argc == 4) {
 		inStream = fopen(argv[3], "r");
 		printLines(atoi(argv[2]), inStream);
+	} else {
+		printf("Usage is: [-n <number of lines to read from top>] <path to file>\n");
+		return 1;
 	}
 
 	return 0;

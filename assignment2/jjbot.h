@@ -14,3 +14,5 @@ typedef struct location location_t;
 typedef struct cargo cargo_t;
 typedef struct commodity commodity_t;
 typedef struct bot_list bot_list_t;
+
+int cost_of_travel(location_t *start, location_t *end);

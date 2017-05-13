@@ -7,7 +7,7 @@
 
 #endif //SRC_DEBUGGER_H
 
-#define IS_DEBUGGING 0
+#define IS_DEBUGGING 1
 
 void print(char *s);
 
@@ -20,3 +20,5 @@ void printarrI(int size, int array[size]);
 void printarrD(int size, double array[size]);
 
 void print2darrI(int height, int width, int array[height][width]);
+
+void throw_warning(char *s);

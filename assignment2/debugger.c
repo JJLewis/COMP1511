@@ -62,3 +62,12 @@ void print2darrI(int height, int width, int array[height][width]) {
         printf("]\n");
     }
 }
+
+void throw_warning(char *s) {
+    if (IS_DEBUGGING) {
+        println();
+        printf("WARNING:: ");
+        print(s);
+        println();
+    }
+}

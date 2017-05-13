@@ -26,6 +26,12 @@ int distance_between(location_t *location1, location_t *location2) {
     }
 }
 
+int true_distance_between(location_t *location1, location_t *location2) {
+    int distance = distance_between(location1, location2);
+    int direction = distance_to_direction(distance);
+    return distance * direction;
+}
+
 void shift_location(location_t *location, int direction) {
     if (direction == DIRECTION_FORWARD) {
         location = location->next;

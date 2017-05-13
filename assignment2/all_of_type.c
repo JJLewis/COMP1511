@@ -2,20 +2,22 @@
 // Created by Jordan Lewis on 13/5/17.
 //
 
+#include "jjbot.h"
 #include "world.h"
 #include <string.h>
 
 int all_locations_of_commodity_of_type(bot_t *bot, commodity_t *commodity, int type, location_t locations[MAX_LOCATIONS]) {
     location_t *a_location = bot->location;
     int index = 0;
-    for (int i = 0; i < number_of_locations(bot); i++) {
+    do {
         if (a_location->type == type) {
             if (strcmp(a_location->commodity->name, commodity->name)) {
                 locations[index] = a_location;
+                index++;
             }
         }
         a_location = a_location->next;
-    }
+    } while (a_location != bot->location);
     return index;
 }
 
@@ -44,4 +46,16 @@ int all_locations_of_commodity(bot_t *bot, commodity_t *commodity, location_t lo
     }
 
     return numBuyers + numSellers;
+}
+
+int all_petrol_stations(location_t *a_location, location_t locations[MAX_LOCATIONS]) {
+    location_t *tracker = a_location;
+    int index = 0;
+    do {
+        if (tracker->type == LOCATION_PETROL_STATION) {
+            locations[index] = tracker;
+            index++;
+        }
+    } while (tracker != start);
+    return index;
 }

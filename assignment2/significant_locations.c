@@ -5,19 +5,6 @@
 #include "world.h"
 #include <stdbool.h>
 
-int number_of_locations(bot_t *bot) {
-    location_t *start = find_start_location(bot->location);
-    location_t *a_location = start;
-    int counter = 0;
-
-    do {
-        counter++;
-        a_location = a_location->next;
-    } while (start != a_location);
-
-    return counter;
-}
-
 location_t *find_start_location(location_t *a_location) {
     location_t *current = a_location;
     while (current->type != LOCATION_START) {
@@ -74,17 +61,27 @@ bool will_pass_petrol(location_t *start, location_t *end) {
     return false;
 }
 
-location_t *nearest_petrol_station(location_t *location) {
+// TODO: Remember that a -1 for min distance will return a 'self sustaining' petrol station, ie, enough fuel to cover the distance travelled for it
+// Should it be 2x the distance?
+location_t *nearest_petrol_station(location_t *location, int minimumFuel) {
     location_t stations[MAX_LOCATIONS];
     int numStations = all_petrol_stations(location, stations);
 
     location_t closest = stations[0];
     int closestDistance = true_distance_between(location, closest);
     for (int i = 0; i < numStations; i++) {
-        int distance = true_distance_between(location, stations[0]);
-        if (distance < closestDistance) {
-            closestDistance = distance;
-            closest = stations[i];
+        location_t *a_location = stations[i];
+        int distance = true_distance_between(location, a_location);
+
+        if (minimumFuel == -1) {
+            minimumFuel = distance;
+        }
+
+        if (a_location->quantity > minimumFuel) {
+            if (distance < closestDistance) {
+                closestDistance = distance;
+                closest = a_location;
+            }
         }
     }
 

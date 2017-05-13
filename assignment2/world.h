@@ -19,13 +19,16 @@ void shift_location(location_t *location, int direction);
 int distance_to_direction(int distance);
 void move_location(location_t *location, int distance);
 
-// significant_locations.c
+// handy_world.c
 int number_of_locations(bot_t *bot);
+int filter_zero_quantity(location_t locations[MAX_LOCATIONS]);
+
+// significant_locations.c
 location_t *find_start_location(location_t *a_location);
 location_t *highest_buyer_of_commodity(bot_t *bot, commodity_t *commodity);
 location_t *lowest_seller_of_commodity(bot_t *bot, commodity_t *commodity);
 bool will_pass_petrol(location_t *start, location_t *end);
-location_t *nearest_petrol_station(location_t *location);
+location_t *nearest_petrol_station(location_t *location, int minimumFuel);
 
 // all_of_type.c
 int all_locations_of_commodity_of_type(bot_t *bot, commodity_t *commodity, int type, location_t locations[MAX_LOCATIONS]);

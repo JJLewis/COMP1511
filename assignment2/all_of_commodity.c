@@ -2,29 +2,8 @@
 // Created by Jordan Lewis on 13/5/17.
 //
 
-#include "jjbot.h"
+#include "world.h"
 #include <string.h>
-
-location_t *find_start_location(bot_t *bot) {
-    location_t *current = bot->location;
-    while (current->type != LOCATION_START) {
-        current = current->next;
-    }
-    return current;
-}
-
-int number_of_locations(bot_t *bot) {
-    location_t *start = find_start_location(bot);
-    location_t *a_location = start;
-    int counter = 0;
-
-    do {
-         counter++;
-        a_location = a_location->next;
-    } while (start != a_location);
-
-    return counter;
-}
 
 int all_locations_of_commodity_of_type(bot_t *bot, commodity_t *commodity, int type, location_t locations[MAX_LOCATIONS]) {
     location_t *a_location = bot->location;

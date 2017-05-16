@@ -82,3 +82,28 @@ int gain_from_exhausting(bot_t *bot, location_t *seller, location_t *buyer) {
 
     return total_profit - total_lost_in_transit;
 }
+
+void best_buy_sell_pair(bot_t *bot, location_t *b_seller, location_t *b_buyer) {
+    commodity_t commodities[];
+    int num_commodities = all_commodities(bot->location, commodities);
+
+    location_t *best_seller;
+    location_t *best_buyer;
+    best_pair_for_commodity(bot, commodities[0], best_seller, best_buyer);
+    int max_gain = gain_from_exhausting(best_seller, best_buyer);
+
+    for (int c = 1; c < num_commodities; c++) {
+        location_t *seller;
+        location_t *buyer;
+        best_pair_for_commodity(bot, commodities[i], seller, buyer);
+        int gain = gain_from_exhausting(bot, seller, buyer);
+        if (gain > max_gain) {
+            best_seller = seller;
+            best_buyer = buyer;
+            max_gain = gain;
+        }
+    }
+
+    *b_seller = best_seller;
+    *b_buyer = best_buyer;
+}

@@ -4,11 +4,52 @@
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
+#include <stdbool.h>
 
 #define MAX_STUDENT_NAME_LENGTH 128
 #define MAX_GRADE_STRING_LENGTH 22
 #define MAX_LAB_NAME_LENGTH 32
 #define MAX_LINE_LENGTH 4096
+
+double grade2labmark(char grade, bool isPlus) {
+	if (grade == 'A') {
+		if (isPlus) {
+			return 1.2;
+		}
+		return 1;
+	}
+	if (grade == 'B') {
+		return 0.8;
+	}
+	if (grade == 'C') {
+		return 0.5;
+	}
+	if (grade == '.') {
+		return 0;
+	}
+	return 0;
+}
+
+double grades2labmark(char grades[]) {
+	double sum = 0;
+	int index = strlen(grades) - 1;
+	int num_grades = 0;
+	while (index >= 0) {
+		if (grades[index] == '+') {
+			index--;
+			sum += grade2labmark(grades[index], true);
+		} else {
+			sum += grade2labmark(grades[index], false);
+		}
+		index--;
+		num_grades++;
+	}
+	
+	if (sum > 10) {
+		return 10;
+	}
+	return sum;
+}
 
 struct student {
     int              zid;
@@ -21,17 +62,33 @@ struct student {
 struct student *read_students_file(char filename[]);
 struct student *read_student(FILE *stream);
 
+void print_student_result(struct student *a_student) {
+	double mark = grades2labmark(a_student->lab_grades);
+	printf("%d %-30s %-12s %-22s %4.1lf\n", a_student->zid, a_student->name, a_student->lab_name, a_student->lab_grades,  mark);
+}
+
+void print_results_for(struct student *student_list, char lab_name[MAX_LAB_NAME_LENGTH + 1]) {
+	struct student *a_student = student_list;
+	while (a_student->next != NULL) {
+		if (strcmp(a_student->lab_name, lab_name) == 0) {
+			print_student_result(a_student);
+		}
+		a_student = a_student->next;
+	}
+}
+
 int main(int argc, char *argv[]) {
     // CHANGE THIS CODE
 
-    if (argc != 2) {
-        fprintf(stderr, "Usage: %s <marks-file>\n", argv[0]);
+    if (argc != 3) {
+        fprintf(stderr, "Usage: %s <marks-file> <tut-lab-name>\n", argv[0]);
         return 1;
     }
 
     struct student *student_list = read_students_file(argv[1]);
 
-    printf("Students file read into linked list (pointer=%p)\n", student_list);
+    //printf("Students file read into linked list (pointer=%p)\n", student_list);
+    print_results_for(student_list, argv[2]);
 
     return 0;
 }

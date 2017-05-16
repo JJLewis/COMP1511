@@ -5,6 +5,31 @@
 #include "jjbot.h"
 #include "world.h"
 #include <string.h>
+#include <stdbool.h>
+
+bool commodity_exists(commodity_t *x, commodity_t commodities[], int size) {
+    for (int i = 0; i < size; i++) {
+        if (x == commodities[i]) {
+            return true;
+        }
+    }
+    return false;
+}
+
+int all_commodities(location_t *location, commodity_t commodities[]) {
+    location_t *a_location = location;
+    int numCommodities = 0;
+    do {
+        commodity_t *a_commodity = a_location->commodity;
+        if (!commodity_exists(a_commodity, commodities)) {
+            commodities[numCommodities] = a_commodity;
+            numCommodities++;
+        }
+        a_location = a_location->next;
+    } while (a_location != location);
+    
+    return numCommodities;
+}
 
 int all_locations_of_commodity_of_type(bot_t *bot, commodity_t *commodity, int type, location_t locations[MAX_LOCATIONS]) {
     location_t *a_location = bot->location;

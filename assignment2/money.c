@@ -45,9 +45,11 @@ void best_pair_for_commodity(bot_t *bot, commodity_t *commodity, location_t *b_s
 
     for (int s = 0; s < numSellers; s++) {
         location_t *seller = sellers[s];
+        // Account for the seller offering less than the max
         if (seller->quantity < maxLoadable) { maxLoadable = seller->quantity; }
         for (int b = 0; b < numBuyers; b++) {
             location_t *buyer = buyers[b];
+            // Account for the buyer buying less than the max OR how much the seller is offering
             if (buyer->quantity < maxLoadable) { maxLoadable = buyer->quantity; }
             gainMatix[s][b] = gain_per_turn(seller, buyer, bot, maxLoadable);
         }
@@ -62,4 +64,21 @@ void best_pair_for_commodity(bot_t *bot, commodity_t *commodity, location_t *b_s
 
     *b_seller = sellers[row];
     *b_buyer = buyers[col];
+}
+
+// TODO: Should floor or ceil num_turns_2_exhaust?
+int gain_from_exhausting(bot_t *bot, location_t *seller, location_t *buyer) {
+    int max_loadable = max_cargo_amount_for_commodity(bot, seller->commodity);
+    int seller_amount = seller->quantity;
+    int seller_price = seller->price;
+    int buyer_amount = buyer->quantity;
+    int buyer_price = buyer->price;
+    int max_amount = seller_amount > buyer_amount ? seller_amount : buyer_amount;
+    int num_turns_2_exhaust = floorf((double)max_amount / (double)max_loadable);
+    int travel_cost = cost_of_travel(seller, buyer);
+
+    int total_profit = max_amount * (buyer_price - seller_price);
+    int total_lost_in_transit = 2 * travel_cost * num_turns_2_exhaust;
+
+    return total_profit - total_lost_in_transit;
 }

@@ -62,6 +62,13 @@ struct student {
 struct student *read_students_file(char filename[]);
 struct student *read_student(FILE *stream);
 
+void free_linked_list(struct student *he_failed) {
+	if (he_failed->next != NULL) {
+		free_linked_list(he_failed->next);
+	}
+	free(he_failed);
+}
+
 void print_student_result(struct student *a_student) {
 	double mark = grades2labmark(a_student->lab_grades);
 	printf("%d %-30s %-12s %-22s %4.1lf\n", a_student->zid, a_student->name, a_student->lab_name, a_student->lab_grades,  mark);
@@ -89,6 +96,8 @@ int main(int argc, char *argv[]) {
 
     //printf("Students file read into linked list (pointer=%p)\n", student_list);
     print_results_for(student_list, argv[2]);
+
+    free_linked_list(student_list);
 
     return 0;
 }

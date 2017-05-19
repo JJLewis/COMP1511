@@ -23,6 +23,8 @@ void move_location(location_t *location, int distance);
 int number_of_locations(bot_t *bot);
 int filter_zero_quantity(location_t locations[MAX_LOCATIONS], int size);
 location_pair_t *create_location_pair(location_t *seller, location_t *buyer);
+bool is_location_equal(location_t *location1, location_t *location2);
+bool is_commodities_equal(commodity_t *c1, commodity_t *c2);
 
 // significant_locations.c
 location_t *find_start_location(location_t *a_location);

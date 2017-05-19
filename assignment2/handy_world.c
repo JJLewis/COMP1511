@@ -3,6 +3,8 @@
 //
 
 #include "world.h"
+#include <stdbool.h>
+#include <string.h>
 
 int number_of_locations(bot_t *bot) {
     location_t *start = find_start_location(bot->location);
@@ -44,4 +46,22 @@ location_pair_t *create_location_pair(location_t *seller, location_t *buyer) {
     pair->commodity = seller->commodity;
     pair->distance = true_distance_between(seller, buyer);
     return pair;
+}
+
+bool is_location_equal(location_t *location1, location_t *location2) {
+    if (location1->type == location2->type) {
+        if (strcmp(location1->name, location2->name) == 0) {
+            if (is_commodities_equal(location1->commodity, location2->commodity)) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+bool is_commodities_equal(commodity_t *c1, commodity_t *c2) {
+    if (strcmp(c1->name, c2->name) == 0) {
+        return true;
+    }
+    return false;
 }

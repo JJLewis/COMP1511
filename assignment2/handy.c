@@ -48,3 +48,13 @@ double coord_of_max_D(int height, int width, double matrix[height][width], int *
     *column = lCol;
     return largest;
 }
+
+int smallestElementI(int size, int array[size]) {
+    int smallest = array[0];
+    for (int i = 0; i < size; i++) {
+        if (array[i] < smallest) {
+            smallest = array[i];
+        }
+    }
+    return smallest;
+}

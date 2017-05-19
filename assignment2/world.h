@@ -22,6 +22,7 @@ void move_location(location_t *location, int distance);
 // handy_world.c
 int number_of_locations(bot_t *bot);
 int filter_zero_quantity(location_t locations[MAX_LOCATIONS], int size);
+location_pair_t *create_location_pair(location_t *seller, location_t *buyer);
 
 // significant_locations.c
 location_t *find_start_location(location_t *a_location);

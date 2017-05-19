@@ -8,9 +8,9 @@
 #include "debugger.h"
 #include <math.h>
 
-int cost_of_travel(location_t *start, location_t *end) {
-    int distance = true_distance_between(start, end);
-    location_t *petrol = nearest_petrol_station(end, -1);
+int cost_of_travel(location_pair_t *pair) {
+    int distance = pair->distance;
+    location_t *petrol = nearest_petrol_station(pair->buyer, -1);
     return distance * petrol->price;
 }
 
@@ -30,7 +30,7 @@ double gain_per_turn(location_t *seller, location_t *buyer, bot_t *bot, int max_
     return gainPerTurn;
 }
 
-void best_pair_for_commodity(bot_t *bot, commodity_t *commodity, location_t *b_seller, location_t *b_buyer) {
+location_pair_t best_pair_for_commodity(bot_t *bot, commodity_t *commodity) {
     location_t buyers[MAX_LOCATIONS] = {0};
     location_t sellers[MAX_LOCATIONS] = {0};
     int numBuyers = all_buyers_of_commodity(bot, commodity, buyers);
@@ -62,20 +62,19 @@ void best_pair_for_commodity(bot_t *bot, commodity_t *commodity, location_t *b_s
         throw_warning("Best Pair for Commodity was -ve!");
     }
 
-    *b_seller = sellers[row];
-    *b_buyer = buyers[col];
+    return create_location_pair(sellers[row], buyers[col]);
 }
 
 // TODO: Should floor or ceil num_turns_2_exhaust?
-int gain_from_exhausting(bot_t *bot, location_t *seller, location_t *buyer) {
-    int max_loadable = max_cargo_amount_for_commodity(bot, seller->commodity);
-    int seller_amount = seller->quantity;
-    int seller_price = seller->price;
-    int buyer_amount = buyer->quantity;
-    int buyer_price = buyer->price;
+int gain_from_exhausting(bot_t *bot, location_pair_t *pair) {
+    int max_loadable = max_cargo_amount_for_commodity(bot, pair->commodity);
+    int seller_amount = pair->seller->quantity;
+    int seller_price = pair->seller->price;
+    int buyer_amount = pair->buyer->quantity;
+    int buyer_price = pair->buyer->price;
     int max_amount = seller_amount > buyer_amount ? seller_amount : buyer_amount;
     int num_turns_2_exhaust = floorf((double)max_amount / (double)max_loadable);
-    int travel_cost = cost_of_travel(seller, buyer);
+    int travel_cost = cost_of_travel(pair);
 
     int total_profit = max_amount * (buyer_price - seller_price);
     int total_lost_in_transit = 2 * travel_cost * num_turns_2_exhaust;
@@ -83,27 +82,21 @@ int gain_from_exhausting(bot_t *bot, location_t *seller, location_t *buyer) {
     return total_profit - total_lost_in_transit;
 }
 
-void best_buy_sell_pair(bot_t *bot, location_t *b_seller, location_t *b_buyer) {
+location_pair_t *best_buy_sell_pair(bot_t *bot) {
     commodity_t commodities[];
     int num_commodities = all_commodities(bot->location, commodities);
 
-    location_t *best_seller;
-    location_t *best_buyer;
-    best_pair_for_commodity(bot, commodities[0], best_seller, best_buyer);
+    location_pair_t *best_pair = best_pair_for_commodity(bot, commodities[0]);
     int max_gain = gain_from_exhausting(best_seller, best_buyer);
 
     for (int c = 1; c < num_commodities; c++) {
-        location_t *seller;
-        location_t *buyer;
-        best_pair_for_commodity(bot, commodities[i], seller, buyer);
-        int gain = gain_from_exhausting(bot, seller, buyer);
+        location_pair_t *pair = best_pair_for_commodity(bot, commodities[i]);
+        int gain = gain_from_exhausting(bot, pair);
         if (gain > max_gain) {
-            best_seller = seller;
-            best_buyer = buyer;
+            best_pair = pair;
             max_gain = gain;
         }
     }
 
-    *b_seller = best_seller;
-    *b_buyer = best_buyer;
+    return best_pair;
 }

@@ -31,5 +31,6 @@ int max_cargo_amount_for_commodity(bot_t *bot, commodity_t *commodity);
 int number_of_sustainable_turns(bot_t *bot, location_pair_t *pair);
 
 // money.c
-int cost_of_travel(location_t *start, location_t *end);
-void best_pair_for_commodity(bot_t *bot, commodity_t *commodity, location_t *b_seller, location_t *b_buyer);
+int cost_of_travel(location_pair_t *pair);
+location_pair_t best_pair_for_commodity(bot_t *bot, commodity_t *commodity);
+location_pair_t *best_buy_sell_pair(bot_t *bot);

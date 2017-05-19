@@ -17,6 +17,13 @@ int max_cargo_amount_for_commodity(bot_t *bot, commodity_t *commodity) {
     }
 }
 
+bool has_cargo(bot_t *bot) {
+    if (bot->cargo->quantity > 0) {
+        return true;
+    }
+    return false;
+}
+
 /*
  * Seller and Buyer are the ones being exploited.
  */

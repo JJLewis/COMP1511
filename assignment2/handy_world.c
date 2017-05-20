@@ -6,7 +6,7 @@
 #include <stdbool.h>
 #include <string.h>
 
-int number_of_locations(bot_t *bot) {
+int number_of_locations(bot_t bot) {
     location_t *start = find_start_location(bot->location);
     location_t *a_location = start;
     int counter = 0;

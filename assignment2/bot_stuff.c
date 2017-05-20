@@ -6,6 +6,7 @@
 #include "world.h"
 #include <math.h>
 #include <stdbool.h>
+#include <stdlib.h>
 
 int max_cargo_amount_for_commodity(bot_t bot, commodity_t commodity) {
     int weight_max = bot->maximum_cargo_weight / commodity->weight;

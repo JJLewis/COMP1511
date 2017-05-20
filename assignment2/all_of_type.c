@@ -9,7 +9,7 @@
 
 bool commodity_exists(commodity_t x, commodity_t commodities[], int size) {
     for (int i = 0; i < size; i++) {
-        if (x == commodities[i]) {
+        if (is_commodities_equal(x, commodities[i])) {
             return true;
         }
     }
@@ -21,7 +21,7 @@ int all_commodities(location_t location, commodity_t commodities[]) {
     int numCommodities = 0;
     do {
         commodity_t a_commodity = a_location->commodity;
-        if (!commodity_exists(a_commodity, commodities)) {
+        if (!commodity_exists(a_commodity, commodities, numCommodities)) {
             commodities[numCommodities] = a_commodity;
             numCommodities++;
         }

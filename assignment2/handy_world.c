@@ -39,8 +39,8 @@ int filter_zero_quantity(location_t locations[MAX_LOCATIONS], int size) {
     return index;
 }
 
-location_pair_t *create_location_pair(location_t seller, location_t buyer) {
-    location_pair_t *pair = malloc(sizeof(location_pair_t));
+location_pair_t create_location_pair(location_t seller, location_t buyer) {
+    location_pair_t pair = malloc(sizeof(location_pair_t));
     pair->seller = seller;
     pair->buyer = buyer;
     pair->commodity = seller->commodity;

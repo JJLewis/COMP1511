@@ -9,7 +9,7 @@
 #include <math.h>
 #include <stdlib.h>
 
-int cost_of_travel(location_pair_t *pair) {
+int cost_of_travel(location_pair_t pair) {
     int distance = pair->distance;
     location_t petrol = nearest_petrol_station(pair->buyer, -1);
     return distance * petrol->price;
@@ -67,7 +67,7 @@ location_pair_t best_pair_for_commodity(bot_t bot, commodity_t commodity) {
 }
 
 // TODO: Should floor or ceil num_turns_2_exhaust?
-int gain_from_exhausting(bot_t bot, location_pair_t *pair) {
+int gain_from_exhausting(bot_t bot, location_pair_t pair) {
     int max_loadable = max_cargo_amount_for_commodity(bot, pair->commodity);
     int seller_amount = pair->seller->quantity;
     int seller_price = pair->seller->price;
@@ -83,15 +83,15 @@ int gain_from_exhausting(bot_t bot, location_pair_t *pair) {
     return total_profit - total_lost_in_transit;
 }
 
-location_pair_t *best_buy_sell_pair(bot_t bot) {
+location_pair_t best_buy_sell_pair(bot_t bot) {
     commodity_t commodities[];
     int num_commodities = all_commodities(bot->location, commodities);
 
-    location_pair_t *best_pair = best_pair_for_commodity(bot, commodities[0]);
+    location_pair_t best_pair = best_pair_for_commodity(bot, commodities[0]);
     int max_gain = gain_from_exhausting(best_seller, best_buyer);
 
     for (int c = 1; c < num_commodities; c++) {
-        location_pair_t *pair = best_pair_for_commodity(bot, commodities[i]);
+        location_pair_t pair = best_pair_for_commodity(bot, commodities[i]);
         int gain = gain_from_exhausting(bot, pair);
         if (gain > max_gain) {
             free(best_pair); // Free all structs that aren't the best so not required.

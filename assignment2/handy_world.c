@@ -25,12 +25,11 @@ void duplicate_locations(location_t source[MAX_LOCATIONS], location_t destinatio
     }
 }
 
-// TODO: Check if location[i].quantity works
 int filter_zero_quantity(location_t locations[MAX_LOCATIONS], int size) {
     location_t temp[MAX_LOCATIONS] = {0};
     int index = 0;
     for (int i = 0; i < size; i++) {
-        if (locations[i].quantity > 0) {
+        if (locations[i]->quantity > 0) {
             temp[index] = locations[i];
             index++;
         }

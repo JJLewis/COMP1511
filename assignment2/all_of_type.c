@@ -81,6 +81,7 @@ int all_petrol_stations(location_t a_location, location_t locations[MAX_LOCATION
             locations[index] = tracker;
             index++;
         }
-    } while (tracker != start);
+        tracker = tracker->next;
+    } while (tracker != a_location);
     return index;
 }

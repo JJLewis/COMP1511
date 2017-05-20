@@ -95,7 +95,7 @@ void get_action(struct bot *b, int *action, int *n) {
         case LOCATION_PETROL_STATION:
             if (is_full_fuel(b)) {
                 *action = ACTION_MOVE;
-                *n = amount_move_to(b->location, pair->buyer);
+                *n = amount_move_to(b, pair->buyer);
             } else {
                 *action = ACTION_BUY;
                 *n = b->fuel_tank_capacity - b->fuel;
@@ -104,9 +104,9 @@ void get_action(struct bot *b, int *action, int *n) {
         default:
             *action = ACTION_MOVE;
             if (has_cargo(b)) {
-                *n = amount_move_to(b->location, pair->buyer);
+                *n = amount_move_to(b, pair->buyer);
             } else {
-                *n = amount_move_to(b->location, pair->seller);
+                *n = amount_move_to(b, pair->seller);
             }
             break;
     }

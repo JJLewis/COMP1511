@@ -24,6 +24,20 @@ bool has_cargo(bot_t *bot) {
     return false;
 }
 
+int cargo_quantity_for(bot_t *bot, commodity_t *commodity) {
+    cargo_t *cargo = bot->cargo;
+    while (!is_commodities_equal(cargo->commodity, commodity)) {
+        if (cargo->next == NULL) {
+            return 0;
+        }
+        cargo = cargo->next;
+    }
+    return cargo->quantity;
+}
+
+bool is_full_fuel(bot_t *bot) {
+    return bot->fuel == bot->fuel_tank_capacity;
+}
 /*
  * Seller and Buyer are the ones being exploited.
  */

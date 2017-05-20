@@ -6,6 +6,7 @@
 #include "jjbot.h"
 #include "world.h"
 #include "handy.h"
+#include <stdbool.h>
 
 char *get_bot_name(void) {
     return "Plumpess";
@@ -29,26 +30,41 @@ int amount_to_buy(bot_t *bot, location_pair_t *pair) {
     return smallestElementI(3, to_buy);
 }
 
-
-
-
-
-
-
-
+bool is_at_either_location(bot_t *b, location_pair_t *pair) {
+    return is_location_equal(b->location, pair->seller) || is_location_equal(b->location, pair->buyer);
+}
 
 void get_action(struct bot *b, int *action, int *n) {
     location_t *current_location = bot->location;
     int current_type = current_location->type;
 
+    location_pair_t *pair;
+    if (has_cargo(b)) {
+        pair = best_pair_for_commodity(b, b->cargo->commodity);
+    } else {
+        pair = best_buy_sell_pair(b);
+    }
+
+
+    /*
+     * Fuel code here
+     */
+    if (should_refuel(b, pair)) {
+        if (!is_at_either_location(b, pair)) {
+            if (has_cargo(b)) {
+                location_t *nearest_petrol = nearest_petrol_station(bot->location, -1);
+                *action = ACTION_MOVE;
+                *n = amount_move_to(b, nearest_petrol);
+            }
+        }
+    }
+
     switch (current_type) {
         case LOCATION_START:
-            location_pair_t *pair = best_buy_sell_pair(b);
             *action = ACTION_MOVE;
             *n = amount_move_to(bot, pair->seller);
             return;
         case LOCATION_SELLER:
-            location_pair_t *pair = best_buy_sell_pair(b);
             // If at the correct seller
             if (is_location_equal(bot->location, pair->seller)) {
                 if (has_cargo(bot)) {
@@ -66,8 +82,34 @@ void get_action(struct bot *b, int *action, int *n) {
             }
             break;
         case LOCATION_BUYER:
+            if (is_location_equal(b->location, pair->buyer)) {
+                if (has_cargo(b)) {
+                    *action = ACTION_BUY;
+                    *n = cargo_quantity_for(b, pair->commodity);
+                } else {
+                    *action = ACTION_MOVE;
+                    *n = amount_move_to(bot, pair->seller);
+                }
+            }
+            break;
+        case LOCATION_PETROL_STATION:
+            if (is_full_fuel(b)) {
+                *action = ACTION_MOVE;
+                *n = amount_move_to(b->location, pair->buyer);
+            } else {
+                *action = ACTION_BUY;
+                *n = b->fuel_tank_capacity - b->fuel;
+            }
             break;
         default:
+            *action = ACTION_MOVE;
+            if (has_cargo(b)) {
+                *n = amount_move_to(b->location, pair->buyer);
+            } else {
+                *n = amount_move_to(b->location, pair->seller);
+            }
             break;
     }
+
+    free(pair);
 }

@@ -93,8 +93,11 @@ location_pair_t *best_buy_sell_pair(bot_t *bot) {
         location_pair_t *pair = best_pair_for_commodity(bot, commodities[i]);
         int gain = gain_from_exhausting(bot, pair);
         if (gain > max_gain) {
+            free(best_pair); // Free all structs that aren't the best so not required.
             best_pair = pair;
             max_gain = gain;
+        } else {
+            free(pair); // Free all structs that aren't the best so not required.
         }
     }
 

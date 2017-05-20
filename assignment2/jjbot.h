@@ -30,6 +30,8 @@ typedef struct location_pair location_pair_t;
 int max_cargo_amount_for_commodity(bot_t *bot, commodity_t *commodity);
 int number_of_sustainable_turns(bot_t *bot, location_pair_t *pair);
 bool has_cargo(bot_t *bot);
+int cargo_quantity_for(bot_t *bot, commodity_t *commodity);
+bool is_full_fuel(bot_t *bot);
 int number_of_sustainable_move_turns(bot_t *bot, location_pair_t *pair);
 bool should_refuel(bot_t *bot, location_pair_t *pair);
 

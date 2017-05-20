@@ -89,7 +89,7 @@ int gain_from_exhausting(bot_t bot, location_pair_t pair) {
 }
 
 location_pair_t best_buy_sell_pair(bot_t bot) {
-    commodity_t commodities[];
+    commodity_t commodities[] = {0};
     int num_commodities = all_commodities(bot->location, commodities);
 
     location_pair_t best_pair = best_pair_for_commodity(bot, commodities[0]);

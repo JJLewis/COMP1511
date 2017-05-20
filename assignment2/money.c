@@ -7,6 +7,7 @@
 #include "handy.h"
 #include "debugger.h"
 #include <math.h>
+#include <stdlib.h>
 
 int cost_of_travel(location_pair_t *pair) {
     int distance = pair->distance;

@@ -8,6 +8,7 @@
 #endif //ASSIGNMENT2_JJBOT_H
 
 #include "trader_bot.h"
+#include <stdbool.h>
 
 #define LOW_FUEL_THRESHOLD 5
 

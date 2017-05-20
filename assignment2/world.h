@@ -10,7 +10,7 @@
 
 #endif //ASSIGNMENT2_WORLD_H_H
 
-#include "jjbot.h"
+#include "structs.h"
 
 // motion.c
 int distance_between(location_t location1, location_t location2);

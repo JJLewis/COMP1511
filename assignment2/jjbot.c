@@ -3,7 +3,6 @@
 //
 
 #include "trader_bot.h"
-#include "jjbot.h"
 #include "world.h"
 #include "handy.h"
 #include <stdbool.h>

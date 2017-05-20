@@ -20,9 +20,14 @@ double gain_per_turn(location_t seller, location_t buyer, bot_t bot, int max_car
     int travelTurns = (int)ceilf((double)bot->maximum_move / (double)distance);
     int tradeTurns = 2 + 2 * travelTurns; // buy, travel, sell, travel back to buy
 
+    int maxLoadable = max_cargo_amount_for_commodity(bot, seller->commodity);
+
     int buyCost = seller->price * maxLoadable;
     int sellCost = buyer->price * maxLoadable;
-    int travelCost = cost_of_travel(seller, buyer);
+
+    location_pair_t pair = create_location_pair(seller, buyer);
+    int travelCost = cost_of_travel(pair);
+    free(pair);
 
     int netGain = sellCost - (buyCost + 2 * travelCost);
 
@@ -88,10 +93,10 @@ location_pair_t best_buy_sell_pair(bot_t bot) {
     int num_commodities = all_commodities(bot->location, commodities);
 
     location_pair_t best_pair = best_pair_for_commodity(bot, commodities[0]);
-    int max_gain = gain_from_exhausting(best_seller, best_buyer);
+    int max_gain = gain_from_exhausting(bot, best_pair);
 
     for (int c = 1; c < num_commodities; c++) {
-        location_pair_t pair = best_pair_for_commodity(bot, commodities[i]);
+        location_pair_t pair = best_pair_for_commodity(bot, commodities[c]);
         int gain = gain_from_exhausting(bot, pair);
         if (gain > max_gain) {
             free(best_pair); // Free all structs that aren't the best so not required.

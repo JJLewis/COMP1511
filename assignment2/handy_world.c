@@ -59,7 +59,7 @@ bool is_location_equal(location_t location1, location_t location2) {
     return false;
 }
 
-bool is_commodities_equal(commodity_t *c1, commodity_t *c2) {
+bool is_commodities_equal(commodity_t c1, commodity_t c2) {
     if (strcmp(c1->name, c2->name) == 0) {
         return true;
     }

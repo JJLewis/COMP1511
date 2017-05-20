@@ -7,7 +7,7 @@
 #include <math.h>
 #include <stdbool.h>
 
-int max_cargo_amount_for_commodity(bot_t bot, commodity_t *commodity) {
+int max_cargo_amount_for_commodity(bot_t bot, commodity_t commodity) {
     int weight_max = bot->maximum_cargo_weight / commodity->weight;
     int volume_max = bot->maximum_cargo_volume / commodity->volume;
     if (weight_max < volume_max) {
@@ -24,7 +24,7 @@ bool has_cargo(bot_t bot) {
     return false;
 }
 
-int cargo_quantity_for(bot_t bot, commodity_t *commodity) {
+int cargo_quantity_for(bot_t bot, commodity_t commodity) {
     cargo_t cargo = bot->cargo;
     while (!is_commodities_equal(cargo->commodity, commodity)) {
         if (cargo->next == NULL) {

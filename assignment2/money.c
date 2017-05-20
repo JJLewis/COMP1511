@@ -31,7 +31,7 @@ double gain_per_turn(location_t seller, location_t buyer, bot_t bot, int max_car
     return gainPerTurn;
 }
 
-location_pair_t best_pair_for_commodity(bot_t bot, commodity_t *commodity) {
+location_pair_t best_pair_for_commodity(bot_t bot, commodity_t commodity) {
     location_t buyers[MAX_LOCATIONS] = {0};
     location_t sellers[MAX_LOCATIONS] = {0};
     int numBuyers = all_buyers_of_commodity(bot, commodity, buyers);

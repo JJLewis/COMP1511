@@ -13,7 +13,7 @@ location_t find_start_location(location_t a_location) {
     return current;
 }
 
-location_t highest_buyer_of_commodity(bot_t bot, commodity_t *commodity) {
+location_t highest_buyer_of_commodity(bot_t bot, commodity_t commodity) {
     location_t buyers[MAX_LOCATIONS] = {0};
     int numBuyers = all_buyers_of_commodity(bot, commodity, buyers);
 
@@ -30,7 +30,7 @@ location_t highest_buyer_of_commodity(bot_t bot, commodity_t *commodity) {
     return highest;
 }
 
-location_t lowest_seller_of_commodity(bot_t bot, commodity_t *commodity) {
+location_t lowest_seller_of_commodity(bot_t bot, commodity_t commodity) {
     location_t sellers[MAX_LOCATIONS] = {0};
     int numSellers = all_sellers_of_commodity(bot, commodity, sellers);
 

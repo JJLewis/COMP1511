@@ -19,8 +19,8 @@ typedef struct commodity *commodity_t;
 typedef struct bot_list *bot_list_t;
 
 struct location_pair {
-    location_t *seller;
-    location_t *buyer;
+    location_t seller;
+    location_t buyer;
     commodity_t *commodity;
     int distance;
 };

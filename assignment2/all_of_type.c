@@ -16,8 +16,8 @@ bool commodity_exists(commodity_t *x, commodity_t commodities[], int size) {
     return false;
 }
 
-int all_commodities(location_t *location, commodity_t commodities[]) {
-    location_t *a_location = location;
+int all_commodities(location_t location, commodity_t commodities[]) {
+    location_t a_location = location;
     int numCommodities = 0;
     do {
         commodity_t *a_commodity = a_location->commodity;
@@ -32,7 +32,7 @@ int all_commodities(location_t *location, commodity_t commodities[]) {
 }
 
 int all_locations_of_commodity_of_type(bot_t bot, commodity_t *commodity, int type, location_t locations[MAX_LOCATIONS]) {
-    location_t *a_location = bot->location;
+    location_t a_location = bot->location;
     int index = 0;
     do {
         if (a_location->type == type) {
@@ -73,8 +73,8 @@ int all_locations_of_commodity(bot_t bot, commodity_t *commodity, location_t loc
     return numBuyers + numSellers;
 }
 
-int all_petrol_stations(location_t *a_location, location_t locations[MAX_LOCATIONS]) {
-    location_t *tracker = a_location;
+int all_petrol_stations(location_t a_location, location_t locations[MAX_LOCATIONS]) {
+    location_t tracker = a_location;
     int index = 0;
     do {
         if (tracker->type == LOCATION_PETROL_STATION) {

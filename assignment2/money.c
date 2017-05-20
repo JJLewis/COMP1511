@@ -11,11 +11,11 @@
 
 int cost_of_travel(location_pair_t *pair) {
     int distance = pair->distance;
-    location_t *petrol = nearest_petrol_station(pair->buyer, -1);
+    location_t petrol = nearest_petrol_station(pair->buyer, -1);
     return distance * petrol->price;
 }
 
-double gain_per_turn(location_t *seller, location_t *buyer, bot_t bot, int max_cargo) {
+double gain_per_turn(location_t seller, location_t buyer, bot_t bot, int max_cargo) {
     int distance = true_distance_between(seller, buyer);
     int travelTurns = (int)ceilf((double)bot->maximum_move / (double)distance);
     int tradeTurns = 2 + 2 * travelTurns; // buy, travel, sell, travel back to buy
@@ -45,11 +45,11 @@ location_pair_t best_pair_for_commodity(bot_t bot, commodity_t *commodity) {
     double gainMatix[numSellers][numBuyers];
 
     for (int s = 0; s < numSellers; s++) {
-        location_t *seller = sellers[s];
+        location_t seller = sellers[s];
         // Account for the seller offering less than the max
         if (seller->quantity < maxLoadable) { maxLoadable = seller->quantity; }
         for (int b = 0; b < numBuyers; b++) {
-            location_t *buyer = buyers[b];
+            location_t buyer = buyers[b];
             // Account for the buyer buying less than the max OR how much the seller is offering
             if (buyer->quantity < maxLoadable) { maxLoadable = buyer->quantity; }
             gainMatix[s][b] = gain_per_turn(seller, buyer, bot, maxLoadable);

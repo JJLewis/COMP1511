@@ -12,7 +12,7 @@ char *get_bot_name(void) {
     return "Plumpess";
 }
 
-int amount_move_to(bot_t bot, location_t *destination) {
+int amount_move_to(bot_t bot, location_t destination) {
     int max_move = bot->maximum_move;
     int distance = distance_between(bot->location, destination);
     int t_distance = true_distance_between(bot->location, destination);
@@ -35,7 +35,7 @@ bool is_at_either_location(bot_t b, location_pair_t *pair) {
 }
 
 void get_action(struct bot *b, int *action, int *n) {
-    location_t *current_location = bot->location;
+    location_t current_location = bot->location;
     int current_type = current_location->type;
 
     location_pair_t *pair;
@@ -52,7 +52,7 @@ void get_action(struct bot *b, int *action, int *n) {
     if (should_refuel(b, pair)) {
         if (!is_at_either_location(b, pair)) {
             if (has_cargo(b)) {
-                location_t *nearest_petrol = nearest_petrol_station(bot->location, -1);
+                location_t nearest_petrol = nearest_petrol_station(bot->location, -1);
                 *action = ACTION_MOVE;
                 *n = amount_move_to(b, nearest_petrol);
             }

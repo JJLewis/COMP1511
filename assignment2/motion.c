@@ -4,9 +4,9 @@
 
 #include "world.h"
 
-int distance_between(location_t *location1, location_t *location2) {
+int distance_between(location_t location1, location_t location2) {
     int forward_distance = 0;
-    location_t *tracking_location = location1;
+    location_t tracking_location = location1;
     while (tracking_location != location2) {
         forward_distance++;
         tracking_location = tracking_location->next;
@@ -26,13 +26,13 @@ int distance_between(location_t *location1, location_t *location2) {
     }
 }
 
-int true_distance_between(location_t *location1, location_t *location2) {
+int true_distance_between(location_t location1, location_t location2) {
     int distance = distance_between(location1, location2);
     int direction = distance_to_direction(distance);
     return distance * direction;
 }
 
-void shift_location(location_t *location, int direction) {
+void shift_location(location_t location, int direction) {
     if (direction == DIRECTION_FORWARD) {
         location = location->next;
     } else {
@@ -48,7 +48,7 @@ int distance_to_direction(int distance) {
     }
 }
 
-void move_location(location_t *location, int distance) {
+void move_location(location_t location, int distance) {
     int direction = distance_to_direction(distance);
     // Multiplying the distance by the direction makes the distance always +ve
     for (int i = 0; i < distance * direction; i++) {

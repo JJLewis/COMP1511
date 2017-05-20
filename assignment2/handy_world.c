@@ -6,9 +6,9 @@
 #include <stdbool.h>
 #include <string.h>
 
-int number_of_locations(bot_t *bot) {
-    location_t *start = find_start_location(bot->location);
-    location_t *a_location = start;
+int number_of_locations(bot_t bot) {
+    location_t start = find_start_location(bot->location);
+    location_t a_location = start;
     int counter = 0;
 
     do {
@@ -39,8 +39,8 @@ int filter_zero_quantity(location_t locations[MAX_LOCATIONS], int size) {
     return index;
 }
 
-location_pair_t *create_location_pair(location_t *seller, location_t *buyer) {
-    location_pair_t *pair = malloc(sizeof(location_pair_t));
+location_pair_t create_location_pair(location_t seller, location_t buyer) {
+    location_pair_t pair = malloc(sizeof(location_pair_t));
     pair->seller = seller;
     pair->buyer = buyer;
     pair->commodity = seller->commodity;
@@ -48,7 +48,7 @@ location_pair_t *create_location_pair(location_t *seller, location_t *buyer) {
     return pair;
 }
 
-bool is_location_equal(location_t *location1, location_t *location2) {
+bool is_location_equal(location_t location1, location_t location2) {
     if (location1->type == location2->type) {
         if (strcmp(location1->name, location2->name) == 0) {
             if (is_commodities_equal(location1->commodity, location2->commodity)) {
@@ -59,7 +59,7 @@ bool is_location_equal(location_t *location1, location_t *location2) {
     return false;
 }
 
-bool is_commodities_equal(commodity_t *c1, commodity_t *c2) {
+bool is_commodities_equal(commodity_t c1, commodity_t c2) {
     if (strcmp(c1->name, c2->name) == 0) {
         return true;
     }

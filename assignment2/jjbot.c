@@ -35,7 +35,7 @@ bool is_at_either_location(bot_t b, location_pair_t pair) {
 }
 
 void get_action(struct bot *b, int *action, int *n) {
-    location_t current_location = bot->location;
+    location_t current_location = b->location;
     int current_type = current_location->type;
 
     location_pair_t pair;
@@ -52,7 +52,7 @@ void get_action(struct bot *b, int *action, int *n) {
     if (should_refuel(b, pair)) {
         if (!is_at_either_location(b, pair)) {
             if (has_cargo(b)) {
-                location_t nearest_petrol = nearest_petrol_station(bot->location, -1);
+                location_t nearest_petrol = nearest_petrol_station(b->location, -1);
                 *action = ACTION_MOVE;
                 *n = amount_move_to(b, nearest_petrol);
             }
@@ -62,23 +62,23 @@ void get_action(struct bot *b, int *action, int *n) {
     switch (current_type) {
         case LOCATION_START:
             *action = ACTION_MOVE;
-            *n = amount_move_to(bot, pair->seller);
+            *n = amount_move_to(b, pair->seller);
             return;
         case LOCATION_SELLER:
             // If at the correct seller
-            if (is_location_equal(bot->location, pair->seller)) {
-                if (has_cargo(bot)) {
+            if (is_location_equal(b->location, pair->seller)) {
+                if (has_cargo(b)) {
                     // Move to buyer
                     *action = ACTION_MOVE;
-                    *n = amount_move_to(bot, pair->buyer);
+                    *n = amount_move_to(b, pair->buyer);
                 } else {
                     *action = ACTION_BUY;
-                    *n = amount_to_buy(bot, pair);
+                    *n = amount_to_buy(b, pair);
                 }
             } else {
                 // If not at the right seller (ie still in transit)
                 *action = ACTION_MOVE;
-                *n = amount_move_to(bot, pair->seller);
+                *n = amount_move_to(b, pair->seller);
             }
             break;
         case LOCATION_BUYER:
@@ -88,7 +88,7 @@ void get_action(struct bot *b, int *action, int *n) {
                     *n = cargo_quantity_for(b, pair->commodity);
                 } else {
                     *action = ACTION_MOVE;
-                    *n = amount_move_to(bot, pair->seller);
+                    *n = amount_move_to(b, pair->seller);
                 }
             }
             break;

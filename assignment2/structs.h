@@ -2,10 +2,8 @@
 // Created by Jordan Lewis on 20/5/17.
 //
 
-#ifndef ASSIGNMENT2_STRUCTS_H
-#define ASSIGNMENT2_STRUCTS_H
-
-#endif //ASSIGNMENT2_STRUCTS_H
+#ifndef STRUCTS_H
+#define STRUCTS_H
 
 typedef struct bot *bot_t;
 typedef struct location *location_t;
@@ -21,3 +19,5 @@ struct location_pair {
 };
 
 typedef struct location_pair *location_pair_t;
+
+#endif //STRUCTS_H

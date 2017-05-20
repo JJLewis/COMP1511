@@ -2,15 +2,17 @@
 // Created by Jordan Lewis on 13/5/17.
 //
 
-#ifndef ASSIGNMENT2_WORLD_H_H
-#define ASSIGNMENT2_WORLD_H_H
+#ifndef WORLD_H
+#define WORLD_H
+
+#endif //WORLD_H
+
+#include <stdbool.h>
+#include "trader_bot.h"
+#include "structs.h"
 
 #define DIRECTION_FORWARD 1
 #define DIRECTION_BACKWARD -1
-
-#endif //ASSIGNMENT2_WORLD_H_H
-
-#include "structs.h"
 
 // motion.c
 int distance_between(location_t location1, location_t location2);

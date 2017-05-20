@@ -2,17 +2,16 @@
 // Created by Jordan Lewis on 13/5/17.
 //
 
-#ifndef ASSIGNMENT2_JJBOT_H
-#define ASSIGNMENT2_JJBOT_H
+#ifndef JJBOT_H
+#define JJBOT_H
 
-#endif //ASSIGNMENT2_JJBOT_H
+#endif //JJBOT_H
 
 #include "trader_bot.h"
 #include <stdbool.h>
+#include "structs.h"
 
 #define LOW_FUEL_THRESHOLD 5
-
-#include "structs.h"
 
 // bot_stuff.c
 int max_cargo_amount_for_commodity(bot_t bot, commodity_t commodity);

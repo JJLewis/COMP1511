@@ -2,6 +2,7 @@
 // Created by Jordan Lewis on 13/5/17.
 //
 
+#include "jjbot.h"
 #include "world.h"
 #include "handy.h"
 #include "debugger.h"

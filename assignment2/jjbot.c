@@ -7,6 +7,7 @@
 #include "world.h"
 #include "handy.h"
 #include <stdbool.h>
+#include <stdlib.h>
 
 char *get_bot_name(void) {
     return "Plumpess";

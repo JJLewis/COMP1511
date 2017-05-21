@@ -115,6 +115,7 @@ struct node *delete_contains(int i, struct node *head) {
 					tracker = prev->next;
 				}
 			}
+			break;
 		} else {
 			prev = tracker;
 			tracker = tracker->next;

@@ -99,18 +99,29 @@ struct node *delete_last(struct node *head) {
 struct node *delete_contains(int i, struct node *head) {
 	// REPLACE LINE THIS WITH YOUR CODE
     	struct node *tracker = head;
-	struct node *prev = tracker;
+	struct node *new_head = head;
+	struct node *prev = NULL;
+	
 	while (tracker != NULL) {
 		if (tracker->data == i) {
-			prev->next = tracker->next;
-			free(tracker);
-			tracker = prev;
+			if (tracker == new_head) {
+				new_head = tracker->next;
+				free(tracker);
+				tracker = new_head;
+			} else {
+				if (prev != NULL) {
+					prev->next = tracker->next;
+					free(tracker);
+					tracker = prev->next;
+				}
+			}
 		} else {
 			prev = tracker;
 			tracker = tracker->next;
 		}
-	}
-	return head;
+	}	
+
+	return new_head;
 }
 
 int length_of(struct node *head) {

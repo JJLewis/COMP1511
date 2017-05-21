@@ -69,9 +69,6 @@ struct node *delete_first(struct node *head) {
 		return head;
 	}
 	struct node *new_head = head->next;
-	if (new_head == NULL) {
-		return head;
-	}
 	free(head);
 	return new_head;
 }
@@ -82,6 +79,10 @@ struct node *delete_last(struct node *head) {
 	// REPLACE LINE THIS WITH YOUR CODE
     	if (head == NULL) {
 		return head;
+	}
+	if (head->next == NULL) {
+		free(head);
+		return NULL;
 	}
 	struct node *tracker = head;
 	while (tracker->next->next != NULL) {
@@ -112,11 +113,41 @@ struct node *delete_contains(int i, struct node *head) {
 	return head;
 }
 
+int length_of(struct node *head) {
+	int counter = 0;
+	for (struct node *n = head; n != NULL; n = n->next) {
+		counter++;
+	}
+	return counter;
+}
+
+struct node *nth_element(int n, struct node *head) {
+	struct node *tracker = head;
+	for (int i = 0; i < n; i++) {
+		tracker = tracker->next;
+	}
+	return tracker;
+}
+
+struct node *move_head_to_x(int x, struct node *head) {
+	struct node *before = nth_element(x, head);
+	struct node *after = before->next;
+	struct node *new_head = head->next;
+	before->next = head;
+	head->next = after;
+	return new_head;
+}
+
 // reverse the nodes in list
 
 struct node *reverse(struct node *head) {
-    // REPLACE LINE THIS WITH YOUR CODE
-    return head;
+	// REPLACE LINE THIS WITH YOUR CODE
+	struct node *current_head = head;
+	int length = length_of(head);
+	for (int i = 1; i < length; i++) {
+		current_head = move_head_to_x(length-i, current_head);
+	}
+	return current_head;
 }
 
 // print contents of list in Python syntax

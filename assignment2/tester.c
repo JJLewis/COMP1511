@@ -2,12 +2,34 @@
 // Created by Jordan Lewis on 20/5/17.
 //
 
+#include <stdlib.h>
 #include "debugger.h"
-#include "world.h"
 #include "trader_bot.h"
+#include "structs.h"
+#include "world.h"
+
+void test_all_bs_of_commodity(bot_t bot, commodity_t commodity) {
+    print("Buyers");
+    location_t buyers[MAX_LOCATIONS];
+    int numBuyers = all_buyers_of_commodity(bot, commodity, buyers);
+    printI(numBuyers);
+    print_array_of_locations(buyers, numBuyers);
+
+    print("Sellers");
+    location_t sellers[MAX_LOCATIONS];
+    int numSellers = all_sellers_of_commodity(bot, commodity, sellers);
+    printI(numSellers);
+    print_array_of_locations(sellers, numSellers);
+}
 
 void test(bot_t bot) {
-
+    commodity_t commodities[MAX_COMMODITIES];
+    int numCommodities = all_commodities(bot->location, commodities);
+    for (int i = 0; i < numCommodities; i++) {
+        test_all_bs_of_commodity(bot, commodities[i]);
+        print("");
+        print("");
+    }
 }
 
 int main(void) {

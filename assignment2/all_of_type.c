@@ -6,7 +6,7 @@
 #include <string.h>
 #include <stdbool.h>
 
-bool commodity_exists(commodity_t x, commodity_t commodities[], int size) {
+bool commodity_exists(commodity_t x, commodity_t commodities[MAX_COMMODITIES], int size) {
     for (int i = 0; i < size; i++) {
         if (is_commodities_equal(x, commodities[i])) {
             return true;
@@ -15,14 +15,16 @@ bool commodity_exists(commodity_t x, commodity_t commodities[], int size) {
     return false;
 }
 
-int all_commodities(location_t location, commodity_t commodities[]) {
+int all_commodities(location_t location, commodity_t commodities[MAX_COMMODITIES]) {
     location_t a_location = location;
     int numCommodities = 0;
     do {
         commodity_t a_commodity = a_location->commodity;
-        if (!commodity_exists(a_commodity, commodities, numCommodities)) {
-            commodities[numCommodities] = a_commodity;
-            numCommodities++;
+        if (a_commodity != NULL) {
+            if (!commodity_exists(a_commodity, commodities, numCommodities)) {
+                commodities[numCommodities] = a_commodity;
+                numCommodities++;
+            }
         }
         a_location = a_location->next;
     } while (a_location != location);
@@ -35,7 +37,7 @@ int all_locations_of_commodity_of_type(bot_t bot, commodity_t commodity, int typ
     int index = 0;
     do {
         if (a_location->type == type) {
-            if (strcmp(a_location->commodity->name, commodity->name)) {
+            if (strcmp(a_location->commodity->name, commodity->name) == 0) {
                 locations[index] = a_location;
                 index++;
             }

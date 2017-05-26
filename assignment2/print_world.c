@@ -8,13 +8,12 @@
 #include "structs.h"
 #include "debugger.h"
 
-void print_array_of_locations(location_t locations[], int size) {
+void print_array_of_locations(location_t locations[MAX_LOCATIONS], int size) {
     if (IS_DEBUGGING) {
         println();
         for (int i = 0; i < size; i++) {
             location_t loc = locations[i];
             print_location(loc);
-            print("");
         }
         println();
     }

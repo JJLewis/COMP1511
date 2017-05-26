@@ -42,6 +42,7 @@ void test_location_pairs(bot_t bot) {
     println();
     print(pair->seller->name);
     print(pair->buyer->name);
+    print(pair->commodity->name);
     printI(pair->distance);
     println();
 }

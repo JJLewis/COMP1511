@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
+#include "debugger.h"
 
 int number_of_locations(bot_t bot) {
     location_t start = find_start_location(bot->location);
@@ -40,6 +41,16 @@ int filter_zero_quantity(location_t locations[MAX_LOCATIONS], int size) {
 }
 
 location_pair_t create_location_pair(location_t seller, location_t buyer) {
+
+    if (seller == NULL) {
+        print("In create_location_pair (handy_world.c), SELLER passed was NULL!!!");
+        return NULL;
+    }
+    if (buyer == NULL) {
+        print("In create_location_pair (handy_world.c), BUYER passed was NULL!!!");
+        return NULL;
+    }
+
     location_pair_t pair = malloc(sizeof(location_pair_t));
     pair->seller = seller;
     pair->buyer = buyer;

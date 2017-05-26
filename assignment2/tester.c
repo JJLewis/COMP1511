@@ -22,7 +22,7 @@ void test_all_bs_of_commodity(bot_t bot, commodity_t commodity) {
     print_array_of_locations(sellers, numSellers);
 }
 
-void test(bot_t bot) {
+void test_all_commodities(bot_t bot) {
     commodity_t commodities[MAX_COMMODITIES];
     int numCommodities = all_commodities(bot->location, commodities);
     for (int i = 0; i < numCommodities; i++) {
@@ -30,6 +30,24 @@ void test(bot_t bot) {
         print("");
         print("");
     }
+}
+
+void test_location_pairs(bot_t bot) {
+    commodity_t commodities[MAX_COMMODITIES];
+    int numCommodities = all_commodities(bot->location, commodities);
+    location_t buyers[MAX_LOCATIONS], sellers[MAX_LOCATIONS];
+    int numBuyers = all_buyers_of_commodity(bot, commodities[0], buyers);
+    int numSellers = all_sellers_of_commodity(bot, commodities[0], sellers);
+    location_pair_t pair = create_location_pair(sellers[0], buyers[0]);
+    println();
+    print(pair->seller->name);
+    print(pair->buyer->name);
+    printI(pair->distance);
+    println();
+}
+
+void test(bot_t bot) {
+    test_location_pairs(bot);
 }
 
 int main(void) {

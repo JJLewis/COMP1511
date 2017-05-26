@@ -36,3 +36,6 @@ assignment1/pbms/*/*.pbm
 
 # Ignore Microsoft Working Files
 ~$*
+
+# Ignore some weird file that gets generated for some reason
+*.gch

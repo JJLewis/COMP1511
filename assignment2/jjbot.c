@@ -96,7 +96,10 @@ void get_action(struct bot *b, int *action, int *n) {
                     *action = ACTION_MOVE;
                     *n = amount_move_to(b, pair->seller);
                 }
-            }
+            } else {
+		*action = ACTION_MOVE;
+		*n = amount_move_to(b, pair->buyer);
+	    }
             break;
         case LOCATION_PETROL_STATION:
             if (is_full_fuel(b)) {

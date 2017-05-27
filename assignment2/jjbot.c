@@ -82,10 +82,14 @@ void get_action(struct bot *b, int *action, int *n) {
                     *n = amount_to_buy(b, pair);
                 }
             } else {
-                // If not at the right seller (ie still in transit)
                 *action = ACTION_MOVE;
-                *n = amount_move_to(b, pair->seller);
-            }
+		if (has_cargo(b)) {
+		     *n = amount_move_to(b, pair->buyer);
+		} else {
+		     // If not at the right seller (ie still in transit)
+                    *n = amount_move_to(b, pair->seller);
+            	}
+	    }
             break;
         case LOCATION_BUYER:
             if (is_location_equal(b->location, pair->buyer)) {
@@ -97,8 +101,13 @@ void get_action(struct bot *b, int *action, int *n) {
                     *n = amount_move_to(b, pair->seller);
                 }
             } else {
+		// At wrong buyer so move to right buyer
 		*action = ACTION_MOVE;
-		*n = amount_move_to(b, pair->buyer);
+		if (has_cargo(b)) {
+		    *n = amount_move_to(b, pair->buyer);
+		} else {
+		    *n = amount_move_to(b, pair->seller);
+		}
 	    }
             break;
         case LOCATION_PETROL_STATION:

@@ -83,8 +83,8 @@ void get_action(struct bot *b, int *action, int *n) {
             break;
         case LOCATION_BUYER:
             if (is_location_equal(b->location, pair->buyer)) {
-                if (!has_cargo(b)) {
-                    *action = ACTION_BUY;
+                if (has_cargo(b)) {
+                    *action = ACTION_SELL;
                     *n = cargo_quantity_for(b, pair->commodity);
                 } else {
                     *action = ACTION_MOVE;

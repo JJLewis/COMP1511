@@ -64,6 +64,16 @@ void get_action(struct bot *b, int *action, int *n) {
             	return;
 	    }
         }
+
+	if (pair->distance <= b->maximum_move) {
+		int current_type = b->location->type;
+		if (current_type != LOCATION_PETROL_STATION) {
+			location_t nearest_petrol = nearest_petrol_station(b->location, -1);
+			*action = ACTION_MOVE;
+			*n = amount_move_to(b, nearest_petrol);
+			return;
+		}
+	}
 /*       
 	else {
 		if (has_cargo(b)) {
@@ -77,10 +87,6 @@ void get_action(struct bot *b, int *action, int *n) {
 	}
 */
     }
-
-	if (pair->distance <= b->maximum_move) {
-		
-	}
 
     switch (current_type) {
         case LOCATION_START:
@@ -132,8 +138,17 @@ void get_action(struct bot *b, int *action, int *n) {
                 *action = ACTION_MOVE;
                 *n = amount_move_to(b, pair->buyer);
             } else {
-                *action = ACTION_BUY;
-                *n = b->fuel_tank_capacity - b->fuel;
+		if (b->location->quantity > 0) {
+                    *action = ACTION_BUY;
+                    *n = b->fuel_tank_capacity - b->fuel;
+		} else {
+			*action = ACTION_MOVE;
+			if (has_cargo(b)) {
+			    *n = amount_move_to(b, pair->buyer);
+			} else {
+			    *n = amount_move_to(b, pair->seller);
+			}	
+		}
             }
             break;
         default:

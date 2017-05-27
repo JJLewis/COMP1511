@@ -44,7 +44,13 @@ void get_action(struct bot *b, int *action, int *n) {
     } else {
         pair = best_buy_sell_pair(b);
     }
-
+    
+    // If there aren't any good pairs, don't do anything, just stay put.
+    if (pair == NULL) {
+	    *action = ACTION_MOVE;
+	    *n = 0;
+	    return;
+    }
 
     /*
      * Fuel code here

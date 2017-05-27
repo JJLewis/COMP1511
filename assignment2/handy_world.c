@@ -51,7 +51,7 @@ location_pair_t create_location_pair(location_t seller, location_t buyer) {
         return NULL;
     }
 
-    location_pair_t pair = malloc(sizeof(location_pair_t));
+    location_pair_t pair = malloc(sizeof(struct location_pair));
     pair->seller = seller;
     pair->buyer = buyer;
     pair->commodity = seller->commodity;

@@ -161,5 +161,13 @@ void get_action(struct bot *b, int *action, int *n) {
             break;
     }
 
+	location_t destination = location_from_with_distance(b->location, *n);
+	location_t nearest_fuel = nearest_petrol_station(destination, -1);
+	int destination_to_fuel_distance = true_distance_between(destination, nearest_fuel);
+	int remaining_fuel = b->fuel - (*n * distance_to_direction(*n)) - b->maximum_move;
+	if (*action == ACTION_MOVE && remaining_fuel < destination_to_fuel_distance) {
+		*n = amount_move_to(b, nearest_fuel);	
+	}	
+
     free(pair);
 }

@@ -12,6 +12,9 @@
 int cost_of_travel(location_pair_t pair) {
     int distance = pair->distance;
     location_t petrol = nearest_petrol_station(pair->buyer, -1);
+	if (petrol == NULL) {
+		petrol = nearest_petrol_station(pair->buyer, 0);
+	}
     return distance * petrol->price;
 }
 

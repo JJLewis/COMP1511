@@ -56,5 +56,12 @@ bool should_refuel(bot_t bot, location_pair_t pair) {
     if (number_of_sustainable_move_turns(bot, pair) < LOW_FUEL_THRESHOLD) {
         return true;
     }
+
+    location_t nearest_fuel = nearest_petrol_station(bot->location, -1);
+    int distance_to_fuel = true_distance_between(bot->location, nearest_fuel);
+    if (bot->fuel <= distance_to_fuel + LOW_FUEL_THRESHOLD) {
+	    return true;
+    }
+
     return false;
 }

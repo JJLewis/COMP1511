@@ -56,14 +56,31 @@ void get_action(struct bot *b, int *action, int *n) {
      * Fuel code here
      */
     if (should_refuel(b, pair)) {
-        if (!is_at_either_location(b, pair)) {
+        if (!is_at_either_location(b, pair) && b->location->type != LOCATION_PETROL_STATION) {
             if (has_cargo(b)) {
                 location_t nearest_petrol = nearest_petrol_station(b->location, -1);
                 *action = ACTION_MOVE;
                 *n = amount_move_to(b, nearest_petrol);
-            }
+            	return;
+	    }
         }
+/*       
+	else {
+		if (has_cargo(b)) {
+			location_t nearest_petrol = nearest_petrol_station(b->location, -1);
+			int true_distance = true_distance_between(b->location, nearest_petrol);
+			if (b->fuel - true_distance < 10) {
+				*action = ACTION_MOVE;
+				*n = amount_move_to(b, nearest_petrol);
+			}
+		}
+	}
+*/
     }
+
+	if (pair->distance <= b->maximum_move) {
+		
+	}
 
     switch (current_type) {
         case LOCATION_START:

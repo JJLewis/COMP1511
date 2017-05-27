@@ -62,9 +62,14 @@ location_pair_t best_pair_for_commodity(bot_t bot, commodity_t commodity) {
         if (seller->quantity < maxLoadable) { maxLoadable = seller->quantity; }
         for (int b = 0; b < numBuyers; b++) {
             location_t buyer = buyers[b];
-            // Account for the buyer buying less than the max OR how much the seller is offering
-            if (buyer->quantity < maxLoadable) { maxLoadable = buyer->quantity; }
-            gainMatix[s][b] = gain_per_turn(seller, buyer, bot, maxLoadable);
+            int bs_distance = true_distance_between(seller, buyer);
+	    if (bot->fuel_tank_capacity / bs_distance >= 2) {
+	    	// Account for the buyer buying less than the max OR how much the seller is offering
+            	if (buyer->quantity < maxLoadable) { maxLoadable = buyer->quantity; }
+            	gainMatix[s][b] = gain_per_turn(seller, buyer, bot, maxLoadable);
+	    } else {
+		    gainMatix[s][b] = -9999;
+	    }
         }
     }
 
@@ -118,6 +123,10 @@ location_pair_t best_buy_sell_pair(bot_t bot) {
             }
 	}
     }
+	
+	if (max_gain < 0) {
+		throw_warning("Best Buy Sell Pair is -ve!!!");
+	}
 
     return best_pair;
 }

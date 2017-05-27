@@ -7,6 +7,7 @@
 #include "handy.h"
 #include <stdbool.h>
 #include <stdlib.h>
+#include "debugger.h"
 
 char *get_bot_name(void) {
     return "Plumpess";
@@ -74,18 +75,6 @@ void get_action(struct bot *b, int *action, int *n) {
 			return;
 		}
 	}
-/*       
-	else {
-		if (has_cargo(b)) {
-			location_t nearest_petrol = nearest_petrol_station(b->location, -1);
-			int true_distance = true_distance_between(b->location, nearest_petrol);
-			if (b->fuel - true_distance < 10) {
-				*action = ACTION_MOVE;
-				*n = amount_move_to(b, nearest_petrol);
-			}
-		}
-	}
-*/
     }
 
     switch (current_type) {
@@ -164,7 +153,11 @@ void get_action(struct bot *b, int *action, int *n) {
 	location_t destination = location_from_with_distance(b->location, *n);
 	location_t nearest_fuel = nearest_petrol_station(destination, -1);
 	int destination_to_fuel_distance = true_distance_between(destination, nearest_fuel);
-	int remaining_fuel = b->fuel - (*n * distance_to_direction(*n)) - b->maximum_move;
+	int remaining_fuel = b->fuel - (*n * distance_to_direction(*n));// - b->maximum_move;
+	print_location(b->location);
+	print_location(destination);
+	printI(remaining_fuel);
+	printI(destination_to_fuel_distance);
 	if (*action == ACTION_MOVE && remaining_fuel < destination_to_fuel_distance) {
 		*n = amount_move_to(b, nearest_fuel);	
 	}	

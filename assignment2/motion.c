@@ -64,7 +64,14 @@ void move_location(location_t location, int distance) {
 
 location_t location_from_with_distance(location_t start, int distance) {
 	location_t a_location = start;
-	move_location(a_location, distance);
+	int direction = distance_to_direction(distance);
+	for (int i = 0; i < distance * direction; i++) {
+		if (direction == DIRECTION_FORWARD) {
+			a_location = a_location->next;
+		} else {
+			a_location = a_location->previous;
+		}
+	}
 	return a_location;
 }
 

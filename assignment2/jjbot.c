@@ -48,14 +48,14 @@ void get_action(struct bot *b, int *action, int *n) {
     
     // If there aren't any good pairs, don't do anything, just stay put.
     if (pair == NULL) {
-	//if (has_cargo(b)) {
+	if (has_cargo(b)) {
 		// Find closest buyer of commodity to location, and move there and sell.
 		// also create a pair so that the default sell action can occur	
-	//} else {
+	} else {
 	    *action = ACTION_MOVE;
 	    *n = 0;
 	    return;
-    	//}
+    	}
     }
 
     /*

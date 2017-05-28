@@ -4,6 +4,7 @@
 
 #include "jjbot.h"
 #include "world.h"
+#include <stdlib.h>
 
 action_t create_action(int action, int n) {
     action_t an_action = malloc(sizeof(struct action));
@@ -12,10 +13,10 @@ action_t create_action(int action, int n) {
     return an_action;
 }
 
-action_t create_default_move_action(bot_t bot, location_pair_t pair) {
+action_t create_default_move_action(bot_t b, location_pair_t pair) {
     int n = amount_move_to(b, pair->seller);
     if (has_cargo(b)) {
-        return amount_move_to(b, pair->buyer);
+        n = amount_move_to(b, pair->buyer);
     }
     return create_action(ACTION_MOVE, n);
 }

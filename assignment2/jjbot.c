@@ -13,7 +13,7 @@ char *get_bot_name(void) {
     return "Plumpess";
 }
 
-location_pair_t get_pair_for_action(bot_t bot) {
+location_pair_t get_pair_for_action(bot_t b) {
     if (has_cargo(b)) {
         return best_pair_for_commodity(b, b->cargo->commodity);
     } else {

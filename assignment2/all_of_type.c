@@ -28,7 +28,7 @@ int all_commodities(location_t location, commodity_t commodities[MAX_COMMODITIES
         }
         a_location = a_location->next;
     } while (a_location != location);
-    
+
     return numCommodities;
 }
 

@@ -4,6 +4,7 @@
 
 #include "world.h"
 #include <stdbool.h>
+#include <stdlib.h>
 
 location_t find_start_location(location_t a_location) {
     location_t current = a_location;
@@ -53,7 +54,9 @@ bool will_pass_petrol(location_t start, location_t end) {
     location_t tracker = start;
     while (tracker != end) {
         if (tracker->type == LOCATION_PETROL_STATION) {
-            return true;
+            	if (tracker->quantity > 0) {
+			return true;
+		}
         }
         shift_location(tracker, direction);
     }
@@ -67,8 +70,8 @@ location_t nearest_petrol_station(location_t location, int minimumFuel) {
     location_t stations[MAX_LOCATIONS];
     int numStations = all_petrol_stations(location, stations);
 
-    location_t closest = stations[0];
-    int closestDistance = true_distance_between(location, closest);
+    location_t closest = NULL;//stations[0];
+    int closestDistance = -1;//true_distance_between(location, closest);
     for (int i = 0; i < numStations; i++) {
         location_t a_location = stations[i];
         int distance = true_distance_between(location, a_location);
@@ -77,12 +80,17 @@ location_t nearest_petrol_station(location_t location, int minimumFuel) {
             minimumFuel = distance;
         }
 
-        if (a_location->quantity > minimumFuel) {
+        if (a_location->quantity >= minimumFuel) {
             if (distance < closestDistance) {
                 closestDistance = distance;
                 closest = a_location;
-            }
-        }
+            } else {
+		    if (closest == NULL) {
+			    closestDistance = distance;
+			    closest = a_location;
+		    }
+	    }
+	}
     }
 
     return closest;

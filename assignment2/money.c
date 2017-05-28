@@ -12,6 +12,9 @@
 int cost_of_travel(location_pair_t pair) {
     int distance = pair->distance;
     location_t petrol = nearest_petrol_station(pair->buyer, -1);
+	if (petrol == NULL) {
+		petrol = nearest_petrol_station(pair->buyer, 0);
+	}
     return distance * petrol->price;
 }
 
@@ -46,6 +49,10 @@ location_pair_t best_pair_for_commodity(bot_t bot, commodity_t commodity) {
     numSellers = filter_zero_quantity(sellers, numSellers);
 
     int maxLoadable = max_cargo_amount_for_commodity(bot, commodity);
+    
+    if (numSellers == 0 || numBuyers == 0) {
+	    return NULL;
+    }
 
     double gainMatix[numSellers][numBuyers];
 
@@ -55,9 +62,14 @@ location_pair_t best_pair_for_commodity(bot_t bot, commodity_t commodity) {
         if (seller->quantity < maxLoadable) { maxLoadable = seller->quantity; }
         for (int b = 0; b < numBuyers; b++) {
             location_t buyer = buyers[b];
-            // Account for the buyer buying less than the max OR how much the seller is offering
-            if (buyer->quantity < maxLoadable) { maxLoadable = buyer->quantity; }
-            gainMatix[s][b] = gain_per_turn(seller, buyer, bot, maxLoadable);
+            int bs_distance = true_distance_between(seller, buyer);
+	    if (bot->fuel_tank_capacity / bs_distance >= 2) {
+	    	// Account for the buyer buying less than the max OR how much the seller is offering
+            	if (buyer->quantity < maxLoadable) { maxLoadable = buyer->quantity; }
+            	gainMatix[s][b] = gain_per_turn(seller, buyer, bot, maxLoadable);
+	    } else {
+		    gainMatix[s][b] = -9999;
+	    }
         }
     }
 
@@ -93,19 +105,28 @@ location_pair_t best_buy_sell_pair(bot_t bot) {
     int num_commodities = all_commodities(bot->location, commodities);
 
     location_pair_t best_pair = best_pair_for_commodity(bot, commodities[0]);
-    int max_gain = gain_from_exhausting(bot, best_pair);
+    int max_gain = 0;
+    if (best_pair != NULL) {
+	    max_gain = gain_from_exhausting(bot, best_pair);
+    }
 
     for (int c = 1; c < num_commodities; c++) {
         location_pair_t pair = best_pair_for_commodity(bot, commodities[c]);
-        int gain = gain_from_exhausting(bot, pair);
-        if (gain > max_gain) {
-            free(best_pair); // Free all structs that aren't the best so not required.
-            best_pair = pair;
-            max_gain = gain;
-        } else {
-            free(pair); // Free all structs that aren't the best so not required.
-        }
+    	if (pair != NULL) {
+    	    int gain = gain_from_exhausting(bot, pair);
+            if (gain > max_gain) {
+                free(best_pair); // Free all structs that aren't the best so not required.
+                best_pair = pair;
+                max_gain = gain;
+            } else {
+                free(pair); // Free all structs that aren't the best so not required.
+            }
+	}
     }
+	
+	if (max_gain < 0) {
+		throw_warning("Best Buy Sell Pair is -ve!!!");
+	}
 
     return best_pair;
 }

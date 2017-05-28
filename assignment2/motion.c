@@ -84,11 +84,3 @@ int amount_move_to(bot_t bot, location_t destination) {
     }
     return distance_to_direction(distance) * max_move;
 }
-
-int default_move_amount(bot_t bot, location_pair_t pair) {
-    if (has_cargo(b)) {
-        return amount_move_to(b, pair->buyer);
-    } else {
-        return amount_move_to(b, pair->seller);
-    }
-}

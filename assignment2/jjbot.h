@@ -27,3 +27,10 @@ int cost_of_travel(location_pair_t pair);
 location_pair_t best_pair_for_commodity(bot_t bot, commodity_t commodity);
 location_pair_t best_buy_sell_pair(bot_t bot);
 int amount_to_buy(bot_t bot, location_pair_t pair);
+
+// actions.c
+action_t create_action(int action, int n);
+action_t create_default_move_action(bot_t bot, location_pair_t pair);
+action_t at_seller_action(bot_t b, location_pair_t pair);
+action_t at_buyer_action(bot_t b, location_pair_t pair);
+action_t at_petrol_action(bot_t b, location_pair_t pair);

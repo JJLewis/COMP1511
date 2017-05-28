@@ -22,7 +22,6 @@ int distance_to_direction(int distance);
 void move_location(location_t location, int distance);
 location_t location_from_with_distance(location_t start, int distance);
 int amount_move_to(bot_t bot, location_t destination);
-int default_move_amount(bot_t bot, location_pair_t pair);
 
 // handy_world.c
 int number_of_locations(bot_t bot);

@@ -20,4 +20,11 @@ struct location_pair {
 
 typedef struct location_pair *location_pair_t;
 
+struct action {
+    int action;
+    int n;
+};
+
+typedef struct action *action_t;
+
 #endif //STRUCTS_H

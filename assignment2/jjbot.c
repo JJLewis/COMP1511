@@ -13,16 +13,19 @@ char *get_bot_name(void) {
     return "Plumpess";
 }
 
+location_pair_t get_pair_for_action(bot_t bot) {
+    if (has_cargo(b)) {
+        return best_pair_for_commodity(b, b->cargo->commodity);
+    } else {
+        return best_buy_sell_pair(b);
+    }
+}
+
 void get_action(struct bot *b, int *action, int *n) {
     location_t current_location = b->location;
     int current_type = current_location->type;
 
-    location_pair_t pair;
-    if (has_cargo(b)) {
-        pair = best_pair_for_commodity(b, b->cargo->commodity);
-    } else {
-        pair = best_buy_sell_pair(b);
-    }
+    location_pair_t pair = get_pair_for_action(b);
 
     // If there aren't any good pairs, don't do anything, just stay put.
     if (pair == NULL) {
@@ -65,66 +68,29 @@ void get_action(struct bot *b, int *action, int *n) {
         }
     }
 
+    action_t an_action;
     switch (current_type) {
-        case LOCATION_START:
-            *action = ACTION_MOVE;
-            *n = amount_move_to(b, pair->seller);
-            return;
         case LOCATION_SELLER:
-            // If at the correct seller
-            if (is_location_equal(b->location, pair->seller)) {
-                if (has_cargo(b)) {
-                    // Move to buyer
-                    *action = ACTION_MOVE;
-                    *n = amount_move_to(b, pair->buyer);
-                } else {
-                    *action = ACTION_BUY;
-                    *n = amount_to_buy(b, pair);
-                }
-            } else {
-                *action = ACTION_MOVE;
-                *n = default_move_amount(b, pair);
-            }
+            an_action = at_seller_action(b, pair);
             break;
         case LOCATION_BUYER:
-            if (is_location_equal(b->location, pair->buyer)) {
-                if (has_cargo(b)) {
-                    *action = ACTION_SELL;
-                    *n = cargo_quantity_for(b, pair->commodity);
-                } else {
-                    *action = ACTION_MOVE;
-                    *n = amount_move_to(b, pair->seller);
-                }
-            } else {
-                // At wrong buyer so move to right buyer
-                *action = ACTION_MOVE;
-                *n = default_move_amount(b, pair);
-            }
+            an_action = at_buyer_action(b, pair);
             break;
         case LOCATION_PETROL_STATION:
-            if (is_full_fuel(b)) {
-                *action = ACTION_MOVE;
-                *n = amount_move_to(b, pair->buyer);
-            } else {
-                if (b->location->quantity > 0) {
-                    *action = ACTION_BUY;
-                    *n = b->fuel_tank_capacity - b->fuel;
-                } else {
-                    *action = ACTION_MOVE;
-                    *n = default_move_amount(b, pair);
-                }
-            }
+            an_action = at_petrol_action(b, pair);
             break;
         default:
-            *action = ACTION_MOVE;
-            *n = default_move_amount(b, pair);
+            an_action = create_default_move_action(b, pair);
             break;
     }
+    *action = an_action->action;
+    *n = an_action->n;
+    free(an_action);
 
     location_t destination = location_from_with_distance(b->location, *n);
     location_t nearest_fuel = nearest_petrol_station(destination, -1);
     int destination_to_fuel_distance = true_distance_between(destination, nearest_fuel);
-    int remaining_fuel = b->fuel - (*n * distance_to_direction(*n));// - b->maximum_move;
+    int remaining_fuel = b->fuel - (*n * distance_to_direction(*n));
     if (*action == ACTION_MOVE && remaining_fuel < destination_to_fuel_distance) {
         *n = amount_move_to(b, nearest_fuel);
     }

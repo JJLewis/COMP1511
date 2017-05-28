@@ -130,3 +130,11 @@ location_pair_t best_buy_sell_pair(bot_t bot) {
 
     return best_pair;
 }
+
+int amount_to_buy(bot_t bot, location_pair_t pair) {
+    int max_loadable = max_cargo_amount_for_commodity(bot, pair->commodity);
+    int seller_q = pair->seller->quantity;
+    int buyer_q = pair->buyer->quantity;
+    int to_buy[3] = {max_loadable, seller_q, buyer_q};
+    return smallestElementI(3, to_buy);
+}

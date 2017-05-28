@@ -13,36 +13,6 @@ char *get_bot_name(void) {
     return "Plumpess";
 }
 
-int amount_move_to(bot_t bot, location_t destination) {
-    int max_move = bot->maximum_move;
-    int distance = distance_between(bot->location, destination);
-    int t_distance = true_distance_between(bot->location, destination);
-    if (t_distance < max_move) {
-        return distance;
-    }
-    return distance_to_direction(distance) * max_move;
-}
-
-int amount_to_buy(bot_t bot, location_pair_t pair) {
-    int max_loadable = max_cargo_amount_for_commodity(bot, pair->commodity);
-    int seller_q = pair->seller->quantity;
-    int buyer_q = pair->buyer->quantity;
-    int to_buy[3] = {max_loadable, seller_q, buyer_q};
-    return smallestElementI(3, to_buy);
-}
-
-bool is_at_either_location(bot_t b, location_pair_t pair) {
-    return is_location_equal(b->location, pair->seller) || is_location_equal(b->location, pair->buyer);
-}
-
-int default_move_amount(bot_t bot, location_pair_t pair) {
-    if (has_cargo(b)) {
-        return amount_move_to(b, pair->buyer);
-    } else {
-        return amount_move_to(b, pair->seller);
-    }
-}
-
 void get_action(struct bot *b, int *action, int *n) {
     location_t current_location = b->location;
     int current_type = current_location->type;

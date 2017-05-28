@@ -21,6 +21,8 @@ void shift_location(location_t location, int direction);
 int distance_to_direction(int distance);
 void move_location(location_t location, int distance);
 location_t location_from_with_distance(location_t start, int distance);
+int amount_move_to(bot_t bot, location_t destination);
+int default_move_amount(bot_t bot, location_pair_t pair);
 
 // handy_world.c
 int number_of_locations(bot_t bot);
@@ -28,6 +30,7 @@ int filter_zero_quantity(location_t locations[MAX_LOCATIONS], int size);
 location_pair_t create_location_pair(location_t seller, location_t buyer);
 bool is_location_equal(location_t location1, location_t location2);
 bool is_commodities_equal(commodity_t c1, commodity_t c2);
+bool is_at_either_location(bot_t b, location_pair_t pair);
 
 // significant_locations.c
 location_t find_start_location(location_t a_location);

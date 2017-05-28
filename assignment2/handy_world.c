@@ -76,3 +76,7 @@ bool is_commodities_equal(commodity_t c1, commodity_t c2) {
     }
     return false;
 }
+
+bool is_at_either_location(bot_t b, location_pair_t pair) {
+    return is_location_equal(b->location, pair->seller) || is_location_equal(b->location, pair->buyer);
+}

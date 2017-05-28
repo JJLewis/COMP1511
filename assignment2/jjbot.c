@@ -48,9 +48,14 @@ void get_action(struct bot *b, int *action, int *n) {
     
     // If there aren't any good pairs, don't do anything, just stay put.
     if (pair == NULL) {
+	//if (has_cargo(b)) {
+		// Find closest buyer of commodity to location, and move there and sell.
+		// also create a pair so that the default sell action can occur	
+	//} else {
 	    *action = ACTION_MOVE;
 	    *n = 0;
 	    return;
+    	//}
     }
 
     /*
@@ -60,9 +65,14 @@ void get_action(struct bot *b, int *action, int *n) {
         if (!is_at_either_location(b, pair) && b->location->type != LOCATION_PETROL_STATION) {
             if (has_cargo(b)) {
                 location_t nearest_petrol = nearest_petrol_station(b->location, -1);
-                *action = ACTION_MOVE;
-                *n = amount_move_to(b, nearest_petrol);
-            	return;
+        	int destination_to_petrol = true_distance_between(pair->buyer, nearest_petrol);
+		int remaining_fuel = b->fuel - destination_to_petrol;
+		if (destination_to_petrol < remaining_fuel) {
+			*action = ACTION_MOVE;
+			*n = amount_move_to(b, nearest_petrol);
+			print("NEITHER REFUEL");
+			return;
+		}
 	    }
         }
 
@@ -154,10 +164,6 @@ void get_action(struct bot *b, int *action, int *n) {
 	location_t nearest_fuel = nearest_petrol_station(destination, -1);
 	int destination_to_fuel_distance = true_distance_between(destination, nearest_fuel);
 	int remaining_fuel = b->fuel - (*n * distance_to_direction(*n));// - b->maximum_move;
-	print_location(b->location);
-	print_location(destination);
-	printI(remaining_fuel);
-	printI(destination_to_fuel_distance);
 	if (*action == ACTION_MOVE && remaining_fuel < destination_to_fuel_distance) {
 		*n = amount_move_to(b, nearest_fuel);	
 	}	

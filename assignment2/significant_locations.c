@@ -140,3 +140,16 @@ location_t best_buyer_of_commodity_to(bot_t bot, location_t location, commodity_
 
     return best_buyer;
 }
+
+bool will_pass_location(location_t start, location_t end, location_t x) {
+    location_t tracker = start;
+    int distance = distance_between(start, end);
+    int direction = distance_to_direction(distance);
+    for (int i = 0; i < distance * direction; i++) {
+        shift_location(tracker, direction);
+        if (is_location_equal(tracker, x)) {
+            return true;
+        }
+    }
+    return false;
+}

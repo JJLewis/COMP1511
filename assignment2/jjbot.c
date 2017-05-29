@@ -54,11 +54,13 @@ void get_action(struct bot *b, int *action, int *n) {
                 int destination_to_petrol = true_distance_between(pair->buyer, nearest_petrol);
                 int remaining_fuel = b->fuel - destination_to_petrol;
                 if (destination_to_petrol < remaining_fuel) {
-                    *action = ACTION_MOVE;
-                    *n = amount_move_to(b, nearest_petrol);
-                    print("NEITHER REFUEL");
-                    print_target_destination(nearest_petrol);
-                    return;
+                    if (!will_pass_location(b->location, nearest_petrol, pair->buyer)) {
+                        *action = ACTION_MOVE;
+                        *n = amount_move_to(b, nearest_petrol);
+                        print("NEITHER REFUEL");
+                        print_target_destination(nearest_petrol);
+                        return;
+                    }
                 }
             }
         }

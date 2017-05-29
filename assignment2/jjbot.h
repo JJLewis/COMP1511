@@ -19,7 +19,7 @@ int number_of_sustainable_turns(bot_t bot, location_pair_t pair);
 bool has_cargo(bot_t bot);
 int cargo_quantity_for(bot_t bot, commodity_t commodity);
 bool is_full_fuel(bot_t bot);
-bool should_refuel(bot_t bot, location_t target);
+bool should_refuel(bot_t bot, action_t action);
 
 // money.c
 int cost_of_travel(location_pair_t pair);
@@ -28,7 +28,7 @@ location_pair_t best_buy_sell_pair(bot_t bot);
 int amount_to_buy(bot_t bot, location_pair_t pair);
 
 // actions.c
-action_t create_action(int action, int n);
+action_t create_action(int action, int n, location_t target);
 action_t create_default_move_action(bot_t bot, location_pair_t pair);
 action_t at_seller_action(bot_t b, location_pair_t pair);
 action_t at_buyer_action(bot_t b, location_pair_t pair);

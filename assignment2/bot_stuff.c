@@ -42,7 +42,6 @@ bool is_full_fuel(bot_t bot) {
     return bot->fuel == bot->fuel_tank_capacity;
 }
 
-// TODO: Should account for distance to the nearest petrol station, and current bot location*
 bool should_refuel(bot_t bot, action_t action) {
 
     // Only say YES to refuelling if the current action is MOVE
@@ -63,6 +62,7 @@ bool should_refuel(bot_t bot, action_t action) {
 
     // If the bot won't have enough fuel to get to a petrol station after reaching the target
     location_t nearest_petrol = nearest_petrol_station(target, -1);
+    if (nearest_petrol == NULL) return false; // If world out of fuel
     int target_to_fuel_distance = true_distance_between(target, nearest_petrol);
     int at_target_remaining_fuel = remaining_fuel - distance_to_target;
     if (at_target_remaining_fuel < target_to_fuel_distance) return true;

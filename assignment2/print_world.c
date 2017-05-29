@@ -8,6 +8,15 @@
 #include "structs.h"
 #include "debugger.h"
 
+void print_target_destination(location_t loc) {
+    if (IS_DEBUGGING) {
+        println();
+        printf("TARGET DESTINATION: ");
+        print_location(loc);
+        println();
+    }
+}
+
 void print_array_of_locations(location_t locations[MAX_LOCATIONS], int size) {
     if (IS_DEBUGGING) {
         println();

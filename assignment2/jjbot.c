@@ -57,6 +57,7 @@ void get_action(struct bot *b, int *action, int *n) {
                     *action = ACTION_MOVE;
                     *n = amount_move_to(b, nearest_petrol);
                     print("NEITHER REFUEL");
+                    print_target_destination(nearest_petrol);
                     return;
                 }
             }
@@ -68,6 +69,7 @@ void get_action(struct bot *b, int *action, int *n) {
                 location_t nearest_petrol = nearest_petrol_station(b->location, -1);
                 *action = ACTION_MOVE;
                 *n = amount_move_to(b, nearest_petrol);
+                print_target_destination(nearest_petrol);
                 return;
             }
         }
@@ -98,6 +100,7 @@ void get_action(struct bot *b, int *action, int *n) {
     int remaining_fuel = b->fuel - (*n * distance_to_direction(*n));
     if (*action == ACTION_MOVE && remaining_fuel < destination_to_fuel_distance) {
         *n = amount_move_to(b, nearest_fuel);
+        print_target_destination(nearest_fuel);
     }
 
     free(pair);

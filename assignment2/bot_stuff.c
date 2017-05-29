@@ -49,6 +49,8 @@ bool should_refuel(bot_t bot, action_t action) {
         return false;
     }
 
+	if (bot->fuel == bot->fuel_tank_capacity) return false;
+
     location_t target = action->target;
     int distance_to_target = true_distance_between(bot->location, target);
 

@@ -41,28 +41,31 @@ int cargo_quantity_for(bot_t bot, commodity_t commodity) {
 bool is_full_fuel(bot_t bot) {
     return bot->fuel == bot->fuel_tank_capacity;
 }
-/*
- * Seller and Buyer are the ones being exploited.
- */
-// TODO: Estimate how many more times a pair will last, if not long, look for the next pair
-int number_of_sustainable_move_turns(bot_t bot, location_pair_t pair) {
-    int fuel_left = bot->fuel;
-    int distance = pair->distance;
-    return floorf((double)fuel_left / (double)distance);
-}
 
 // TODO: Should account for distance to the nearest petrol station, and current bot location*
-bool should_refuel(bot_t bot, location_pair_t pair) {
-    	
-	if (number_of_sustainable_move_turns(bot, pair) < LOW_FUEL_THRESHOLD) {
-		return true;
-    	}
-	
-    location_t nearest_fuel = nearest_petrol_station(bot->location, -1);
-    int distance_to_fuel = true_distance_between(bot->location, nearest_fuel);
-    if (bot->fuel <= distance_to_fuel) {
-	    return true;
+bool should_refuel(bot_t bot, action_t action) {
+
+    // Only say YES to refuelling if the current action is MOVE
+    if (action->action != ACTION_MOVE) {
+        return false;
     }
+
+    location_t target = action->target;
+    int distance_to_target = true_distance_between(b->location, target);
+
+    int remaining_fuel = bot->fuel;
+
+    // If not enough fuel to reach target
+    if (remaining_fuel < distance_to_target) return true;
+
+    // If the bot will pass the petrol station on the way to the target
+    if (will_pass_petrol(bot->location, target)) return true;
+
+    // If the bot won't have enough fuel to get to a petrol station after reaching the target
+    location_t nearest_petrol = nearest_petrol_station(target, -1);
+    int target_to_fuel_distance = true_distance_between(target, nearest_petrol);
+    int at_target_remaining_fuel = remaining_fuel - distance_to_target;
+    if (at_target_remaining_fuel < target_to_fuel_distance) return true;
 
     return false;
 }

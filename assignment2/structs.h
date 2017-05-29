@@ -23,6 +23,7 @@ typedef struct location_pair *location_pair_t;
 struct action {
     int action;
     int n;
+    location_t target;
 };
 
 typedef struct action *action_t;

@@ -32,6 +32,11 @@ void get_action(struct bot *b, int *action, int *n) {
         if (has_cargo(b)) {
             // Find closest buyer of commodity to location, and move there and sell.
             // also create a pair so that the default sell action can occur
+            action_t an_action = at_null_pair_action(b);
+            *action = an_action->action;
+            *n = an_action->n;
+            free(an_action);
+            return;
         } else {
             *action = ACTION_MOVE;
             *n = 0;

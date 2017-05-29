@@ -56,3 +56,37 @@ action_t at_petrol_action(bot_t b, location_pair_t pair) {
         }
     }
 }
+
+action_t at_null_pair_action(bot_t b) {
+    commodity_t commodity = b->cargo->commodity;
+    int fuel_left = b->fuel;
+    location_t best_buyer = best_buyer_of_commodity_to(b, b->location, commodity);
+
+    if (is_location_equal(b->location, best_buyer)) {
+        return create_action(ACTION_SELL, cargo_quantity_for(b, commodity));
+    }
+
+    int distance_to_best = true_distance_between(b->location, best_buyer);
+    if (distance_to_best < b->fuel) {
+        return create_action(ACTION_MOVE, amount_move_to(b, best_buyer));
+    } else {
+        location_t closest_buyer = closest_buyer_of_commodity_to(b, b->location, commodity);
+
+        if (is_location_equal(b->location, closest_buyer)) {
+            return create_action(ACTION_SELL, cargo_quantity_for(b, commodity));
+        }
+
+        int distance_to_closest = true_distance_between(b->location, closest_buyer);
+        if (distance_to_closest < b->fuel) {
+            return create_action(ACTION_MOVE, amount_move_to(b, closest_buyer));
+        } else {
+            location_t nearest_fuel = nearest_petrol_station(b->location, -1);
+
+            if (is_location_equal(b->location, nearest_fuel)) {
+                return create_action(ACTION_BUY, b->fuel_tank_capacity - b->fuel);
+            }
+
+            return create_action(ACTION_MOVE, amount_move_to(b, nearest_fuel));
+        }
+    }
+}

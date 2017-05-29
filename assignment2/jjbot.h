@@ -34,3 +34,4 @@ action_t create_default_move_action(bot_t bot, location_pair_t pair);
 action_t at_seller_action(bot_t b, location_pair_t pair);
 action_t at_buyer_action(bot_t b, location_pair_t pair);
 action_t at_petrol_action(bot_t b, location_pair_t pair);
+action_t at_null_pair_action(bot_t b);

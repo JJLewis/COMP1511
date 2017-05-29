@@ -54,9 +54,9 @@ bool will_pass_petrol(location_t start, location_t end) {
     location_t tracker = start;
     while (tracker != end) {
         if (tracker->type == LOCATION_PETROL_STATION) {
-            	if (tracker->quantity > 0) {
-			return true;
-		}
+            if (tracker->quantity > 0) {
+                return true;
+            }
         }
         shift_location(tracker, direction);
     }
@@ -85,13 +85,52 @@ location_t nearest_petrol_station(location_t location, int minimumFuel) {
                 closestDistance = distance;
                 closest = a_location;
             } else {
-		    if (closest == NULL) {
-			    closestDistance = distance;
-			    closest = a_location;
-		    }
-	    }
-	}
+                if (closest == NULL) {
+                    closestDistance = distance;
+                    closest = a_location;
+                }
+            }
+        }
     }
 
     return closest;
+}
+
+location_t closest_buyer_of_commodity_to(bot_t bot, location_t location, commodity_t commodity) {
+    location_t buyers[MAX_LOCATIONS];
+    int num_buyers = all_buyers_of_commodity(bot, commodity, buyers);
+
+    location_t closest_buyer = buyers[0];
+    int least_distance = true_distance_between(location, closest_buyer);
+    for (int i = 1; i < num_buyers; i++) {
+        location_t buyer = buyer[i];
+        int distance = true_distance_between(location, buyer);
+        if (distance < closest_buyer) {
+            closest_buyer = buyer;
+            least_distance = distance;
+        }
+    }
+
+    return closest_buyer;
+}
+
+location_t best_buyer_of_commodity_to(bot_t bot, location_t location, commodity_t commodity) {
+    location_t buyers[MAX_LOCATIONS];
+    int num_buyers = all_buyers_of_commodity(bot, commodity, buyers);
+
+    location_t best_buyer = buyers[0];
+    double best_ratio = (double)best_buyer->price / (double)true_distance_between(location, best_buyer);
+    for (int i = 0; i < num_buyers; i++) {
+        location_t buyer = buyers[i];
+        int distance = true_distance_between(location, buyer);
+        int price = buyer->price;
+        double ratio = (double)price / (double)distance;
+        if (ration > best_ratio) {
+            best_buyer = buyer;
+            best_ratio = ratio;
+        }
+
+    }
+
+    return best_buyer;
 }

@@ -9,7 +9,7 @@
 #include "debugger.h"
 
 void print_target_destination(location_t loc) {
-    if (IS_DEBUGGING) {
+    if (IS_DEBUGGING && loc != NULL) {
         println();
         printf("TARGET DESTINATION: ");
         print_location(loc);
@@ -29,7 +29,7 @@ void print_array_of_locations(location_t locations[MAX_LOCATIONS], int size) {
 }
 
 void print_location(location_t loc) {
-    if (IS_DEBUGGING) {
+    if (IS_DEBUGGING && loc != NULL) {
         char output[80] = "";
         char *name = loc->name;
         int type = loc->type;

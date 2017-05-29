@@ -50,7 +50,7 @@ bool should_refuel(bot_t bot, action_t action) {
     }
 
     location_t target = action->target;
-    int distance_to_target = true_distance_between(b->location, target);
+    int distance_to_target = true_distance_between(bot->location, target);
 
     int remaining_fuel = bot->fuel;
 

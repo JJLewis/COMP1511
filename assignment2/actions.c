@@ -70,7 +70,7 @@ action_t at_null_pair_action(bot_t b) {
     location_t best_buyer = best_buyer_of_commodity_to(b, b->location, commodity);
 
     if (is_location_equal(b->location, best_buyer)) {
-        return create_action(ACTION_SELL, cargo_quantity_for(b, commodity));
+        return create_action(ACTION_SELL, cargo_quantity_for(b, commodity), NULL);
     }
 
     int distance_to_best = true_distance_between(b->location, best_buyer);

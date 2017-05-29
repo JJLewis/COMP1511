@@ -21,14 +21,12 @@ action_t create_default_move_action(bot_t b, location_pair_t pair) {
         n = amount_move_to(b, pair->buyer);
     }
     location_t target = has_cargo(b) ? pair->buyer:pair->seller;
-    print_target_destination(target);
     return create_action(ACTION_MOVE, n, target);
 }
 
 action_t at_seller_action(bot_t b, location_pair_t pair) {
     if (is_location_equal(b->location, pair->seller)) {
         if (has_cargo(b)) {
-            print_target_destination(pair->buyer);
             return create_action(ACTION_MOVE, amount_move_to(b, pair->buyer), pair->buyer);
         } else {
             return create_action(ACTION_BUY, amount_to_buy(b, pair), NULL);
@@ -43,7 +41,6 @@ action_t at_buyer_action(bot_t b, location_pair_t pair) {
         if (has_cargo(b)) {
             return create_action(ACTION_SELL, cargo_quantity_for(b, pair->commodity), NULL);
         } else {
-            print_target_destination(pair->seller);
             return create_action(ACTION_MOVE, amount_move_to(b, pair->seller), pair->seller);
         }
     } else {
@@ -53,7 +50,6 @@ action_t at_buyer_action(bot_t b, location_pair_t pair) {
 
 action_t at_petrol_action(bot_t b, location_pair_t pair) {
     if (is_full_fuel(b)) {
-        print_target_destination(pair->buyer);
         return create_action(ACTION_MOVE, amount_move_to(b, pair->buyer), pair->buyer);
     } else {
         if (b->location->quantity > 0) {
@@ -75,7 +71,6 @@ action_t at_null_pair_action(bot_t b) {
 
     int distance_to_best = true_distance_between(b->location, best_buyer);
     if (distance_to_best < b->fuel) {
-        print_target_destination(best_buyer);
         return create_action(ACTION_MOVE, amount_move_to(b, best_buyer), best_buyer);
     } else {
         location_t closest_buyer = closest_buyer_of_commodity_to(b, b->location, commodity);
@@ -86,7 +81,6 @@ action_t at_null_pair_action(bot_t b) {
 
         int distance_to_closest = true_distance_between(b->location, closest_buyer);
         if (distance_to_closest < b->fuel) {
-            print_target_destination(closest_buyer);
             return create_action(ACTION_MOVE, amount_move_to(b, closest_buyer), closest_buyer);
         } else {
             location_t nearest_fuel = nearest_petrol_station(b->location, -1);
@@ -94,7 +88,6 @@ action_t at_null_pair_action(bot_t b) {
             if (is_location_equal(b->location, nearest_fuel)) {
                 return create_action(ACTION_BUY, b->fuel_tank_capacity - b->fuel, NULL);
             }
-            print_target_destination(nearest_fuel);
             return create_action(ACTION_MOVE, amount_move_to(b, nearest_fuel), nearest_fuel);
         }
     }

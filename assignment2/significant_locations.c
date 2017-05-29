@@ -49,10 +49,12 @@ location_t lowest_seller_of_commodity(bot_t bot, commodity_t commodity) {
 }
 
 bool will_pass_petrol(location_t start, location_t end) {
-    int direction = distance_to_direction(distance_between(start, end));
+    int distance = distance_between(start, end);
+    int direction = distance_to_direction(distance);
 
     location_t tracker = start;
-    while (tracker != end) {
+
+    for (int i = 0; i < distance * direction; i++) {
         if (tracker->type == LOCATION_PETROL_STATION) {
             if (tracker->quantity > 0) {
                 return true;

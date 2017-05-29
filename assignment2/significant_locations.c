@@ -103,9 +103,9 @@ location_t closest_buyer_of_commodity_to(bot_t bot, location_t location, commodi
     location_t closest_buyer = buyers[0];
     int least_distance = true_distance_between(location, closest_buyer);
     for (int i = 1; i < num_buyers; i++) {
-        location_t buyer = buyer[i];
+        location_t buyer = buyers[i];
         int distance = true_distance_between(location, buyer);
-        if (distance < closest_buyer) {
+        if (distance < least_distance) {
             closest_buyer = buyer;
             least_distance = distance;
         }
@@ -125,7 +125,7 @@ location_t best_buyer_of_commodity_to(bot_t bot, location_t location, commodity_
         int distance = true_distance_between(location, buyer);
         int price = buyer->price;
         double ratio = (double)price / (double)distance;
-        if (ration > best_ratio) {
+        if (ratio > best_ratio) {
             best_buyer = buyer;
             best_ratio = ratio;
         }

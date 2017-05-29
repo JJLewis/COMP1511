@@ -119,10 +119,16 @@ location_t best_buyer_of_commodity_to(bot_t bot, location_t location, commodity_
     int num_buyers = all_buyers_of_commodity(bot, commodity, buyers);
 
     location_t best_buyer = buyers[0];
-    double best_ratio = (double)best_buyer->price / (double)true_distance_between(location, best_buyer);
-    for (int i = 0; i < num_buyers; i++) {
+    int distance = true_distance_between(location, best_buyer);
+    double best_ratio = (double)best_buyer->price;
+    
+    if (distance > 0) {
+	    best_ratio = (double)best_buyer->price / (double)true_distance_between(location, best_buyer);
+    }
+
+    for (int i = 1; i < num_buyers; i++) {
         location_t buyer = buyers[i];
-        int distance = true_distance_between(location, buyer);
+        distance = true_distance_between(location, buyer);
         int price = buyer->price;
         double ratio = (double)price / (double)distance;
         if (ratio > best_ratio) {

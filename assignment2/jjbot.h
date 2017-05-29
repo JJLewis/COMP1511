@@ -11,8 +11,6 @@
 #include <stdbool.h>
 #include "structs.h"
 
-#define LOW_FUEL_THRESHOLD 5
-
 // bot_stuff.c
 int max_cargo_amount_for_commodity(bot_t bot, commodity_t commodity);
 int number_of_sustainable_turns(bot_t bot, location_pair_t pair);

@@ -31,6 +31,7 @@ void get_action(struct bot *b, int *action, int *n) {
         if (has_cargo(b)) {
             an_action = at_null_pair_action(b);
         } else {
+            throw_warning("HAAAAALP, I DUNNO WAT TU DU!!");
             an_action = create_action(ACTION_MOVE, 0, b->location);
         }
     } else {

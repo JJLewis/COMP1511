@@ -15,7 +15,8 @@ char *get_bot_name(void) {
 
 location_pair_t get_pair_for_action(bot_t b) {
     if (has_cargo(b)) {
-        return best_pair_for_commodity(b, b->cargo->commodity);
+        return best_closest_buyer(b);
+        //return best_pair_for_commodity(b, b->cargo->commodity);
     } else {
         return best_buy_sell_pair(b);
     }

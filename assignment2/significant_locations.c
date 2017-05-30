@@ -171,7 +171,7 @@ location_pair_t best_closest_buyer(bot_t bot) {
         if (quantity <= buyer->quantity) {
             int price = buyer->price;
             int distance = true_distance_between(current_location, buyer);
-            double ratio = (double)(price * quantity) / (double) distance;
+            double ratio = distance == 0 ? (double)(price * quantity) : (double)(price * quantity) / (double) distance;
             if (ratio > best_ratio) {
                 best_buyer = buyer;
                 best_ratio = ratio;

@@ -189,3 +189,25 @@ location_pair_t best_closest_buyer(bot_t bot) {
 
     return create_location_pair(current_location, best_buyer);
 }
+
+location_t petrol_between(location_t start, location_t end) {
+    location_t petrol_station = NULL;
+    location_t tracker = start;
+    int distance = distance_between(start, end);
+    int direction = distance_to_direction(distance);
+    int true_distance = distance * direction;
+
+    for (int i = 0; i < true_distance; i++) {
+        if (tracker->type == LOCATION_PETROL_STATION) {
+            if (tracker->quantity > 0) {
+                if (petrol_station == NULL) petrol_station = tracker;
+                if (tracker->price < petrol_station->price) {
+                    petrol_station = tracker;
+                }
+            }
+        }
+        shift_location(tracker, direction);
+    }
+
+    return petrol_station;
+}

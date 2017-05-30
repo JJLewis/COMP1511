@@ -50,7 +50,7 @@ void test_location_pairs(bot_t bot) {
 void test(bot_t bot) {
     test_location_pairs(bot);
 }
-
+/*
 int main(void) {
 
     struct commodity c[] = {
@@ -112,3 +112,4 @@ int main(void) {
 
     return 0;
 }
+*/

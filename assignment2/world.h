@@ -40,6 +40,7 @@ location_t nearest_petrol_station(location_t location, int minimumFuel);
 location_t closest_buyer_of_commodity_to(bot_t bot, location_t location, commodity_t commodity);
 location_t best_buyer_of_commodity_to(bot_t bot, location_t location, commodity_t commodity);
 bool will_pass_location(location_t start, location_t end, location_t x);
+location_pair_t best_closest_buyer(bot_t bot);
 
 // all_of_type.c
 int all_commodities(location_t location, commodity_t commodities[MAX_COMMODITIES]);

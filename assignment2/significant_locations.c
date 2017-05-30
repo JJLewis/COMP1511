@@ -3,6 +3,7 @@
 //
 
 #include "world.h"
+#include "debugger.h"
 #include <stdbool.h>
 #include <stdlib.h>
 
@@ -49,10 +50,12 @@ location_t lowest_seller_of_commodity(bot_t bot, commodity_t commodity) {
 }
 
 bool will_pass_petrol(location_t start, location_t end) {
-    int direction = distance_to_direction(distance_between(start, end));
+    int distance = distance_between(start, end);
+    int direction = distance_to_direction(distance);
 
     location_t tracker = start;
-    while (tracker != end) {
+
+    for (int i = 0; i < distance * direction; i++) {
         if (tracker->type == LOCATION_PETROL_STATION) {
             if (tracker->quantity > 0) {
                 return true;
@@ -152,4 +155,37 @@ bool will_pass_location(location_t start, location_t end, location_t x) {
         }
     }
     return false;
+}
+
+location_pair_t best_closest_buyer(bot_t bot) {
+    commodity_t commodity = bot->cargo->commodity;
+    location_t current_location = bot->location;
+    int quantity = bot->cargo->quantity;
+    location_t buyers[MAX_LOCATIONS];
+    int num_buyers = all_buyers_of_commodity(bot, commodity, buyers);
+
+    location_t best_buyer = NULL;
+    double best_ratio = 0;
+    for (int i = 0; i < num_buyers; i++) {
+        location_t buyer = buyers[i];
+        if (quantity <= buyer->quantity) {
+            int price = buyer->price;
+            int distance = true_distance_between(current_location, buyer);
+            double ratio = distance == 0 ? (double)(price * quantity) : (double)(price * quantity) / (double) distance;
+            if (ratio > best_ratio) {
+                best_buyer = buyer;
+                best_ratio = ratio;
+            } else if (ratio == best_ratio) {
+                if (distance < true_distance_between(current_location, best_buyer)) {
+                    best_buyer = buyer;
+                }
+            }
+        }
+    }
+
+    if (best_buyer == NULL) {
+        throw_warning("BEST CLOSEST BUYER IS NULL!!!");
+    }
+
+    return create_location_pair(current_location, best_buyer);
 }

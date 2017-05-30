@@ -54,7 +54,7 @@ location_pair_t create_location_pair(location_t seller, location_t buyer) {
     location_pair_t pair = malloc(sizeof(struct location_pair));
     pair->seller = seller;
     pair->buyer = buyer;
-    pair->commodity = seller->commodity;
+    pair->commodity = buyer->commodity;
     pair->distance = true_distance_between(seller, buyer);
     return pair;
 }

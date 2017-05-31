@@ -30,6 +30,7 @@ int amount_to_buy(bot_t bot, location_pair_t pair);
 // actions.c
 action_t create_action(int action, int n, location_t target);
 action_t create_default_move_action(bot_t bot, location_pair_t pair);
+action_t idle_action(bot_t b);
 action_t at_seller_action(bot_t b, location_pair_t pair);
 action_t at_buyer_action(bot_t b, location_pair_t pair);
 action_t at_petrol_action(bot_t b, location_pair_t pair);

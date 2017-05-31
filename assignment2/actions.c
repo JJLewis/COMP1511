@@ -24,6 +24,10 @@ action_t create_default_move_action(bot_t b, location_pair_t pair) {
     return create_action(ACTION_MOVE, n, target);
 }
 
+action_t idle_action(bot_t b) {
+    return create_action(ACTION_MOVE, 0, b->location);
+}
+
 action_t at_seller_action(bot_t b, location_pair_t pair) {
     if (is_location_equal(b->location, pair->seller)) {
         if (has_cargo(b)) {
@@ -38,7 +42,7 @@ action_t at_seller_action(bot_t b, location_pair_t pair) {
             } else {
                 throw_warning("WAS GOING TO BUY BUT CANNOT REACH TARGET!!!");
                 // Do nothing since cannot reach a petrol station or buyer target, what can you do?
-                return create_action(ACTION_MOVE, 0, b->location);
+                return idle_action(b);
             }
         }
     } else {

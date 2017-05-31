@@ -33,7 +33,7 @@ void get_action(struct bot *b, int *action, int *n) {
             an_action = at_null_pair_action(b);
         } else {
             throw_warning("HAAAAALP, I DUNNO WAT TU DU!!");
-            an_action = create_action(ACTION_MOVE, 0, b->location);
+            an_action = idle_action(b);
         }
     } else {
         switch (current_type) {

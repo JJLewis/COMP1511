@@ -20,6 +20,7 @@ bool is_full_fuel(bot_t bot);
 int max_buyable_petrol(bot_t bot, location_t petrol_station);
 bool should_refuel(bot_t bot, action_t action);
 bool can_reach_target(bot_t bot, location_t target);
+int amount_should_buy(bot_t bot, location_pair_t pair);
 
 // money.c
 int cost_of_travel(location_pair_t pair);

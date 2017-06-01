@@ -33,12 +33,18 @@ action_t at_seller_action(bot_t b, location_pair_t pair) {
         if (has_cargo(b)) {
             return create_action(ACTION_MOVE, amount_move_to(b, pair->buyer), pair->buyer);
         } else {
-                 println();
-                print("PLANNING TO SELL TO:");
-                print_location(pair->buyer);
-                println();
+            println();
+            print("PLANNING TO SELL TO:");
+            print_location(pair->buyer);
+            println();
             if (can_reach_target(b, pair->buyer)) {
-               return create_action(ACTION_BUY, amount_to_buy(b, pair), NULL);
+                int to_buy = amount_should_buy(b, pair);
+                if (to_buy > 0) {
+                    return create_action(ACTION_BUY, to_buy, NULL);
+                } else {
+                    throw_warning("ACTUALLY CANNOT REACH A BUYER");
+                    return idle_action(b);
+                }
             } else {
                 throw_warning("WAS GOING TO BUY BUT CANNOT REACH TARGET!!!");
                 // Do nothing since cannot reach a petrol station or buyer target, what can you do?

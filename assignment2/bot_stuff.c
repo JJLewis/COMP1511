@@ -135,3 +135,18 @@ bool can_reach_target(bot_t bot, location_t target) {
 
     return can_reach;
 }
+
+int amount_should_buy(bot_t bot, location_pair_t pair) {
+    if (can_reach_target(bot, pair->buyer)) {
+        return amount_to_buy(bot, pair);
+    } else {
+        location_t next_best_buyer = best_buyer_in_range_from_this_seller(bot);
+        if (next_best_buyer == NULL) {
+            return 0;
+        }
+        location_pair_t new_pair = create_location_pair(bot->location, next_best_buyer);
+        int to_buy = amount_to_buy(bot, new_pair);
+        free(new_pair);
+        return to_buy;
+    }
+}

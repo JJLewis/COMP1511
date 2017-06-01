@@ -3,6 +3,7 @@
 //
 
 #include "world.h"
+#include "jjbot.h"
 #include "debugger.h"
 #include <stdbool.h>
 #include <stdlib.h>
@@ -188,4 +189,93 @@ location_pair_t best_closest_buyer(bot_t bot) {
     }
 
     return create_location_pair(current_location, best_buyer);
+}
+
+location_t petrol_between(location_t start, location_t end) {
+    location_t petrol_station = NULL;
+    location_t tracker = start;
+    int distance = distance_between(start, end);
+    int direction = distance_to_direction(distance);
+    int true_distance = distance * direction;
+
+    for (int i = 0; i < true_distance; i++) {
+        if (tracker->type == LOCATION_PETROL_STATION) {
+            if (tracker->quantity > 0) {
+                if (petrol_station == NULL) petrol_station = tracker;
+                if (tracker->price < petrol_station->price) {
+                    petrol_station = tracker;
+                }
+            }
+        }
+        shift_location(tracker, direction);
+    }
+
+    return petrol_station;
+}
+
+int buyers_in_fuel_range(bot_t bot, commodity_t commodity, location_t buyers[MAX_LOCATIONS]) {
+    int fuel = bot->fuel;
+    int counter = 0;
+
+    location_t forward = bot->location;
+    location_t backward = bot->location;
+
+    for (int i = 0; i < fuel; i++) {
+
+	forward = forward->next;
+	backward = backward->previous;
+
+        if (is_buyer_of_commodity(forward, commodity)) {
+            if (forward->quantity > 0) {
+                buyers[counter] = forward;
+                counter++;
+            }
+        }
+
+        if (is_buyer_of_commodity(backward, commodity)) {
+            if (backward->quantity > 0) {
+                buyers[counter] = backward;
+                counter++;
+            }
+        }
+    }
+
+    return counter;
+}
+
+location_t best_buyer_in_range_from_this_seller(bot_t bot) {
+    location_t seller = bot->location;
+    commodity_t commodity = seller->commodity;
+    /*
+     * Get quantity seller has
+     * get quantity can buy
+     * take the lesser of the two
+     * for each buyer get the lesser of can buy vs can sell
+     * get amount can make from transaction
+     */
+    int max_loadable = max_cargo_amount_for_commodity(bot, commodity);
+    int can_buy_quantity = seller->quantity > max_loadable ? max_loadable : seller->quantity;
+
+    location_t buyers[MAX_LOCATIONS];
+    int num_buyers = buyers_in_fuel_range(bot, commodity, buyers);
+
+    print_array_of_locations(buyers, num_buyers);
+
+    location_t best_buyer = NULL;
+    double best_ratio = 0;
+
+    for (int i = 0; i < num_buyers; i++) {
+        location_t buyer = buyers[i];
+        int distance = true_distance_between(seller, buyer);
+        int sell_quantity = buyer->quantity;
+        int final_quantity = can_buy_quantity > sell_quantity ? sell_quantity : can_buy_quantity;
+        int bs_profit = final_quantity * (buyer->price - seller->price);
+        double ratio = (double)bs_profit / (double)distance;
+
+        if (ratio > best_ratio) {
+            best_buyer = buyer;
+        }
+    }
+
+    return best_buyer;
 }

@@ -30,6 +30,9 @@ location_pair_t create_location_pair(location_t seller, location_t buyer);
 bool is_location_equal(location_t location1, location_t location2);
 bool is_commodities_equal(commodity_t c1, commodity_t c2);
 bool is_at_either_location(bot_t b, location_pair_t pair);
+int petrol_left_in_world(bot_t bot);
+bool is_buyer_of_commodity(location_t loc, commodity_t commodity);
+bool is_seller_of_commodity(location_t loc, commodity_t commodity);
 
 // significant_locations.c
 location_t find_start_location(location_t a_location);
@@ -41,6 +44,9 @@ location_t closest_buyer_of_commodity_to(bot_t bot, location_t location, commodi
 location_t best_buyer_of_commodity_to(bot_t bot, location_t location, commodity_t commodity);
 bool will_pass_location(location_t start, location_t end, location_t x);
 location_pair_t best_closest_buyer(bot_t bot);
+location_t petrol_between(location_t start, location_t end);
+int buyers_in_fuel_range(bot_t bot, commodity_t commodity, location_t buyers[MAX_LOCATIONS]);
+location_t best_buyer_in_range_from_this_seller(bot_t bot);
 
 // all_of_type.c
 int all_commodities(location_t location, commodity_t commodities[MAX_COMMODITIES]);

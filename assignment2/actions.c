@@ -24,16 +24,26 @@ action_t create_default_move_action(bot_t b, location_pair_t pair) {
     return create_action(ACTION_MOVE, n, target);
 }
 
+action_t idle_action(bot_t b) {
+    return create_action(ACTION_MOVE, 0, b->location);
+}
+
 action_t at_seller_action(bot_t b, location_pair_t pair) {
     if (is_location_equal(b->location, pair->seller)) {
         if (has_cargo(b)) {
             return create_action(ACTION_MOVE, amount_move_to(b, pair->buyer), pair->buyer);
         } else {
-		println();
-		print("PLANNING TO SELL TO:");
-		print_location(pair->buyer);
-		println();
-            return create_action(ACTION_BUY, amount_to_buy(b, pair), NULL);
+            println();
+            print("PLANNING TO SELL TO:");
+            print_location(pair->buyer);
+            println();
+            int to_buy = amount_should_buy(b, pair);
+            if (to_buy > 0) {
+                return create_action(ACTION_BUY, to_buy, NULL);
+            } else {
+                throw_warning("ACTUALLY CANNOT REACH A BUYER");
+                return idle_action(b);
+            }
         }
     } else {
         return create_default_move_action(b, pair);

@@ -80,3 +80,27 @@ bool is_commodities_equal(commodity_t c1, commodity_t c2) {
 bool is_at_either_location(bot_t b, location_pair_t pair) {
     return is_location_equal(b->location, pair->seller) || is_location_equal(b->location, pair->buyer);
 }
+
+int petrol_left_in_world(bot_t bot) {
+    location_t petrol_stations[MAX_LOCATIONS];
+    int num_petrol_stations = all_petrol_stations(bot->location, petrol_stations);
+    int left_over = bot->fuel;
+    for (int i = 0; i < num_petrol_stations; i++) {
+        location_t petrol_station = petrol_stations[i];
+        left_over += petrol_station->quantity;
+    }
+
+    return left_over;
+}
+
+bool is_type_of_commodity(location_t loc, int type, commodity_t commodity) {
+    return (loc->type == type && is_commodities_equal(loc->commodity, commodity));
+}
+
+bool is_buyer_of_commodity(location_t loc, commodity_t commodity) {
+    return is_type_of_commodity(loc, LOCATION_BUYER, commodity);
+}
+
+bool is_seller_of_commodity(location_t loc, commodity_t commodity) {
+    return is_type_of_commodity(loc, LOCATION_SELLER, commodity);
+}

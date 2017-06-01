@@ -3,6 +3,7 @@
 //
 
 #include "world.h"
+#include "jjbot.h"
 #include "debugger.h"
 #include <stdbool.h>
 #include <stdlib.h>
@@ -210,4 +211,69 @@ location_t petrol_between(location_t start, location_t end) {
     }
 
     return petrol_station;
+}
+
+int buyers_in_fuel_range(bot_t bot, commodity_t commodity, location_t buyers[MAX_LOCATIONS]) {
+    int fuel = bot->fuel;
+    int counter = 0;
+
+    location_t forward = bot->location;
+    location_t backward = bot->location;
+
+    for (int i = 0; i < fuel; i++) {
+
+        shift_location(forward, DIRECTION_FORWARD);
+        shift_location(backward, DIRECTION_BACKWARD);
+
+        if (is_buyer_of_commodity(forward, commodity)) {
+            if (forward->quantity > 0) {
+                buyers[counter] = forward;
+                counter++;
+            }
+        }
+
+        if (is_buyer_of_commodity(backward, commodity)) {
+            if (backward->quantity > 0) {
+                buyers[counter] = backward;
+                counter++;
+            }
+        }
+    }
+
+    return counter;
+}
+
+location_t best_buyer_in_range_from_this_seller(bot_t bot) {
+    location_t seller = bot->location;
+    commodity_t commodity = seller->commodity;
+    /*
+     * Get quantity seller has
+     * get quantity can buy
+     * take the lesser of the two
+     * for each buyer get the lesser of can buy vs can sell
+     * get amount can make from transaction
+     */
+    int max_loadable = max_cargo_amount_for_commodity(bot, commodity);
+    int can_buy_quantity = seller->quantity > max_loadable ? max_loadable : seller->quantity;
+
+    location_t buyers[MAX_LOCATIONS];
+    int num_buyers = buyers_in_fuel_range(bot, commodity, buyers);
+
+    location_t best_buyer = NULL;
+    double best_ratio = 0;
+
+    for (int i = 0; i < num_buyers; i++) {
+        location_t buyer = buyers[i];
+        int distance = true_distance_between(seller, buyer);
+        int sell_quantity = buyer->quantity;
+        int final_quantity = can_buy_quantity > sell_quantity ? sell_quantity : can_buy_quantity;
+        int bs_profit = final_quantity * (buyer->price - seller->price);
+        double ratio = (double)bs_profit / (double)distance;
+
+        if (ratio > best_ratio) {
+            best_buyer = buyer;
+        }
+    }
+
+    return best_buyer;
 }

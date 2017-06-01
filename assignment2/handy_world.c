@@ -92,3 +92,15 @@ int petrol_left_in_world(bot_t bot) {
 
     return left_over;
 }
+
+bool is_type_of_commodity(location_t loc, int type, commodity_t commodity) {
+    return (loc->type == type && is_commodities_equal(loc->commodity, commodity));
+}
+
+bool is_buyer_of_commodity(location_t loc, commodity_t commodity) {
+    return is_type_of_commodity(loc, LOCATION_BUYER, commodity);
+}
+
+bool is_seller_of_commodity(location_t loc, commodity_t commodity) {
+    return is_type_of_commodity(loc, LOCATION_SELLER, commodity);
+}

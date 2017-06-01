@@ -222,8 +222,8 @@ int buyers_in_fuel_range(bot_t bot, commodity_t commodity, location_t buyers[MAX
 
     for (int i = 0; i < fuel; i++) {
 
-        shift_location(forward, DIRECTION_FORWARD);
-        shift_location(backward, DIRECTION_BACKWARD);
+	forward = forward->next;
+	backward = backward->previous;
 
         if (is_buyer_of_commodity(forward, commodity)) {
             if (forward->quantity > 0) {
@@ -258,6 +258,8 @@ location_t best_buyer_in_range_from_this_seller(bot_t bot) {
 
     location_t buyers[MAX_LOCATIONS];
     int num_buyers = buyers_in_fuel_range(bot, commodity, buyers);
+
+    print_array_of_locations(buyers, num_buyers);
 
     location_t best_buyer = NULL;
     double best_ratio = 0;

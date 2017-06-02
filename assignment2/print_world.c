@@ -7,11 +7,12 @@
 #include "trader_bot.h"
 #include "structs.h"
 #include "debugger.h"
+#include "world.h"
 
-void print_target_destination(location_t loc) {
+void print_target_destination(bot_t bot, location_t loc) {
     if (IS_DEBUGGING && loc != NULL) {
         println();
-        printf("TARGET DESTINATION: ");
+        printf("TARGET DESTINATION (%d): ", true_distance_between(bot->location, loc));
         print_location(loc);
         println();
     }

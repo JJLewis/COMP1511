@@ -61,7 +61,7 @@ void get_action(struct bot *b, int *action, int *n) {
 
     *action = an_action->action;
     *n = an_action->n;
-    print_target_destination(an_action->target);
+    print_target_destination(b, an_action->target);
     free(an_action);
     free(pair);
 }

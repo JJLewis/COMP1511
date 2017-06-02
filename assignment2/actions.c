@@ -64,7 +64,11 @@ action_t at_buyer_action(bot_t b, location_pair_t pair) {
 
 action_t at_petrol_action(bot_t b, location_pair_t pair) {
     if (is_full_fuel(b)) {
-        return create_action(ACTION_MOVE, amount_move_to(b, pair->buyer), pair->buyer);
+        if (has_cargo(b)) {
+            return create_action(ACTION_MOVE, amount_move_to(b, pair->buyer), pair->buyer);
+        } else {
+            return create_action(ACTION_MOVE, amount_move_to(b, pair->seller), pair->seller);
+        }
     } else {
         if (b->location->quantity > 0) {
             return create_action(ACTION_BUY, b->fuel_tank_capacity - b->fuel, NULL);

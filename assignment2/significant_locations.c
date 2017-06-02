@@ -74,6 +74,8 @@ location_t nearest_petrol_station(location_t location, int minimumFuel) {
     location_t stations[MAX_LOCATIONS];
     int numStations = all_petrol_stations(location, stations);
 
+    bool can_be_zero = minimumFuel == 0;
+
     location_t closest = NULL;//stations[0];
     int closestDistance = -1;//true_distance_between(location, closest);
     for (int i = 0; i < numStations; i++) {
@@ -84,14 +86,16 @@ location_t nearest_petrol_station(location_t location, int minimumFuel) {
             minimumFuel = distance;
         }
 
-        if (a_location->quantity >= minimumFuel && a_location->quantity != 0) {
-            if (distance < closestDistance) {
-                closestDistance = distance;
-                closest = a_location;
-            } else {
-                if (closest == NULL) {
+        if (a_location->quantity >= minimumFuel) {
+            if (!can_be_zero && minimumFuel != 0) {
+                if (distance < closestDistance) {
                     closestDistance = distance;
                     closest = a_location;
+                } else {
+                    if (closest == NULL) {
+                        closestDistance = distance;
+                        closest = a_location;
+                    }
                 }
             }
         }

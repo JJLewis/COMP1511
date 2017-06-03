@@ -5,6 +5,9 @@
 #ifndef JJBOT_H
 #define JJBOT_H
 
+#define MIN_LAPS 2
+#define MAX_CONSECUTIVE_MOVES 3
+
 #endif //JJBOT_H
 
 #include "trader_bot.h"

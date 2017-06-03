@@ -45,7 +45,16 @@ bool is_valid_pair(bot_t bot, location_pair_t pair) {
      * Then it should be able to reach buyer from seller
      *      subtract
      */
-    return (int)ceilf((double)bot->fuel_tank_capacity / (double)pair->distance) >= 2;
+	int distance = pair->distance;
+	int capacity = bot->fuel_tank_capacity;
+	int max_move = bot->maximum_move;
+	int max_range = max_move * MAX_CONSECUTIVE_MOVES;
+	if (max_range >= capacity / MIN_LAPS) {
+		return (double)distance <= (double)capacity / MIN_LAPS;
+	} else {
+		bool in_max_range = distance < max_range;
+		return in_max_range;
+	}
 }
 
 location_pair_t best_pair_for_commodity(bot_t bot, commodity_t commodity) {

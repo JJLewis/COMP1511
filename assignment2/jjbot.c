@@ -10,7 +10,7 @@
 #include "debugger.h"
 
 char *get_bot_name(void) {
-    return "Plumpess";
+    return "Gwendolyn"; // Plumpess
 }
 
 location_pair_t get_pair_for_action(bot_t b) {

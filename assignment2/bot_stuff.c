@@ -87,7 +87,7 @@ bool should_refuel(bot_t bot, action_t action) {
     int target_to_fuel_distance = true_distance_between(target, nearest_petrol);
     int at_target_remaining_fuel = remaining_fuel - distance_to_target;
     int bot_to_fuel_distance = true_distance_between(bot->location, nearest_petrol);
-    if (bot_to_fuel_distance > remaining_fuel) return false;
+    if (bot_to_fuel_distance > remaining_fuel) return false; // Not going to make it to petrol so don't bother, just die
     if (at_target_remaining_fuel < target_to_fuel_distance) return true;
 
     return false;

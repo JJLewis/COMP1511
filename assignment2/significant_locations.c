@@ -73,8 +73,14 @@ bool will_pass_petrol(location_t start, location_t end) {
 location_t nearest_petrol_station(location_t location, int minimumFuel) {
     location_t stations[MAX_LOCATIONS];
     int numStations = all_petrol_stations(location, stations);
-
+	
     bool can_be_zero = minimumFuel == 0;
+	
+	if (!can_be_zero) {
+		numStations = filter_zero_quantity(stations, numStations);
+	}
+
+	//print_array_of_locations(stations, numStations);
 
     location_t closest = NULL;//stations[0];
     int closestDistance = -1;//true_distance_between(location, closest);
@@ -90,6 +96,10 @@ location_t nearest_petrol_station(location_t location, int minimumFuel) {
 	bool zero_not_allowed = (!can_be_zero && minimumFuel > 0) && a_location->quantity >= minimumFuel;
 	
 	bool is_best = false;
+	
+	//print("Now checking:");
+	//print_location(a_location);
+	//printI(distance);
 
         if (zero_not_allowed || zero_allowed) {
                 if (closest == NULL) {

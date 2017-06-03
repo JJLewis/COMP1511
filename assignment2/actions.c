@@ -16,7 +16,8 @@ action_t create_action(int action, int n, location_t target) {
 }
 
 action_t create_default_move_action(bot_t b, location_pair_t pair) {
-    int n = amount_move_to(b, pair->seller);
+	throw_warning("DEFAULT MOVE ACTION");
+    	int n = amount_move_to(b, pair->seller);
     if (has_cargo(b)) {
         n = amount_move_to(b, pair->buyer);
     }
@@ -64,11 +65,7 @@ action_t at_buyer_action(bot_t b, location_pair_t pair) {
 
 action_t at_petrol_action(bot_t b, location_pair_t pair) {
     if (is_full_fuel(b)) {
-        if (has_cargo(b)) {
-            return create_action(ACTION_MOVE, amount_move_to(b, pair->buyer), pair->buyer);
-        } else {
-            return create_action(ACTION_MOVE, amount_move_to(b, pair->seller), pair->seller);
-        }
+    	return create_default_move_action(b, pair);
     } else {
         if (b->location->quantity > 0) {
             return create_action(ACTION_BUY, b->fuel_tank_capacity - b->fuel, NULL);

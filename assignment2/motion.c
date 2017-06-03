@@ -3,6 +3,7 @@
 //
 
 #include "world.h"
+#include "debugger.h"
 #include <stdlib.h>
 
 int distance_between(location_t location1, location_t location2) {
@@ -78,6 +79,10 @@ location_t location_from_with_distance(location_t start, int distance) {
 int amount_move_to(bot_t bot, location_t destination) {
     int max_move = bot->maximum_move;
     int distance = distance_between(bot->location, destination);
+	if (distance == MAX_LOCATIONS * 2) {
+		throw_warning("Trying to move to NULL");
+		return 0;
+	}
     int t_distance = true_distance_between(bot->location, destination);
     if (t_distance < max_move) {
         return distance;

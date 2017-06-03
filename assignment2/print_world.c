@@ -30,7 +30,10 @@ void print_array_of_locations(location_t locations[MAX_LOCATIONS], int size) {
 }
 
 void print_location(location_t loc) {
-    if (IS_DEBUGGING && loc != NULL) {
+    if (IS_DEBUGGING) {
+	    if (loc == NULL) {
+		    throw_warning("LOCATION TO PRINT IS NULL");
+	    } else {
         char output[80] = "";
         char *name = loc->name;
         int type = loc->type;
@@ -50,6 +53,7 @@ void print_location(location_t loc) {
         }
 
         printf("%s: %s\n", name, output);
+    }
     }
 }
 

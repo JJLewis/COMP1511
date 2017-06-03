@@ -53,7 +53,9 @@ void get_action(struct bot *b, int *action, int *n) {
     }
 
     if (should_refuel(b, an_action)) {
-        location_t nearest_fuel = nearest_petrol_station(b->location, -1);
+        throw_warning("SHOULD REFUEL");
+	    location_t nearest_fuel = nearest_petrol_station(b->location, -1);
+	    print_location(nearest_fuel);
         int distance = amount_move_to(b, nearest_fuel);
         free(an_action);
         an_action = create_action(ACTION_MOVE, distance, nearest_fuel);

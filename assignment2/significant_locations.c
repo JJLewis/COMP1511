@@ -85,9 +85,11 @@ location_t nearest_petrol_station(location_t location, int minimumFuel) {
         if (minimumFuel == -1) {
             minimumFuel = distance;
         }
+	
+	bool zero_allowed = can_be_zero && minimumFuel == 0;
+	bool zero_not_allowed = (!can_be_zero && minimumFuel > 0) && a_location->quantity >= minimumFuel;
 
-        if (a_location->quantity >= minimumFuel) {
-            if (!can_be_zero && minimumFuel != 0) {
+        if (zero_not_allowed || zero_allowed) {
                 if (distance < closestDistance) {
                     closestDistance = distance;
                     closest = a_location;
@@ -97,7 +99,6 @@ location_t nearest_petrol_station(location_t location, int minimumFuel) {
                         closest = a_location;
                     }
                 }
-            }
         }
     }
 

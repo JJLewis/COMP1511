@@ -40,7 +40,12 @@ double gain_per_turn(location_t seller, location_t buyer, bot_t bot, int max_car
 }
 
 bool is_valid_pair(bot_t bot, location_pair_t pair) {
-    return bot->fuel_tank_capacity / pair->distance >= 2;
+    /*
+     * Bot should be able to reach seller
+     * Then it should be able to reach buyer from seller
+     *      subtract
+     */
+    return (int)ceilf((double)bot->fuel_tank_capacity / (double)pair->distance) >= 2;
 }
 
 location_pair_t best_pair_for_commodity(bot_t bot, commodity_t commodity) {

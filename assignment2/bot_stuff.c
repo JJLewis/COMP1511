@@ -95,7 +95,7 @@ bool should_refuel(bot_t bot, action_t action) {
     return false;
 }
 
-bool can_reach_target(bot_t bot, location_t target) {
+bool can_reach_target(bot_t bot, location_t target, int fuel_modifier) {
     /*
      * Check fuel left in bot against distance to travel
      * Check amount of remaining fuel in the world
@@ -103,7 +103,7 @@ bool can_reach_target(bot_t bot, location_t target) {
      * Check if there are enough turns left in the game to reach the target
      */
     bool can_reach = true;
-    int fuel_left = bot->fuel;
+    int fuel_left = bot->fuel - fuel_modifier;
     int distance = true_distance_between(bot->location, target);
 
     if (petrol_left_in_world(bot) < distance) return false;
@@ -118,7 +118,7 @@ bool can_reach_target(bot_t bot, location_t target) {
                 can_reach = false; // Petrol station doesn't have enough fuel
             } else {
                 // Need to check if it can reach the petrol station between the bot and the target
-                return can_reach_target(bot, petrol_in_between);
+                return can_reach_target(bot, petrol_in_between, 0);
             }
         }
 
@@ -152,7 +152,7 @@ bool can_reach_target(bot_t bot, location_t target) {
 }
 
 int amount_should_buy(bot_t bot, location_pair_t pair) {
-    if (can_reach_target(bot, pair->buyer)) {
+    if (can_reach_target(bot, pair->buyer, 0)) {
         return amount_to_buy(bot, pair);
     } else {
         location_t next_best_buyer = best_buyer_in_range_from_this_seller(bot);

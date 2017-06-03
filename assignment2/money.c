@@ -49,12 +49,25 @@ bool is_valid_pair(bot_t bot, location_pair_t pair) {
 	int capacity = bot->fuel_tank_capacity;
 	int max_move = bot->maximum_move;
 	int max_range = max_move * MAX_CONSECUTIVE_MOVES;
+
+    if (is_at_either_location(bot, pair)) {
+        location_t reciprocal = bot->location->type == LOCATION_SELLER ? pair->buyer : pair->seller;
+        return can_reach_target(bot, reciprocal, 0);
+    } else {
+        if (has_cargo(bot)) {
+            return can_reach_target(bot, pair->buyer, 0);
+        } else {
+            return can_reach_target(bot, pair->buyer, true_distance_between(bot->location, pair->seller));
+        }
+    }
+    /*
 	if (max_range >= capacity / MIN_LAPS) {
 		return (double)distance <= (double)capacity / MIN_LAPS;
 	} else {
 		bool in_max_range = distance < max_range;
 		return in_max_range;
 	}
+     */
 }
 
 location_pair_t best_pair_for_commodity(bot_t bot, commodity_t commodity) {

@@ -100,10 +100,11 @@ bool can_reach_target(bot_t bot, location_t target) {
         if (petrol_in_between == NULL) {
             can_reach = false; // No intermediate petrol station
         } else {
-            if (petrol_in_between->quantity + fuel_left < distance) {
+            if (petrol_in_between->quantity + fuel_left < distance) { // If it can't buy enough fuel to reach the target
                 can_reach = false; // Petrol station doesn't have enough fuel
             } else {
-                return true;
+                // Need to check if it can reach the petrol station between the bot and the target
+                return can_reach_target(bot, petrol_in_between);
             }
         }
 
@@ -129,7 +130,7 @@ bool can_reach_target(bot_t bot, location_t target) {
         }
     } else {
         // It can reach the target, just check if there are enough turns to do that
-        int required_move_turns = (int) ceilf((double) distance / (double) bot->maximum_move);
+        int required_move_turns = (int)ceilf((double) distance / (double) bot->maximum_move);
         if (required_move_turns + 1 > bot->turns_left) return false; // Plus 1 for SELL action
     }
 

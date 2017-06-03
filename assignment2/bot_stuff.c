@@ -159,6 +159,9 @@ int amount_should_buy(bot_t bot, location_pair_t pair) {
         if (next_best_buyer == NULL) {
             return 0;
         }
+	if (!can_reach_target(bot, next_best_buyer, 0)) {
+		return 0;
+	}
         location_pair_t new_pair = create_location_pair(bot->location, next_best_buyer);
         int to_buy = amount_to_buy(bot, new_pair);
         free(new_pair);

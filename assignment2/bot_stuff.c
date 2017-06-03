@@ -60,6 +60,8 @@ bool should_refuel(bot_t bot, action_t action) {
 
     if (bot->fuel == bot->fuel_tank_capacity) return false;
 
+    if (bot->turns_left < 4) return false; // Move Refuel Move Sell/Buy
+
     location_t target = action->target;
     int distance_to_target = true_distance_between(bot->location, target);
 

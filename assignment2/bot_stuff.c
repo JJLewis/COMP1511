@@ -74,12 +74,15 @@ bool should_refuel(bot_t bot, action_t action) {
     // If the bot won't have enough fuel to get to a petrol station after reaching the target
     location_t nearest_petrol = nearest_petrol_station(target, -1);
     if (nearest_petrol == NULL) {
-	//nearest_petrol = nearest_petrol_station(target, distance_to_target / 2);
-	if (petrol_left_in_world(bot) == bot->fuel) {
-	    return false; // If world out of fuel
-	} else {
-		return true;
-	}
+        if (petrol_left_in_world(bot) == bot->fuel) {
+            return false; // If world out of fuel
+        } else {
+            if (has_cargo(bot)) {
+                return false;
+            } else {
+                return true;
+            }
+        }
     }
     int target_to_fuel_distance = true_distance_between(target, nearest_petrol);
     int at_target_remaining_fuel = remaining_fuel - distance_to_target;

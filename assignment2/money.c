@@ -48,7 +48,7 @@ bool is_valid_pair(bot_t bot, location_pair_t pair) {
         passes_reachability = can_reach_target(bot, reciprocal, 0);
     } else {
         int fuel_modifier = has_cargo(bot) ? 0 : true_distance_between(bot->location, pair->seller);
-        passes_reachability = can_reach_target(bot, pair->buyer, fuel_modifier);
+        passes_reachability = can_reach_target(bot, pair->seller, 0) && can_reach_target(bot, pair->buyer, fuel_modifier);
     }
 
     int distance = pair->distance;

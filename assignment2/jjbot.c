@@ -7,6 +7,55 @@
 // https://jjlewis.github.io
 // https://github.com/jjlewis/COMP1511
 
+
+
+/*
+*  ________  __      __        __    __  __                      __
+* |        \|  \    /  \      |  \  |  \|  \                    |  \
+*  \$$$$$$$$ \$$\  /  $$      | $$\ | $$ \$$  _______   ______  | $$  ______
+*    | $$     \$$\/  $$       | $$$\| $$|  \ /       \ /      \ | $$ |      \
+*    | $$      \$$  $$        | $$$$\ $$| $$|  $$$$$$$|  $$$$$$\| $$  \$$$$$$\
+*    | $$       \$$$$         | $$\$$ $$| $$| $$      | $$  | $$| $$ /      $$
+*    | $$       | $$          | $$ \$$$$| $$| $$_____ | $$__/ $$| $$|  $$$$$$$
+*    | $$       | $$          | $$  \$$$| $$ \$$     \ \$$    $$| $$ \$$    $$
+*     \$$        \$$           \$$   \$$ \$$  \$$$$$$$  \$$$$$$  \$$  \$$$$$$$
+*
+ */
+
+
+
+/*
+ *      Since the Safety Pig was appreciated last time,
+ *      I thought I'd keep up my tradition and provide you with a Sanity Rabbit this time.
+ *      I hope my code doesn't make you cry nearly as much this time.
+ *      I tried to take on your comments on my style from the last assignment.
+ *
+ *      Anyways below is Sanity Rabbit. I hope he treats you well.
+ *               ,
+ *              /|      __
+ *             / |   ,-~ /
+ *            Y :|  //  /
+ *            | jj /( .^
+ *            >-"~"-v"
+ *           /       Y
+ *          jo  o    |
+ *         ( ~T~     j
+ *          >._-' _./
+ *         /   "~"  |
+ *        Y     _,  |
+ *       /| ;-"~ _  l
+ *      / l/ ,-"~    \
+ *      \//\/      .- \
+ *       Y        /    Y
+ *       l       I     !
+ *       ]\      _\    /"\
+ *      (" ~----( ~   Y.  )
+ *  ~~~~~~~~~~~~~~~~~~~~~~~~~
+ */
+
+
+
+// Look! I put the C libs before my headers!!
 #include <stdlib.h>
 #include <stdbool.h>
 #include "jjbot.h"
@@ -17,6 +66,7 @@
 /*
  * Name my bot.
  * FYI: Gwendolyn is a Rick and Morty reference.
+ * http://rickandmorty.wikia.com/wiki/Gwendolyn
  */
 char *get_bot_name(void) {
     return "Gwendolyn"; // Plumpess

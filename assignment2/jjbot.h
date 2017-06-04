@@ -5,6 +5,7 @@
 #ifndef JJBOT_H
 #define JJBOT_H
 
+// Define the restrictions for valid pairs
 #define MIN_LAPS 2
 #define MAX_CONSECUTIVE_MOVES 3
 

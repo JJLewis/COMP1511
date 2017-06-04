@@ -44,9 +44,7 @@ double gain_per_turn(bot_t bot, location_pair_t pair) {
     int buyCost = seller->price * maxLoadable;
     int sellCost = buyer->price * maxLoadable;
 
-    location_pair_t pair = create_location_pair(seller, buyer);
     int travelCost = cost_of_travel(pair);
-    free(pair);
 
     int netGain = sellCost - (buyCost + 2 * travelCost);
 

@@ -30,7 +30,7 @@ int indexOfD(int size, double array[size], double element) {
 }
 
 /*
- * Find the coordinates of the largest element in a matrix
+ * Find the coordinates of the largest element in a matrix.
  */
 double coord_of_max_D(int height, int width, double matrix[height][width], int *row, int *column) {
     double largest = matrix[0][0];
@@ -51,6 +51,9 @@ double coord_of_max_D(int height, int width, double matrix[height][width], int *
     return largest;
 }
 
+/*
+ * Finds the smallest integer element in an array of integers.
+ */
 int smallestElementI(int size, int array[size]) {
     int smallest = array[0];
     for (int i = 0; i < size; i++) {

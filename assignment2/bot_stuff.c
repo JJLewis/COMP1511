@@ -9,6 +9,11 @@
 #include "world.h"
 #include "debugger.h"
 
+/*
+ * Returns the maximum quantity of a commodity a bot can carry according to the max_cargo_weight and max_cargo_volume
+ * It does some division and takes the lesser of the two.
+ * Also, integer arithmetic automatically floors, which is good, since rounding up may cause returning 1 more than possible.
+ */
 int max_cargo_amount_for_commodity(bot_t bot, commodity_t commodity) {
     int weight_max = bot->maximum_cargo_weight / commodity->weight;
     int volume_max = bot->maximum_cargo_volume / commodity->volume;
@@ -19,6 +24,9 @@ int max_cargo_amount_for_commodity(bot_t bot, commodity_t commodity) {
     }
 }
 
+/*
+ * Simply returns a true or false about whether or not the bot is carrying some sort of cargo.
+ */
 bool has_cargo(bot_t bot) {
     if (bot->cargo != NULL) {
         if (bot->cargo->quantity > 0) {
@@ -28,6 +36,9 @@ bool has_cargo(bot_t bot) {
     return false;
 }
 
+/*
+ * Returns the quantity of a commodity in a bot's cargo.
+ */
 int cargo_quantity_for(bot_t bot, commodity_t commodity) {
     cargo_t cargo = bot->cargo;
     while (!is_commodities_equal(cargo->commodity, commodity)) {
@@ -39,10 +50,17 @@ int cargo_quantity_for(bot_t bot, commodity_t commodity) {
     return cargo->quantity;
 }
 
+/*
+ * True or false on whether or not the bot is at full fuel, by comparing the fuel_tank_capacity to the amount of fuel left.
+ */
 bool is_full_fuel(bot_t bot) {
     return bot->fuel == bot->fuel_tank_capacity;
 }
 
+/*
+ * Returns the maximum quantity of petrol a bot can buy at a petrol station.
+ * Calculated by taking the lesser of the max affordable and what's available.
+ */
 int max_buyable_petrol(bot_t bot, location_t petrol_station) {
     int available_quantity = petrol_station->quantity;
     int price = petrol_station->price;
@@ -51,6 +69,26 @@ int max_buyable_petrol(bot_t bot, location_t petrol_station) {
     return available_quantity > max_affordable ? max_affordable : available_quantity;
 }
 
+/*
+ * Returns a true of false on whether or not the bot should head/redirect to petrol and refuel.
+ * This function accounts for various possibilities where the bot should/must refuel to perform.
+ * These possibilities are as follows:
+ *      If not enough fuel to reach target
+ *      If the bot will pass the petrol station on the way to the target
+ *      If the bot won't have enough fuel to get to a petrol station after reaching the target
+ * There are also conditions for when the bot should NOT refuel:
+ *      The bot is not MOVING, rather BUYING or SELLING
+ *      The bot has a full tank of fuel
+ *      Not enough turns to get to a petrol station then reach the target destination
+ *      The world is out of fuel
+ *      Not going to make it to the closest petrol station, so don't even bother trying
+ *
+ * inputs:
+ *          bot: Used for it's location, fuel, and information on the game such as turns left.
+ *          action: The action that jjbot.c had decided upon before calling this. Used for the target location the bot wants to reach.
+ *
+ * returns: Boolean, true to refuel, false to keep doing what it was going to do.
+ */
 bool should_refuel(bot_t bot, action_t action) {
 
     // Only say YES to refuelling if the current action is MOVE
@@ -58,7 +96,7 @@ bool should_refuel(bot_t bot, action_t action) {
         return false;
     }
 
-    if (bot->fuel == bot->fuel_tank_capacity) return false;
+    if (is_full_fuel(bot)) return false;
 
     if (bot->turns_left < 4) return false; // Move Refuel Move Sell/Buy
 
@@ -95,6 +133,24 @@ bool should_refuel(bot_t bot, action_t action) {
     return false;
 }
 
+/*
+ * Returns a boolean about whether or not the bot can reach a location from where it is now.
+ * This function accounts for various reasons why a bot may not reach it's target, along with some where it will.
+ * This algorithm considers:
+ *      If the bot already has enough fuel to reach the target
+ *      If there are enough turns left in the game to reach the target and then do a SELL action
+ *      If not:
+ *          If the bot can refuel on the way to the target
+ *          If the bot can move the other way, then refuel, then have enough fuel to reach the target
+ *
+ * inputs:
+ *          bot: The bot to move, used for its current fuel and location state.
+ *          target: The target location the bot wants to head to.
+ *          fuel_modifier: In case a closer stop needs to be made, just subtract that from the current fuel amount, and do the same algorithm.
+ *                          NOTE: This will be 0 most of the time.
+ *
+ * returns: True if the bot can somehow reach the target, False if it cannot.
+ */
 bool can_reach_target(bot_t bot, location_t target, int fuel_modifier) {
     /*
      * Check fuel left in bot against distance to travel
@@ -151,20 +207,27 @@ bool can_reach_target(bot_t bot, location_t target, int fuel_modifier) {
     return can_reach;
 }
 
+/*
+ * An extension on top of amount_to_buy.
+ * This function prevents over-buying, causing cargo to be left over after a SELL.
+ * This function considers if the bot can reach the desired BUYER
+ *      If it can, simply return the outcome of amount_to_buy
+ *      If not, look for a closer BUYER and calculate the amount_to_buy from the new found BUYER
+ *      If a closer BUYER is not found or cannot be reached return 0.
+ *
+ * returns: The quantity of a commodity the bot should buy, 0 if it shouldn't buy any.
+ */
 int amount_should_buy(bot_t bot, location_pair_t pair) {
     if (can_reach_target(bot, pair->buyer, 0)) {
         return amount_to_buy(bot, pair);
     } else {
         location_t next_best_buyer = best_buyer_in_range_from_this_seller(bot);
-        if (next_best_buyer == NULL) {
+        if (next_best_buyer == NULL || !can_reach_target(bot, next_best_buyer, 0)) {
             return 0;
         }
-	if (!can_reach_target(bot, next_best_buyer, 0)) {
-		return 0;
-	}
         location_pair_t new_pair = create_location_pair(bot->location, next_best_buyer);
         int to_buy = amount_to_buy(bot, new_pair);
-        free(new_pair);
+        free(new_pair); // NO LEEEEEAAAAAAKKKKKSSS!!!
         return to_buy;
     }
 }

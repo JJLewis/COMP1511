@@ -2,11 +2,11 @@
 // Created by Jordan Lewis on 28/5/17.
 //
 
+#include <stdlib.h>
+#include <stdio.h>
 #include "jjbot.h"
 #include "world.h"
 #include "debugger.h"
-#include <stdlib.h>
-#include <stdio.h>
 
 action_t create_action(int action, int n, location_t target) {
     action_t an_action = malloc(sizeof(struct action));

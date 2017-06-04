@@ -3,10 +3,10 @@
 //
 
 #include <stdlib.h>
-#include "debugger.h"
 #include "trader_bot.h"
-#include "structs.h"
 #include "world.h"
+#include "structs.h"
+#include "debugger.h"
 
 void test_all_bs_of_commodity(bot_t bot, commodity_t commodity) {
     print("Buyers");

@@ -5,14 +5,14 @@
 #ifndef WORLD_H
 #define WORLD_H
 
+#define DIRECTION_FORWARD 1
+#define DIRECTION_BACKWARD -1
+
 #endif //WORLD_H
 
 #include <stdbool.h>
 #include "trader_bot.h"
 #include "structs.h"
-
-#define DIRECTION_FORWARD 1
-#define DIRECTION_BACKWARD -1
 
 // motion.c
 int distance_between(location_t location1, location_t location2);

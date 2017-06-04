@@ -10,8 +10,8 @@
 
 #endif //JJBOT_H
 
-#include "trader_bot.h"
 #include <stdbool.h>
+#include "trader_bot.h"
 #include "structs.h"
 
 // bot_stuff.c

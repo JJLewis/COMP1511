@@ -2,9 +2,9 @@
 // Created by Jordan Lewis on 13/5/17.
 //
 
+#include <stdlib.h>
 #include "world.h"
 #include "debugger.h"
-#include <stdlib.h>
 
 int distance_between(location_t location1, location_t location2) {
     

@@ -2,11 +2,11 @@
 // Created by Jordan Lewis on 13/5/17.
 //
 
-#include "world.h"
-#include "jjbot.h"
-#include "debugger.h"
-#include <stdbool.h>
 #include <stdlib.h>
+#include <stdbool.h>
+#include "jjbot.h"
+#include "world.h"
+#include "debugger.h"
 
 location_t find_start_location(location_t a_location) {
     location_t current = a_location;

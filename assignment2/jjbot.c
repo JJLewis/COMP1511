@@ -2,11 +2,11 @@
 // Created by Jordan Lewis on 16/5/17.
 //
 
+#include <stdlib.h>
+#include <stdbool.h>
 #include "jjbot.h"
 #include "world.h"
 #include "handy.h"
-#include <stdbool.h>
-#include <stdlib.h>
 #include "debugger.h"
 
 char *get_bot_name(void) {

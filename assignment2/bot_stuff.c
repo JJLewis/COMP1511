@@ -2,12 +2,12 @@
 // Created by Jordan Lewis on 13/5/17.
 //
 
+#include <stdlib.h>
+#include <stdbool.h>
+#include <math.h>
 #include "jjbot.h"
 #include "world.h"
 #include "debugger.h"
-#include <math.h>
-#include <stdbool.h>
-#include <stdlib.h>
 
 int max_cargo_amount_for_commodity(bot_t bot, commodity_t commodity) {
     int weight_max = bot->maximum_cargo_weight / commodity->weight;

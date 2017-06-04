@@ -2,12 +2,12 @@
 // Created by Jordan Lewis on 13/5/17.
 //
 
+#include <stdlib.h>
+#include <math.h>
 #include "jjbot.h"
 #include "world.h"
 #include "handy.h"
 #include "debugger.h"
-#include <math.h>
-#include <stdlib.h>
 
 int cost_of_travel(location_pair_t pair) {
     int distance = pair->distance;

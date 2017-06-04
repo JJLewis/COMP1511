@@ -5,9 +5,9 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include "trader_bot.h"
+#include "world.h"
 #include "structs.h"
 #include "debugger.h"
-#include "world.h"
 
 void print_target_destination(bot_t bot, location_t loc) {
     if (IS_DEBUGGING && loc != NULL) {

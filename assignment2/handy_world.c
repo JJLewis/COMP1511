@@ -2,10 +2,10 @@
 // Created by Jordan Lewis on 13/5/17.
 //
 
-#include "world.h"
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
+#include "world.h"
 #include "debugger.h"
 
 int number_of_locations(bot_t bot) {

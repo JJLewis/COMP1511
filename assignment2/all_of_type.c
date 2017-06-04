@@ -2,9 +2,9 @@
 // Created by Jordan Lewis on 13/5/17.
 //
 
-#include "world.h"
-#include <string.h>
 #include <stdbool.h>
+#include <string.h>
+#include "world.h"
 
 bool commodity_exists(commodity_t x, commodity_t commodities[MAX_COMMODITIES], int size) {
     for (int i = 0; i < size; i++) {

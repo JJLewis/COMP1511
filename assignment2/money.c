@@ -9,6 +9,10 @@
 #include "handy.h"
 #include "debugger.h"
 
+/*
+ * Estimate the cost of travel by making the cost per unit of fuel the cost per unit of fuel at the closest petrol station to the buyer.
+ * Then multiplying that by the distance between the buyer and the seller.
+ */
 int cost_of_travel(location_pair_t pair) {
     int distance = pair->distance;
     location_t petrol = nearest_petrol_station(pair->buyer, -1);
@@ -18,6 +22,13 @@ int cost_of_travel(location_pair_t pair) {
     return distance * petrol->price;
 }
 
+/*
+ * Estimate the gain per turn for exploiting a given buyer and seller pair.
+ * Do this by calculating the number of move turns required and add on BUY and SELL turns.
+ * A "trade" would be BUY->MOVE->SELL->MOVE (back to SELLER).
+ * So divide the profit made in a trade ((quantity * price difference) - (2 * travel cost)) by the number of turns in a trade.
+ * Return the outcome.
+ */
 double gain_per_turn(location_t seller, location_t buyer, bot_t bot, int max_cargo) {
     int distance = true_distance_between(seller, buyer);
     int travelTurns = (int)ceilf((double)bot->maximum_move / (double)distance);
@@ -39,6 +50,20 @@ double gain_per_turn(location_t seller, location_t buyer, bot_t bot, int max_car
     return gainPerTurn;
 }
 
+/*
+ * Check if a buyer and seller pair is valid by checking if:
+ *      Reachability:
+ *          The bot can reach the other location if it is already at one of them.
+ *          The bot can reach the seller, then get the buyer if it doesn't have cargo.
+ *          The bot can reach the seller if it does have cargo.
+ *      Consecutive Moves:
+ *          Limit the distance between a buyer and a seller by MAX_CONSECUTIVE_MOVES.
+ *          OR
+ *          The "MIN_LAPS" number of laps the bot must be able to do between the buyer and seller pair.
+ *          Take the lesser of the two.
+ *
+ * A location pair must pass BOTH Reachability AND Consecutive Moves to be valid.
+ */
 bool is_valid_pair(bot_t bot, location_pair_t pair) {
 
     bool passes_reachability;
@@ -66,6 +91,15 @@ bool is_valid_pair(bot_t bot, location_pair_t pair) {
     return passes_consecutive_move && passes_reachability;
 }
 
+/*
+ * Finds the best buyer and seller pair for a commodity.
+ * Best here is defined as giving the highest gain per turn.
+ * The pair returned is GUARANTEED to be a VALID pair.
+ *
+ * This function literally compares every buyer and seller for a commodity against each other
+ * and calculates the gain per turn for each combination.
+ * Then search for the highest in the 2D array and correspond that to a buyer and a seller.
+ */
 location_pair_t best_pair_for_commodity(bot_t bot, commodity_t commodity) {
     location_t buyers[MAX_LOCATIONS] = {0};
     location_t sellers[MAX_LOCATIONS] = {0};
@@ -112,6 +146,10 @@ location_pair_t best_pair_for_commodity(bot_t bot, commodity_t commodity) {
     return create_location_pair(sellers[row], buyers[col]);
 }
 
+/*
+ * Calculate the total gain from running a buyer and seller pair dry (i.e. one of the pair runs down to quantity 0)
+ * Do this by calculating the cost of travel and the number of turns it'll take to exhaust and the total money from the buy and sell actions.
+ */
 // TODO: Should floor or ceil num_turns_2_exhaust?
 int gain_from_exhausting(bot_t bot, location_pair_t pair) {
     int max_loadable = max_cargo_amount_for_commodity(bot, pair->commodity);
@@ -129,6 +167,10 @@ int gain_from_exhausting(bot_t bot, location_pair_t pair) {
     return total_profit - total_lost_in_transit;
 }
 
+/*
+ * Gets the best buyer and seller pair (highest gain_from_exhausting).
+ * Does this by getting the best pair for each commodity, then choosing the best of the best.
+ */
 location_pair_t best_buy_sell_pair(bot_t bot) {
     commodity_t commodities[MAX_COMMODITIES];
     int num_commodities = all_commodities(bot->location, commodities);
@@ -160,6 +202,10 @@ location_pair_t best_buy_sell_pair(bot_t bot) {
     return best_pair;
 }
 
+/*
+ * Calculates the quantity of a commodity to buy.
+ * Do this by taking the least of the buyer quantity, seller quantity, and the max amount that the bot can carry.
+ */
 int amount_to_buy(bot_t bot, location_pair_t pair) {
     int max_loadable = max_cargo_amount_for_commodity(bot, pair->commodity);
     int seller_q = pair->seller->quantity;

@@ -9,22 +9,6 @@
 #include "debugger.h"
 
 /*
- * Counts and returns the number of locations in the world.
- */
-int number_of_locations(bot_t bot) {
-    location_t start = find_start_location(bot->location);
-    location_t a_location = start;
-    int counter = 0;
-
-    do {
-        counter++;
-        a_location = a_location->next;
-    } while (start != a_location);
-
-    return counter;
-}
-
-/*
  * Creates a copy of an array of locations into another.
  *
  * NOTE: input: size is just so the code doesn't go through and copy NULLs, that would be pointless.

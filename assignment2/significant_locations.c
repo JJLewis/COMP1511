@@ -8,48 +8,6 @@
 #include "world.h"
 #include "debugger.h"
 
-location_t find_start_location(location_t a_location) {
-    location_t current = a_location;
-    while (current->type != LOCATION_START) {
-        current = current->next;
-    }
-    return current;
-}
-
-location_t highest_buyer_of_commodity(bot_t bot, commodity_t commodity) {
-    location_t buyers[MAX_LOCATIONS] = {0};
-    int numBuyers = all_buyers_of_commodity(bot, commodity, buyers);
-
-    location_t highest = buyers[0];
-    for (int i = 0; i < numBuyers; i++) {
-        location_t a_location = buyers[i];
-        if (a_location->quantity > 0) {
-            if (a_location->price > highest->price) {
-                highest = a_location;
-            }
-        }
-    }
-
-    return highest;
-}
-
-location_t lowest_seller_of_commodity(bot_t bot, commodity_t commodity) {
-    location_t sellers[MAX_LOCATIONS] = {0};
-    int numSellers = all_sellers_of_commodity(bot, commodity, sellers);
-
-    location_t lowest = sellers[0];
-    for (int i = 0; i < numSellers; i++) {
-        location_t a_location = sellers[i];
-        if (a_location->quantity > 0) {
-            if (a_location->price < lowest->price) {
-                lowest = a_location;
-            }
-        }
-    }
-
-    return lowest;
-}
-
 bool will_pass_petrol(location_t start, location_t end) {
     int distance = distance_between(start, end);
     int direction = distance_to_direction(distance);
@@ -73,14 +31,12 @@ bool will_pass_petrol(location_t start, location_t end) {
 location_t nearest_petrol_station(location_t location, int minimumFuel) {
     location_t stations[MAX_LOCATIONS];
     int numStations = all_petrol_stations(location, stations);
-	
-    bool can_be_zero = minimumFuel == 0;
-	
-	if (!can_be_zero) {
-		numStations = filter_zero_quantity(stations, numStations);
-	}
 
-//	print_array_of_locations(stations, numStations);
+    bool can_be_zero = minimumFuel == 0;
+
+    if (!can_be_zero) {
+        numStations = filter_zero_quantity(stations, numStations);
+    }
 
     location_t closest = NULL;//stations[0];
     int closestDistance = -1;//true_distance_between(location, closest);
@@ -91,28 +47,24 @@ location_t nearest_petrol_station(location_t location, int minimumFuel) {
         if (minimumFuel == -1) {
             minimumFuel = distance;
         }
-	
-	bool zero_allowed = can_be_zero && minimumFuel == 0;
-	bool zero_not_allowed = (!can_be_zero && minimumFuel > 0) && a_location->quantity >= minimumFuel;
-	
-	bool is_best = false;
-	
-//	print("Now checking:");
-//	print_location(a_location);
-//	printI(distance);
+
+        bool zero_allowed = can_be_zero && minimumFuel == 0;
+        bool zero_not_allowed = (!can_be_zero && minimumFuel > 0) && a_location->quantity >= minimumFuel;
+
+        bool is_best = false;
 
         if (zero_not_allowed || zero_allowed) {
-                if (closest == NULL) {
-			is_best = true;
-		} else {
-			if (distance < closestDistance) {
-			    is_best = true;
-			} 
-		}
-		if (is_best && !is_location_equal(location, a_location)) {
-			closest = a_location;
-			closestDistance = distance;
-		}	
+            if (closest == NULL) {
+                is_best = true;
+            } else {
+                if (distance < closestDistance) {
+                    is_best = true;
+                }
+            }
+            if (is_best && !is_location_equal(location, a_location)) {
+                closest = a_location;
+                closestDistance = distance;
+            }
         }
     }
 
@@ -144,9 +96,9 @@ location_t best_buyer_of_commodity_to(bot_t bot, location_t location, commodity_
     location_t best_buyer = buyers[0];
     int distance = true_distance_between(location, best_buyer);
     double best_ratio = (double)best_buyer->price;
-    
+
     if (distance > 0) {
-	    best_ratio = (double)best_buyer->price / (double)true_distance_between(location, best_buyer);
+        best_ratio = (double)best_buyer->price / (double)true_distance_between(location, best_buyer);
     }
 
     for (int i = 1; i < num_buyers; i++) {
@@ -241,8 +193,8 @@ int buyers_in_fuel_range(bot_t bot, commodity_t commodity, location_t buyers[MAX
 
     for (int i = 0; i < fuel; i++) {
 
-	forward = forward->next;
-	backward = backward->previous;
+        forward = forward->next;
+        backward = backward->previous;
 
         if (is_buyer_of_commodity(forward, commodity)) {
             if (forward->quantity > 0) {

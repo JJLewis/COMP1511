@@ -5,6 +5,7 @@
 #ifndef WORLD_H
 #define WORLD_H
 
+// Define the sign value for the direction vector for moving through the world.
 #define DIRECTION_FORWARD 1
 #define DIRECTION_BACKWARD -1
 

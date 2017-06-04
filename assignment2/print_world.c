@@ -2,6 +2,12 @@
 // May 09 2017
 //
 
+/*
+ *      This whole file is an extension of debugger.h/c and prints in various ways location structs.
+ *      Note the way these functions print are mostly formatted by printing dividing lines before and after the core print statement.
+ *      All functions in this file obey the IS_DEBUGGING flag rule.
+ */
+
 #include <stdio.h>
 #include <stdbool.h>
 #include "trader_bot.h"
@@ -31,29 +37,29 @@ void print_array_of_locations(location_t locations[MAX_LOCATIONS], int size) {
 
 void print_location(location_t loc) {
     if (IS_DEBUGGING) {
-	    if (loc == NULL) {
-		    throw_warning("LOCATION TO PRINT IS NULL");
-	    } else {
-        char output[80] = "";
-        char *name = loc->name;
-        int type = loc->type;
-
-        if (type == LOCATION_START) {
-            sprintf(output, "start");
-        } else if (type == LOCATION_DUMP) {
-            sprintf(output, "dump");
-        } else if (type == LOCATION_OTHER) {
-            sprintf(output, "other");
-        } else if (type == LOCATION_PETROL_STATION) {
-            sprintf(output, "Petrol Station %i units of available fuel for $%i", loc->quantity, loc->price);
+        if (loc == NULL) {
+            throw_warning("LOCATION TO PRINT IS NULL");
         } else {
-            // Buyer or Seller
-            sprintf(output, "will %s %i units of %s for $%i", type == LOCATION_BUYER ? "buy" : "sell", loc->quantity,
-                    loc->commodity->name, loc->price);
-        }
+            char output[80] = "";
+            char *name = loc->name;
+            int type = loc->type;
 
-        printf("%s: %s\n", name, output);
-    }
+            if (type == LOCATION_START) {
+                sprintf(output, "start");
+            } else if (type == LOCATION_DUMP) {
+                sprintf(output, "dump");
+            } else if (type == LOCATION_OTHER) {
+                sprintf(output, "other");
+            } else if (type == LOCATION_PETROL_STATION) {
+                sprintf(output, "Petrol Station %i units of available fuel for $%i", loc->quantity, loc->price);
+            } else {
+                // Buyer or Seller
+                sprintf(output, "will %s %i units of %s for $%i", type == LOCATION_BUYER ? "buy" : "sell", loc->quantity,
+                        loc->commodity->name, loc->price);
+            }
+
+            printf("%s: %s\n", name, output);
+        }
     }
 }
 

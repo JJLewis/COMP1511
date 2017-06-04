@@ -74,7 +74,8 @@ action_t at_seller_action(bot_t b, location_pair_t pair) {
 /*
  * Returns the appropriate action to take when the bot is a a location of type BUYER
  * First, check if the buyer it is at is the buyer it was trying to reach
- *      If it is, then either sell all of the cargo the bot is carrying or move towards the seller to pick more up
+ *      If it is, then either sell all of the cargo the bot is carrying or move towards a seller to buyer more
+ *          Note that it will search for the "best buy sell pair" since the seller could have run out so no point moving there.
  *      If not, keep moving towards the target buyer.
  */
 action_t at_buyer_action(bot_t b, location_pair_t pair) {
@@ -82,7 +83,10 @@ action_t at_buyer_action(bot_t b, location_pair_t pair) {
         if (has_cargo(b)) {
             return create_action(ACTION_SELL, cargo_quantity_for(b, pair->commodity), NULL);
         } else {
-            return create_action(ACTION_MOVE, amount_move_to(b, pair->seller), pair->seller);
+            location_pair_t new_pair = best_buy_sell_pair(b);
+            action_t action = create_action(ACTION_MOVE, amount_move_to(b, new_pair->seller), new_pair->seller);
+            free(new_pair);
+            return action;
         }
     } else {
         return create_default_move_action(b, pair);
@@ -133,24 +137,29 @@ action_t at_null_pair_action(bot_t b) {
             return create_action(ACTION_SELL, cargo_quantity_for(b, commodity), NULL);
         }
 
-        // Move to a buyer of the commodity
         if (can_reach_target(b, best_buyer, 0)) {
+            // Move to the highest buyer of the commodity
             return create_action(ACTION_MOVE, amount_move_to(b, best_buyer), best_buyer);
         } else {
             location_t closest_buyer = closest_buyer_of_commodity_to(b, b->location, commodity);
 
+            // Try to sell all to the closest seller
             if (is_location_equal(b->location, closest_buyer)) {
                 return create_action(ACTION_SELL, cargo_quantity_for(b, commodity), NULL);
             }
 
             if (can_reach_target(b, closest_buyer, 0)) {
+                // Move to the closest buyer of the commodity
                 return create_action(ACTION_MOVE, amount_move_to(b, closest_buyer), closest_buyer);
             } else {
                 location_t nearest_fuel = nearest_petrol_station(b->location, -1);
 
+                // Refuel
                 if (is_location_equal(b->location, nearest_fuel)) {
                     return create_action(ACTION_BUY, b->fuel_tank_capacity - b->fuel, NULL);
                 }
+
+                // Move towards the closest petrol station
                 return create_action(ACTION_MOVE, amount_move_to(b, nearest_fuel), nearest_fuel);
             }
         }

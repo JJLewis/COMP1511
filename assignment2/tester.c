@@ -8,6 +8,9 @@
 #include "structs.h"
 #include "debugger.h"
 
+/*
+ * Function for testing the output of the functions of all buyers and seller of a commodity.
+ */
 void test_all_bs_of_commodity(bot_t bot, commodity_t commodity) {
     print("Buyers");
     location_t buyers[MAX_LOCATIONS];
@@ -22,6 +25,9 @@ void test_all_bs_of_commodity(bot_t bot, commodity_t commodity) {
     print_array_of_locations(sellers, numSellers);
 }
 
+/*
+ * Function for testing the output of all_commodities function.
+ */
 void test_all_commodities(bot_t bot) {
     commodity_t commodities[MAX_COMMODITIES];
     int numCommodities = all_commodities(bot->location, commodities);
@@ -32,6 +38,9 @@ void test_all_commodities(bot_t bot) {
     }
 }
 
+/*
+ * Function for testing creating location_pair_t's
+ */
 void test_location_pairs(bot_t bot) {
     commodity_t commodities[MAX_COMMODITIES];
     int numCommodities = all_commodities(bot->location, commodities);
@@ -47,9 +56,16 @@ void test_location_pairs(bot_t bot) {
     println();
 }
 
+/*
+ * Just a function for calling test functions. hahaha.
+ */
 void test(bot_t bot) {
     test_location_pairs(bot);
 }
+
+/*
+ * Commented out main to prevent issues with running the auto-tests.
+ */
 /*
 int main(void) {
 

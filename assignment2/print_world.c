@@ -1,6 +1,11 @@
 // Jordan Lewis (jordan.lewis@student.unsw.edu.au)
 // May 09 2017
 //
+// CONTACT:
+// Email: dev_jordanlewis@icloud.com
+// Websites:
+// https://jjlewis.github.io
+// https://github.com/jjlewis/COMP1511
 
 /*
  *      This whole file is an extension of debugger.h/c and prints in various ways location structs.

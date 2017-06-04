@@ -1,6 +1,11 @@
 //
 // Created by Jordan Lewis on 28/5/17.
 //
+// CONTACT:
+// Email: dev_jordanlewis@icloud.com
+// Websites:
+// https://jjlewis.github.io
+// https://github.com/jjlewis/COMP1511
 
 #include <stdlib.h>
 #include <stdio.h>

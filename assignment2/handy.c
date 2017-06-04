@@ -1,6 +1,11 @@
 //
 // Created by Jordan Lewis on 13/5/17.
 //
+// CONTACT:
+// Email: dev_jordanlewis@icloud.com
+// Websites:
+// https://jjlewis.github.io
+// https://github.com/jjlewis/COMP1511
 
 #include "handy.h"
 

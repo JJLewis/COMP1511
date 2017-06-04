@@ -92,25 +92,6 @@ int all_sellers_of_commodity(bot_t bot, commodity_t commodity, location_t locati
     return all_locations_of_commodity_of_type(bot, commodity, LOCATION_SELLER, locations);
 }
 
-int all_locations_of_commodity(bot_t bot, commodity_t commodity, location_t locations[MAX_LOCATIONS]) {
-    location_t buyers[MAX_LOCATIONS] = {0};
-    location_t sellers[MAX_LOCATIONS] = {0};
-    int numBuyers = all_buyers_of_commodity(bot, commodity, buyers);
-    int numSellers = all_sellers_of_commodity(bot, commodity, sellers);
-
-    // Copy all Buyers
-    for (int i = 0; i < numBuyers; i++) {
-        locations[i] = buyers[i];
-    }
-
-    // Copy all Sellers
-    for (int i = numBuyers; i < numBuyers + numSellers; i++) {
-        locations[i] = sellers[numBuyers - i];
-    }
-
-    return numBuyers + numSellers;
-}
-
 /*
  * Get an array of all petrol stations in the world.
  *

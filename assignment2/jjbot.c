@@ -9,10 +9,22 @@
 #include "handy.h"
 #include "debugger.h"
 
+/*
+ * Name my bot.
+ * FYI: Gwendolyn is a Rick and Morty reference.
+ */
 char *get_bot_name(void) {
     return "Gwendolyn"; // Plumpess
 }
 
+/*
+ * Get the appropriate pair for this turn.
+ * This depends on whether or not the bot has cargo.
+ * If it does, it should get the best closest buyer to sell to.
+ * It not, find the best buyer seller pair to exploit.
+ *
+ * returns an initialised location_pair struct
+ */
 location_pair_t get_pair_for_action(bot_t b) {
     if (has_cargo(b)) {
         return best_closest_buyer(b);
@@ -21,6 +33,25 @@ location_pair_t get_pair_for_action(bot_t b) {
     }
 }
 
+/*
+ * My remarkably short get_action function.
+ * This is the brains for Gwendolyn.
+ *
+ * Works by getting the best pair for the turn:
+ * If it is NULL, get the action struct for NULL pair
+ * If it has a value, check the current location type and get the appropriate action struct from them.
+ *
+ * Then check if the bot needs to refuel based on the action it plans to take.
+ * If it does need to, overwrite the previously decided action with an action for refuelling.
+ * That is, unless the nearest_fuel is NULL, then just do as it was going to do, and let the bot run out of fuel.
+ *
+ * Finally, assign the action struct values to the action and n pointers in the argument of the function.
+ * Print out the target destination if one exists.
+ * Free the action struct.
+ * Free the location pair struct.
+ *
+ * End of function no memory leaks.
+ */
 void get_action(struct bot *b, int *action, int *n) {
     int current_type = b->location->type;
     action_t an_action;
@@ -53,7 +84,7 @@ void get_action(struct bot *b, int *action, int *n) {
             free(an_action);
             an_action = create_action(ACTION_MOVE, distance, nearest_fuel);
         } else {
-            throw_warning("SHOULD REFUEL, NULL nearest_fuel");
+            throw_warning("SHOULD REFUEL but can't/won't: NULL nearest_fuel");
         }
     }
 

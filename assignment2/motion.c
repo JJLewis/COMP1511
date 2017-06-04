@@ -91,27 +91,6 @@ int distance_to_direction(int distance) {
     }
 }
 
-void move_location(location_t location, int distance) {
-    int direction = distance_to_direction(distance);
-    // Multiplying the distance by the direction makes the distance always +ve
-    for (int i = 0; i < distance * direction; i++) {
-        shift_location(location, direction);
-    }
-}
-
-location_t location_from_with_distance(location_t start, int distance) {
-	location_t a_location = start;
-	int direction = distance_to_direction(distance);
-	for (int i = 0; i < distance * direction; i++) {
-		if (direction == DIRECTION_FORWARD) {
-			a_location = a_location->next;
-		} else {
-			a_location = a_location->previous;
-		}
-	}
-	return a_location;
-}
-
 /*
  * Calculate and return the exact amount to move (just so it doesn't get reduced by the overlords running my bot).
  * It respects the maximum_move rule set by the overlords.

@@ -19,8 +19,6 @@ int distance_between(location_t location1, location_t location2);
 int true_distance_between(location_t location1, location_t location2);
 void shift_location(location_t location, int direction);
 int distance_to_direction(int distance);
-void move_location(location_t location, int distance);
-location_t location_from_with_distance(location_t start, int distance);
 int amount_move_to(bot_t bot, location_t destination);
 
 // handy_world.c

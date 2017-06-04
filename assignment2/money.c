@@ -29,12 +29,17 @@ int cost_of_travel(location_pair_t pair) {
  * So divide the profit made in a trade ((quantity * price difference) - (2 * travel cost)) by the number of turns in a trade.
  * Return the outcome.
  */
-double gain_per_turn(location_t seller, location_t buyer, bot_t bot, int max_cargo) {
-    int distance = true_distance_between(seller, buyer);
+double gain_per_turn(bot_t bot, location_pair_t pair) {
+    location_t buyer = pair->buyer;
+    location_t seller = pair->seller;
+
+    int distance = pair->distance;
     int travelTurns = (int)ceilf((double)bot->maximum_move / (double)distance);
     int tradeTurns = 2 + 2 * travelTurns; // buy, travel, sell, travel back to buy
 
     int maxLoadable = max_cargo_amount_for_commodity(bot, seller->commodity);
+    if (seller->quantity < maxLoadable) { maxLoadable = seller->quantity; }
+    if (buyer->quantity < maxLoadable) { maxLoadable = buyer->quantity; }
 
     int buyCost = seller->price * maxLoadable;
     int sellCost = buyer->price * maxLoadable;
@@ -109,8 +114,6 @@ location_pair_t best_pair_for_commodity(bot_t bot, commodity_t commodity) {
     numBuyers = filter_zero_quantity(buyers, numBuyers);
     numSellers = filter_zero_quantity(sellers, numSellers);
 
-    int maxLoadable = max_cargo_amount_for_commodity(bot, commodity);
-
     if (numSellers == 0 || numBuyers == 0) {
         return NULL;
     }
@@ -119,20 +122,15 @@ location_pair_t best_pair_for_commodity(bot_t bot, commodity_t commodity) {
 
     for (int s = 0; s < numSellers; s++) {
         location_t seller = sellers[s];
-        // Account for the seller offering less than the max
-        if (seller->quantity < maxLoadable) { maxLoadable = seller->quantity; }
         for (int b = 0; b < numBuyers; b++) {
             location_t buyer = buyers[b];
             location_pair_t pair = create_location_pair(seller, buyer);
-            bool is_valid = is_valid_pair(bot, pair);
-            free(pair);
-            if (is_valid) {
-                // Account for the buyer buying less than the max OR how much the seller is offering
-                if (buyer->quantity < maxLoadable) { maxLoadable = buyer->quantity; }
-                gainMatix[s][b] = gain_per_turn(seller, buyer, bot, maxLoadable);
+            if (is_valid_pair(bot, pair)) {
+                gainMatix[s][b] = gain_per_turn(bot, pair);
             } else {
                 gainMatix[s][b] = -9999;
             }
+            free(pair);
         }
     }
 

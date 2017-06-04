@@ -28,7 +28,7 @@ void get_action(struct bot *b, int *action, int *n) {
     
     // If there aren't any good pairs, don't do anything, just stay put.
     if (pair == NULL) {
-        at_null_pair_action(b);
+        an_action = at_null_pair_action(b);
     } else {
         switch (current_type) {
             case LOCATION_SELLER:

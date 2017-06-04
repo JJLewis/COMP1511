@@ -16,7 +16,6 @@ char *get_bot_name(void) {
 location_pair_t get_pair_for_action(bot_t b) {
     if (has_cargo(b)) {
         return best_closest_buyer(b);
-        //return best_pair_for_commodity(b, b->cargo->commodity);
     } else {
         return best_buy_sell_pair(b);
     }
@@ -29,12 +28,7 @@ void get_action(struct bot *b, int *action, int *n) {
     
     // If there aren't any good pairs, don't do anything, just stay put.
     if (pair == NULL) {
-        if (has_cargo(b)) {
-            an_action = at_null_pair_action(b);
-        } else {
-            throw_warning("HAAAAALP, I DUNNO WAT TU DU!!");
-            an_action = idle_action(b);
-        }
+        at_null_pair_action(b);
     } else {
         switch (current_type) {
             case LOCATION_SELLER:

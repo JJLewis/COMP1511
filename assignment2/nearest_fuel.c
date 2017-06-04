@@ -6,6 +6,11 @@
 #include <stdbool.h>
 #include "trader_bot.h"
 
+/*
+ * Finds the nearest petrol station to the bot and returns the number of steps taken to get there.
+ *
+ * returns: A negative number for moving backwards and positive number for forwards.
+ */
 int nearest_fuel(struct bot *b) {
 	int forwardSteps = 0;
 	int backwardSteps = 0;

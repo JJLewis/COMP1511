@@ -73,22 +73,6 @@ char *get_bot_name(void) {
 }
 
 /*
- * Get the appropriate pair for this turn.
- * This depends on whether or not the bot has cargo.
- * If it does, it should get the best closest buyer to sell to.
- * It not, find the best buyer seller pair to exploit.
- *
- * returns an initialised location_pair struct
- */
-location_pair_t get_pair_for_action(bot_t b) {
-    if (has_cargo(b)) {
-        return best_closest_buyer(b);
-    } else {
-        return best_buy_sell_pair(b);
-    }
-}
-
-/*
  * My remarkably short get_action function.
  * This is the brains for Gwendolyn.
  *

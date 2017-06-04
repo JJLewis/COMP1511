@@ -96,7 +96,6 @@ void get_action(struct bot *b, int *action, int *n) {
     action_t an_action;
     location_pair_t pair = get_pair_for_action(b);
     
-    // If there aren't any good pairs, don't do anything, just stay put.
     if (pair == NULL) {
         an_action = at_null_pair_action(b);
     } else {

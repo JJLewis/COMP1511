@@ -98,7 +98,19 @@ int count(int value, struct node *head) {
 
 struct node *get_nth(int n, struct node *head) {
     // REPLACE THIS LINE WITH YOUR CODE
-    return head;
+    	int counter = 0;
+	struct node *tracker = head;
+	
+	if (n < 0) {
+		return NULL;
+	}
+
+	while (tracker != NULL && counter < n) {
+		tracker = tracker->next;
+		counter++;
+	}
+
+	return tracker;
 }
 
 // Delete the node in  position  n in the list.

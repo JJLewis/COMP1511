@@ -121,7 +121,42 @@ struct node *get_nth(int n, struct node *head) {
 
 struct node *delete_nth(int n, struct node *head) {
     // REPLACE THIS LINE WITH YOUR CODE
-    return head;
+	if (head == NULL) return head;
+
+	int counter = 0;
+	struct node *tracker = head;
+
+	if (n < 0) return head;
+	if (n == 0) {
+		struct node *next = head->next;
+		free(head);
+		return next;
+	}
+
+	struct node *length_tracker = head;
+	int length = 0;
+	while (length_tracker != NULL) {
+		length++;
+		length_tracker = length_tracker->next;
+	}
+
+	if (n > length) return head;
+
+	while (tracker != NULL && counter < n - 1) {
+		tracker = tracker->next;
+		counter++;
+	}
+	
+	struct node *prev = tracker;
+	
+	if (prev->next != NULL) {
+		struct node *nth = tracker->next;
+		struct node *after = tracker->next->next;
+		free(nth);
+		prev->next = after;
+	}
+
+	return head;
 }
 
 

@@ -204,7 +204,32 @@ struct node *delete_odd(struct node *head) {
 
 struct node *insert_nth(int n, struct node *new_node, struct node *head) {
     // REPLACE THIS LINE WITH YOUR CODE
-    return head;
+    	
+	if (n < 0) return head;
+	
+	if (head == NULL && n > 0) return head;
+	if (head == NULL) return new_node;
+	if (new_node == NULL) return head;
+	if (n == 0) {
+		new_node->next = head;
+		return new_node;
+	}
+
+    	struct node *tracker = head;
+	int counter = 1;
+	while (tracker->next != NULL && counter < n) {
+		tracker = tracker->next;
+		counter++;
+	}
+	
+	if (tracker->next == NULL && counter + 1 < n) {
+		return head;
+	}
+
+	new_node->next = tracker->next;
+	tracker->next = new_node;
+
+	return head;
 }
 
 // print contents of list in Python syntax

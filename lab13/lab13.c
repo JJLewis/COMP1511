@@ -166,7 +166,34 @@ struct node *delete_nth(int n, struct node *head) {
 
 struct node *delete_odd(struct node *head) {
     // REPLACE THIS LINE WITH YOUR CODE
-    return head;
+    	
+	struct node *new_head = head;
+	struct node *tracker = head;
+	struct node *prev = NULL;
+
+	while (tracker != NULL) {
+		// Odd
+		if (tracker->data % 2 != 0) {
+			if (prev == NULL) {
+				new_head = tracker->next;
+				free(tracker);
+				tracker = new_head;
+			} else {
+				prev->next = tracker->next;
+				free(tracker);
+				tracker = prev->next;
+			}
+		} else {
+			if (prev == NULL) {
+				prev = tracker;
+			} else {
+				prev = prev->next;
+			}
+			tracker = tracker->next;
+		}
+	}
+	
+	return new_head;
 }
 
 // Insert new_node before position n in the list.

@@ -22,6 +22,7 @@ them correct.**
 10. [Lab 10 Exercises Spec](https://cgi.cse.unsw.edu.au/~cs1511cgi/17s1/lab/10/questions) (Mark: **A**)
 11. [Lab 11 Exercises Spec](https://cgi.cse.unsw.edu.au/~cs1511cgi/17s1/lab/11/questions) (Mark: **A**)
 12. [Lab 12 Exercises Spec](https://cgi.cse.unsw.edu.au/~cs1511cgi/17s1/lab/12/questions) (Mark: **A**)
+13. [Lab 13 Exercises Spec](https://cgi.cse.unsw.edu.au/~cs1511cgi/17s1/lab/13/questions) (Mark: Not Marked, but All Tests Passed in my solutions so **A**)
 
 **NOTE:** Sample Solutions for each week's lab exercises can be found by clicking on the *"Exercises"* dropdown 
 menu at the top of the page, and selecting *"Sample Solutions"*.
@@ -69,4 +70,10 @@ This is most likely because the same algorithm was used to generate the images.
 This resulted in a mark of **68.4/80**(*85.5%*) for the program aspect of the assignment.
 
 ### Assignment 2
-**This is still a work in progress. My code can be seen by viewing my [ass2](https://github.com/JJLewis/COMP1511/tree/ass2) branch.**
+~~**This is still a work in progress. My code can be seen by viewing my [ass2](https://github.com/JJLewis/COMP1511/tree/ass2) branch.**~~
+
+**This assignment has now been merged into the master branch.**
+
+It has been submitted (on time ^_^) and am waiting on results. It competes quite well in a tournament with other bots, coming in within the **top 25%** of the cohort (last checked, my bot **Gwendolyn* placed 136 from 608 bots**).
+
+I will update this once results and marks are released.

@@ -1,7 +1,7 @@
 # COMP1511
 My C Source Code for UNSW COMP1511 2017
 
-Overall in this course I achieved a **High Distinction** with a final mark of 90%.
+Overall in this course I achieved a **High Distinction** with a final mark of **90%**.
 
 [COMP1511 Semester 1 2017 Homepage](https://webcms3.cse.unsw.edu.au/COMP1511/17s1/)
 

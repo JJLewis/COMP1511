@@ -1,6 +1,8 @@
 # COMP1511
 My C Source Code for UNSW COMP1511 2017
 
+Overall in this course I achieved a **High Distinction** with a final mark of 90%.
+
 [COMP1511 Semester 1 2017 Homepage](https://webcms3.cse.unsw.edu.au/COMP1511/17s1/)
 
 ## Lab Exercises
@@ -55,7 +57,7 @@ not a one-to-one translation. *They are not the same program!!!*
 	- [Download](https://cgi.cse.unsw.edu.au/~cs1511/17s1/assignments/captcha/captcha_challenge.zip)
 	- **NOTE:** I did not attempt this due to time restrictions after wasting so much time on the idea of Neural Networks.
 
-#### Marking
+#### Performance Marks
 For this assignment, all programs were auto-marked by testing the program against an unspecified set of unseen CAPTCHA images.
 
 My program achieved the following results:
@@ -69,11 +71,17 @@ This is most likely because the same algorithm was used to generate the images.
 
 This resulted in a mark of **68.4/80**(*85.5%*) for the program aspect of the assignment.
 
+#### Final Marks
+I received **15/15** and **5/5** for my code style and blog respectively, which resulted in a final mark of **88.4/100**.
+
 ### Assignment 2
-~~**This is still a work in progress. My code can be seen by viewing my [ass2](https://github.com/JJLewis/COMP1511/tree/ass2) branch.**~~
+Much like Assignment 1, all programs were auto-marked. In this case, all bots were run in a specified set of worlds as the only bot, and there were also multi-bot tournaments. The percentage profit was gauged by taking the bot that performed the best and making your profit a percentage of the max made. So 50% would mean your bot made half as much profit as the best bot. My bot at its best placed **37th** from some 630+ other bots in the multi-bot tournament.
 
-**This assignment has now been merged into the master branch.**
+#### Performance Marks
+My bot averaged these results:
+- Average single-bot profit (118 worlds): **58.3%**
+- Average multi-bot profit: **45.1%**
+My assignment received a final performance mark of **71.5/80**(*89.375%*).
 
-It has been submitted (on time ^_^) and am waiting on results. It competes quite well in a tournament with other bots, coming in within the **top 25%** of the cohort (last checked, my bot **Gwendolyn placed 136 from 608 bots**). You can keep checking on the [**Tournament Leaderboard**](http://cgi.cse.unsw.edu.au/~cs1511/assignments/trader_bot/tournament/).
-
-I will update this once results and marks are released.
+#### Final Marks
+I received **15/15** and **5/5** for my code style and blog respectively, which resulted in a final mark of **91.5/100**.

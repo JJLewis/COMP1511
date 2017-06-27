@@ -81,6 +81,7 @@ Much like Assignment 1, all programs were auto-marked. In this case, all bots we
 My bot averaged these results:
 - Average single-bot profit (118 worlds): **58.3%**
 - Average multi-bot profit: **45.1%**
+
 My assignment received a final performance mark of **71.5/80**(*89.375%*).
 
 #### Final Marks
